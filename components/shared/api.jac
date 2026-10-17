@@ -99,17 +99,22 @@ def _thrown(e: any) -> dict[str, any] {
 
 # ---- session ------------------------------------------------------------------
 
-"""Log in (creating the demo account on first use), bind the profile, remember username and role.
+"""Log in with an account from docs/data/users.csv, bind the profile, remember username and role.
 
-The platform account is "parkride-<username>" so app users never collide with platform accounts
-such as the built-in "admin" (docs/decisions.md D-21).
+verify_login checks the password first, so a typo never creates a platform account. The platform
+account it names ("parkride-<username>-<tag>", docs/decisions.md D-29) is created on its first
+login and changes whenever the password does.
 """
 async def:pub login(username: str, password: str) -> dict[str, any] {
     ok: bool = False;
     signup: SignupResult | None = None;
     result: any = None;
-    account = "parkride-" + username;
     try {
+        check = await _call("verify_login", {"username": username, "password": password});
+        if not check["ok"] {
+            return check;
+        }
+        account: str = check["data"]["account"];
         ok = await jacLogin(account, password);
         if not ok {
             signup = await jacSignup(account, password);
@@ -118,13 +123,15 @@ async def:pub login(username: str, password: str) -> dict[str, any] {
             }
         }
         if not ok {
-            return _err("BAD_LOGIN", "Wrong username or password.");
+            return _err("BAD_LOGIN", "This account needs a new password: run scripts/add_user.jac.");
         }
-        result = await jacSpawn("get_profile", "", {"username": username});
+        result = await jacSpawn("get_profile", "", {"username": username, "password": password});
         env = _first(result);
         if env["ok"] {
             localStorage.setItem("parkride_user", env["data"]["username"]);
             localStorage.setItem("parkride_role", env["data"]["role"]);
+        } else {
+            logout();
         }
         return env;
     } except Exception as e {

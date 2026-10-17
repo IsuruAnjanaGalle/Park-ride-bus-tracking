@@ -11,7 +11,9 @@ jac install
 jac run --dev main.jac      # http://localhost:8000
 ```
 
-Routes: `/` passenger, `/admin` admin panel, `/driver/MB-101` driver view, `/dev/core` walker console. Demo logins: `passenger` / `demo-passenger`, `admin` / `demo-admin` (created on first login).
+Routes: `/` passenger, `/admin` admin panel, `/driver/MB-101` driver view, `/dev/core` walker console. Demo logins: `passenger` / `demo-passenger`, `admin` / `demo-admin`.
+
+Accounts live in `docs/data/users.csv` (passwords stored only as salted hashes). Add a user or change a password with `python scripts/add_user.py <username> [passenger|admin]` (asks for the password); list them with `python scripts/add_user.py --list`. The server picks changes up on the next login.
 
 - Spec: `docs/sow.md` (section 0 = today). Walker API: `docs/contracts.md`. Jac syntax: `docs/jac-reference.md`. Decisions: `docs/decisions.md`. Agent rules: `AGENTS.md`.
 - Tests: `jac test`. Jac share: `python scripts/jac_share.py`.
