@@ -6,21 +6,19 @@ Shared across Passenger App (Dev B) and Admin/Driver views (Dev C).
 """
 
 def:pub CityMap(
-    mapData: dict,
-    buses: list = None,
     mapData: dict[str, any],
-    buses: list[dict[str, any]] = [],
+    buses: list[any] = None,
     selectedBusId: str = "",
     highlightBusId: str = "",
     onBusClick: any = None,
     onStopClick: any = None,
     className: str = ""
 ) -> JsxElement {
-    safeBuses: list[dict] = [dict(b) for b in buses] if buses else [];
+    safeBuses: list[dict[str, any]] = [dict(b) for b in buses] if buses else [];
     has hoveredBus: dict[str, any] = {};
     has hoveredStop: dict[str, any] = {};
 
-    rawBounds: dict = dict(mapData.get("bounds", {}));
+    rawBounds: dict[str, any] = dict(mapData.get("bounds", {}));
     minLat = float(str(rawBounds.get("min_lat", "6.796")));
     maxLat = float(str(rawBounds.get("max_lat", "7.001")));
     minLng = float(str(rawBounds.get("min_lng", "79.8495")));
@@ -43,8 +41,8 @@ def:pub CityMap(
         return pad + ratio * (vbH - 2.0 * pad);
     }
 
-    rawJuncs: list[dict] = [dict(j) for j in list(mapData.get("junctions", []))];
-    juncLookup: dict[str, dict] = {};
+    rawJuncs: list[dict[str, any]] = [dict(j) for j in list(mapData.get("junctions", []))];
+    juncLookup: dict[str, dict[str, any]] = {};
     for j in rawJuncs {
         code = str(j.get("code", ""));
         if len(code) > 0 {
@@ -52,7 +50,7 @@ def:pub CityMap(
         }
     }
 
-    rawRoads: list[dict] = [dict(r) for r in list(mapData.get("roads", []))];
+    rawRoads: list[dict[str, any]] = [dict(r) for r in list(mapData.get("roads", []))];
 
     def road_color(level: int) -> str {
         if level == 1 {
@@ -262,7 +260,7 @@ def:pub CityMap(
                         seatsLeft = int(str(b.get("seats_left", "40")));
 
                         bx = to_svg_x(lng);
-                        by = to_svg_y(lat);
+                        pin_y = to_svg_y(lat);
 
                         isSelected = (bid == selectedBusId);
                         isHighlighted = (bid == highlightBusId);
@@ -270,7 +268,7 @@ def:pub CityMap(
 
                         <g
                             key={f"bus-{bid}"}
-                            transform={f"translate({bx}, {by})"}
+                            transform={f"translate({bx}, {pin_y})"}
                             className="cursor-pointer transition-transform duration-700 ease-out"
                             onClick={lambda (_e: MouseEvent) { if onBusClick { onBusClick(b); } }}
                         >

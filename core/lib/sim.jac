@@ -6,6 +6,7 @@ planned roads at class speed x traffic factor, dwell 30 s at stops (depart_stop 
 at least 1 min or 10 %, and wait at a junction when no road is open.
 """
 
+import time;
 import from core.models.nodes { World, Bus, Trip, Decision, Junction }
 import from core.lib.world { get_clock, list_buses, current_trip, get_junctions, junction_names }
 import from core.lib.clock { sim_seconds, now_hms }
@@ -17,6 +18,9 @@ import from core.lib.static { static_coords }
 
 glob DWELL_S: float = 30.0;
 glob MAX_TICK_S: float = 180.0;
+# Real seconds between world writes from reads; [last tick real time] (docs/decisions.md D-25).
+glob TICK_EVERY_S: float = 1.5;
+glob _LAST_TICK: list[float] = [0.0];
 glob MIN_SAVING_MIN: float = 1.0;
 glob MIN_SAVING_RATIO: float = 0.1;
 
@@ -119,7 +123,6 @@ def replan(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, changed
         [k for k in changed if _uses(bus.path, k)],
         key=lambda (k: str) { -adj.get(k.split("|")[0], {}).get(k.split("|")[1], [0, "A", 0])[2]; }
     );
-    touched = [k for k in changed if _uses(bus.path, k)];
     old = path_cost(adj, rest) if rest[-1] == bus.next_stop else INF;
     (fresh, new) = plan_route(adj, end, bus.next_stop);
     if not fresh {
@@ -215,9 +218,17 @@ def advance(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, now: f
     }
 }
 
-"""Advance the whole world to the DemoClock's current time. Safe to call on every read."""
+"""Advance the whole world to the DemoClock's current time. Safe to call on every read.
+
+Only one request per TICK_EVERY_S real seconds writes; the others read the state as it is, so
+parallel polls never write the same nodes (each would fail with a 409 WRITE_CONFLICT).
+"""
 def tick(world: World) -> None {
     with WORLD_LOCK {
+        if time.time() - _LAST_TICK[0] < TICK_EVERY_S {
+            return;
+        }
+        _LAST_TICK[0] = time.time();
         clock = get_clock(world);
         now = sim_seconds(clock);
         dt = min(max(now - clock.last_tick, 0.0), MAX_TICK_S);

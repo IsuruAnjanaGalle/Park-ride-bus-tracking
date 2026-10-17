@@ -31,7 +31,6 @@ Screens never call walkers directly: they call the function with the same name i
 | report_incident | public (driver) | real | 3 |
 | get_driver_view | public (driver) | real | 3 |
 | run_demo | admin | hidden (not used) — demo mode cancelled by the lead; code kept | – |
-| run_demo | admin | real | 4 |
 | reset_demo | admin | real | 0 |
 
 Auth: **public** = `walker:pub`, no login. **login** = `walker:protect`; call `login()` in `api.jac` first (it also calls `get_profile`). **admin** = `walker:protect` plus the caller's profile role must be `admin`; otherwise `FORBIDDEN`.

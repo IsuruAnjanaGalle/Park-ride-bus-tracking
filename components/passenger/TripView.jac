@@ -5,13 +5,13 @@ and the button to trigger stop QR scanning.
 """
 
 def:pub TripView(
-    tripData: dict,
+    tripData: dict[str, any],
     onOpenScanner: any = None,
     onFinishTrip: any = None
 ) -> JsxElement {
-    tDict: dict = dict(tripData);
-    booking: dict = dict(tDict.get("booking", {}));
-    bus: dict = dict(tDict.get("bus", {}));
+    tDict: dict[str, any] = dict(tripData);
+    booking: dict[str, any] = dict(tDict.get("booking", {}));
+    bus: dict[str, any] = dict(tDict.get("bus", {}));
     alert = bool(tDict.get("alert", False));
     alertMessage = str(tDict.get("alert_message", "Your stop is 2 stops away"));
     stopsRemaining = int(str(tDict.get("stops_remaining", "2")));
@@ -24,11 +24,10 @@ def:pub TripView(
     pickupCode = str(booking.get("pickup", "MKB"));
     dropCode = str(booking.get("drop", "BOR"));
 
-    rawStops: list[dict] = [dict(s) for s in list(tDict.get("stops", []))];
+    rawStops: list[dict[str, any]] = [dict(s) for s in list(tDict.get("stops", []))];
 
     return (
         <div className="space-y-6">
-            # 1. High Priority Arrival Alert Banner (2 stops away)
             {if alert {
                 <div className="p-4 rounded-3xl bg-amber-500/20 border-2 border-amber-400 text-amber-200 shadow-2xl shadow-amber-500/20 animate-pulse flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -44,9 +43,8 @@ def:pub TripView(
                 </div>;
             }}
 
-            # 2. Traffic Delay Alert if present
             {if delayDict {
-                dInfo: dict = dict(delayDict);
+                dInfo: dict[str, any] = dict(delayDict);
                 dMins = int(str(dInfo.get("minutes", "5")));
                 dReason = str(dInfo.get("reason", "Heavy congestion"));
                 <div className="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2.5">
@@ -55,9 +53,7 @@ def:pub TripView(
                 </div>;
             }}
 
-            # 3. Main Trip Card
             <div className="p-6 rounded-3xl bg-[#0F1B2D] border border-white/15 shadow-2xl space-y-6">
-                # Trip Top Bar
                 <div className="flex items-center justify-between pb-4 border-b border-white/10">
                     <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-2xl bg-[#FFC21A] text-[#0F1B2D] flex items-center justify-center font-black text-xl shadow-lg">
@@ -80,7 +76,6 @@ def:pub TripView(
                     </div>
                 </div>
 
-                # 4. Stop-by-Stop Stepper
                 <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">
                         Trip Progression
@@ -124,7 +119,6 @@ def:pub TripView(
                     </div>
                 </div>
 
-                # 5. Primary QR Scanner Button (Boarding or Alighting)
                 <div className="pt-2 space-y-3">
                     <button
                         type="button"

@@ -4,11 +4,11 @@ Shows bus ID, route badge, destination, next stop ETA, and live seats left.
 """
 
 def:pub BusCard(
-    bus: dict,
+    bus: dict[str, any],
     isSelected: bool = False,
     onSelect: any = None
 ) -> JsxElement {
-    bDict: dict = dict(bus);
+    bDict: dict[str, any] = dict(bus);
     bid = str(bDict.get("id", "MB-101"));
     plate = str(bDict.get("plate", "NB-4101"));
     route = str(bDict.get("route", "R1"));
@@ -19,7 +19,7 @@ def:pub BusCard(
     etaMin = float(str(bDict.get("eta_min", "5.0")));
     alert = bool(bDict.get("alert", False));
 
-    nextStopDict: dict = dict(bDict.get("next_stop", {}));
+    nextStopDict: dict[str, any] = dict(bDict.get("next_stop", {}));
     nextStopName = str(nextStopDict.get("name", "Next Stop"));
 
     routeBg = "#A855F7" if (colorName == "violet" or colorName == "purple") else ("#14B8A6" if colorName == "teal" else "#3B82F6");
@@ -32,7 +32,6 @@ def:pub BusCard(
             onClick={lambda (_e: MouseEvent) { if onSelect { onSelect(bDict); } }}
             className={f"p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden {cardBorder}"}
         >
-            # Top row: Route badge, ID, plate, and seats
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                     <span
@@ -53,12 +52,10 @@ def:pub BusCard(
                 </div>
             </div>
 
-            # Route Name
             <div className="mt-2 text-xs font-medium text-gray-300 truncate">
                 {routeName}
             </div>
 
-            # Next Stop & ETA bar
             <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-1.5 text-gray-300">
                     <span className="text-cyan-400">📍</span>
@@ -71,7 +68,6 @@ def:pub BusCard(
                 </div>
             </div>
 
-            # Reroute alert banner if active
             {if alert {
                 <div className="mt-2.5 px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 text-[10px] text-amber-300 font-bold flex items-center gap-1.5">
                     <span>⚠️</span>

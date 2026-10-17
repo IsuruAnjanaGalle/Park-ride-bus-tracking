@@ -4,41 +4,43 @@ Filters out passed stops and confirms seat allocation per segment.
 """
 
 def:pub SeatBookingModal(
-    bus: dict,
+    bus: dict[str, any],
     isOpen: bool = False,
     initialPickup: str = "",
     onClose: any = None,
     onConfirmBooking: any = None
 ) -> JsxElement {
-    has pickup: str = initialPickup;
-    has drop: str = "";
+    has pickupSel: str = initialPickup;
+    has dropSel: str = "";
     has isSubmitting: bool = False;
 
     if not isOpen {
         return <div className="hidden" />;
     }
 
-    bDict: dict = dict(bus);
+    bDict: dict[str, any] = dict(bus);
     bid = str(bDict.get("id", "MB-101"));
     plate = str(bDict.get("plate", "NB-4101"));
     routeName = str(bDict.get("route_name", "Metro Route"));
     seatsLeft = int(str(bDict.get("seats_left", "40")));
 
-    rawStops: list[dict] = [dict(s) for s in list(bDict.get("stops", []))];
+    rawStops: list[dict[str, any]] = [dict(s) for s in list(bDict.get("stops", []))];
 
     # Available stops (exclude already passed stops)
     activeStops = [s for s in rawStops if not bool(s.get("passed", False))];
 
-    # Auto-initialize pickup if empty
-    if len(pickup) == 0 and len(activeStops) > 0 {
-        firstStop = dict(activeStops[0]);
-        pickup = str(firstStop.get("code", ""));
+    # Pickup and drop come from this bus's stops not yet passed. A choice that does not fit this
+    # bus (another bus was opened, or initialPickup is not ahead of it) falls back to the defaults:
+    # pickup = initialPickup if it is ahead, else the next stop; drop = the last stop.
+    activeCodes = [str(s.get("code", "")) for s in activeStops];
+    pickup = pickupSel;
+    if pickup not in activeCodes[:-1] {
+        pickup = initialPickup if initialPickup in activeCodes[:-1] else (activeCodes[0] if activeCodes else "");
     }
-
-    # Auto-initialize drop to last stop if empty
-    if len(drop) == 0 and len(activeStops) > 1 {
-        lastStop = dict(activeStops[-1]);
-        drop = str(lastStop.get("code", ""));
+    pickupPos = activeCodes.index(pickup) if pickup in activeCodes else -1;
+    drop = dropSel;
+    if drop not in activeCodes or activeCodes.index(drop) <= pickupPos {
+        drop = activeCodes[-1] if len(activeCodes) > 1 else "";
     }
 
     # Validate that drop is after pickup in route sequence
@@ -47,19 +49,19 @@ def:pub SeatBookingModal(
     dropIdx = stopCodes.index(drop) if drop in stopCodes else -1;
     isValidJourney = pickupIdx >= 0 and dropIdx > pickupIdx;
 
-    def handle_confirm {
+    async def handle_confirm {
         if isValidJourney and not isSubmitting {
             isSubmitting = True;
             if onConfirmBooking {
-                onConfirmBooking(bid, pickup, drop);
+                await onConfirmBooking(bid, pickup, drop);
             }
+            isSubmitting = False;
         }
     }
 
     return (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-md animate-fade-in">
             <div className="w-full max-w-lg bg-[#0F1B2D] border border-white/15 rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 space-y-6 max-h-[90vh] overflow-y-auto">
-                # Header
                 <div className="flex items-start justify-between">
                     <div>
                         <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-bold text-cyan-400">
@@ -79,22 +81,19 @@ def:pub SeatBookingModal(
                     </button>
                 </div>
 
-                # Live capacity badge
                 <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between text-xs">
                     <span className="text-gray-300">Available capacity right now:</span>
                     <span className="font-extrabold text-emerald-400 font-mono text-sm">{f"{seatsLeft} Seats Free"}</span>
                 </div>
 
-                # Stop Selection Stepper
                 <div className="space-y-4">
-                    # 1. Pickup Stop Selector
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
                             1. Boarding Stop (Pickup)
                         </label>
                         <select
                             value={pickup}
-                            onChange={lambda (e: ChangeEvent) { pickup = str(e.target.value); }}
+                            onChange={lambda (e: ChangeEvent) { pickupSel = str(e.target.value); }}
                             className="w-full p-3.5 rounded-2xl bg-[#090F1B] border border-white/15 text-white font-bold text-sm focus:border-[#FFC21A] focus:outline-none"
                         >
                             {for s in activeStops {
@@ -107,14 +106,13 @@ def:pub SeatBookingModal(
                         </select>
                     </div>
 
-                    # 2. Drop Stop Selector
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
                             2. Destination Stop (Drop)
                         </label>
                         <select
                             value={drop}
-                            onChange={lambda (e: ChangeEvent) { drop = str(e.target.value); }}
+                            onChange={lambda (e: ChangeEvent) { dropSel = str(e.target.value); }}
                             className="w-full p-3.5 rounded-2xl bg-[#090F1B] border border-white/15 text-white font-bold text-sm focus:border-[#FFC21A] focus:outline-none"
                         >
                             {for s in activeStops {
@@ -128,7 +126,6 @@ def:pub SeatBookingModal(
                     </div>
                 </div>
 
-                # Validation & Summary
                 {if not isValidJourney {
                     <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold flex items-center gap-2">
                         <span>⚠️</span>
@@ -144,7 +141,6 @@ def:pub SeatBookingModal(
                     </div>;
                 }}
 
-                # Action Buttons
                 <div className="pt-2 flex items-center gap-3">
                     <button
                         type="button"

@@ -6,24 +6,6 @@ Includes:
 - Milestone 2: Interactive SVG CityMap with 9 live buses polled every 2s,
   fleet cards, seat booking modal with segment seat check, trip view with
   2-stop arrival alert banner, and stop QR camera/demo scanner with dedupe.
-"""/ - passenger app. Placeholder from milestone 0; Dev B owns this page."""
-
-import from "@jac/runtime" { Link }
-
-def:pub PassengerHome -> JsxPage {
-    <main className="mx-auto max-w-md p-4 flex flex-col gap-4">
-        <h1 className="text-3xl font-bold">Park &amp; Ride Sri Lanka</h1>
-        <p>Passenger app placeholder. Dev B builds the landing pop-up here.</p>
-        <nav className="flex flex-wrap gap-3">
-            <Link to="/login">Log in</Link>
-            <Link to="/admin">Admin</Link>
-            <Link to="/driver/MB-101">Driver MB-101</Link>
-            <Link to="/dev/core">Core console</Link>
-        </nav>
-    </main>
-"""/ - Passenger App for Park & Ride Sri Lanka.
-Milestone 1: Landing Modal, Terminal Picker, EV Filtering, Slot Recommendation,
-Interactive 2D Grid, and Gate Pass with 'Mark vehicle as parked'.
 """
 
 import from "react" { useEffect }
@@ -73,27 +55,22 @@ def:pub PassengerHome -> JsxPage {
     has selectedSlotCode: str = "MKB-E-F-01";
 
     # Parking backend data
-    has terminals: list[dict] = [];
-    has terminalSlots: list[dict] = [];
-    has recommendation: dict = {};
-    has activeParkingBooking: dict = {};
-
-    # Bus tracking & journey state (Milestone 2)
-    has mapData: dict = {};
-    has buses: list[dict] = [];
-    has selectedRoute: str = "ALL";
-    has selectedBus: dict = {};
-    has showBookingModal: bool = False;
-    has showScannerModal: bool = False;
-    has hasActiveTrip: bool = False;
-    has activeTripData: dict = {};
-
-    # General UI state
-    # Backend data state
     has terminals: list[dict[str, any]] = [];
     has terminalSlots: list[dict[str, any]] = [];
     has recommendation: dict[str, any] = {};
-    has activeBooking: dict[str, any] = {};
+    has activeParkingBooking: dict[str, any] = {};
+
+    # Bus tracking & journey state (Milestone 2)
+    has mapData: dict[str, any] = {};
+    has buses: list[dict[str, any]] = [];
+    has selectedRoute: str = "ALL";
+    has selectedBus: dict[str, any] = {};
+    has showBookingModal: bool = False;
+    has showScannerModal: bool = False;
+    has hasActiveTrip: bool = False;
+    has activeTripData: dict[str, any] = {};
+
+    # General UI state
     has loading: bool = False;
     has toastMsg: str = "";
 
@@ -102,13 +79,13 @@ def:pub PassengerHome -> JsxPage {
         # Auto-login demo passenger
         u = current_user();
         if not u {
-            _ = await login("passenger", "pass123");
+            _ = await login("passenger", "demo-passenger");
         }
 
         # 1. Fetch parking terminals
         tRes = await get_terminals();
         if tRes.get("ok", False) {
-            tData: dict = dict(tRes.get("data", {}));
+            tData: dict[str, any] = dict(tRes.get("data", {}));
             terminals = list(tData.get("terminals", []));
         }
 
@@ -118,7 +95,7 @@ def:pub PassengerHome -> JsxPage {
         # 3. Fetch road network map for Colombo
         mRes = await get_map();
         if mRes.get("ok", False) {
-            mData: dict = dict(mRes.get("data", {}));
+            mData: dict[str, any] = dict(mRes.get("data", {}));
             mapData = mData;
         }
 
@@ -138,18 +115,18 @@ def:pub PassengerHome -> JsxPage {
             return_by=returnBy
         );
         if rRes.get("ok", False) {
-            rData: dict = dict(rRes.get("data", {}));
+            rData: dict[str, any] = dict(rRes.get("data", {}));
             recommendation = rData;
             opts = list(rData.get("options", []));
             if len(opts) > 0 {
-                firstSlot: dict = dict(opts[0].get("slot", {}));
+                firstSlot: dict[str, any] = dict(opts[0].get("slot", {}));
                 selectedSlotCode = str(firstSlot.get("code", "MKB-C-F-01"));
             }
         }
 
         sRes = await get_slots(terminal=selectedTerminal);
         if sRes.get("ok", False) {
-            sData: dict = dict(sRes.get("data", {}));
+            sData: dict[str, any] = dict(sRes.get("data", {}));
             terminalSlots = list(sData.get("slots", []));
         }
     }
@@ -158,7 +135,7 @@ def:pub PassengerHome -> JsxPage {
         rParam = "" if selectedRoute == "ALL" else selectedRoute;
         bRes = await get_buses(route=rParam);
         if bRes.get("ok", False) {
-            bData: dict = dict(bRes.get("data", {}));
+            bData: dict[str, any] = dict(bRes.get("data", {}));
             buses = [dict(b) for b in list(bData.get("buses", []))];
         }
     }
@@ -167,7 +144,7 @@ def:pub PassengerHome -> JsxPage {
         if hasActiveTrip {
             trRes = await get_trip();
             if trRes.get("ok", False) {
-                trData: dict = dict(trRes.get("data", {}));
+                trData: dict[str, any] = dict(trRes.get("data", {}));
                 activeTripData = trData;
             }
         }
@@ -175,7 +152,7 @@ def:pub PassengerHome -> JsxPage {
 
     # Initial load
     useEffect(lambda {
-        init_data();
+        _started = init_data();  # not returned: React effects must not return a Promise
     }, []);
 
     # Live polling every 2s for buses and active trip telemetry
@@ -217,12 +194,12 @@ def:pub PassengerHome -> JsxPage {
             return_by=returnBy
         );
         if bRes.get("ok", False) {
-            bData: dict = dict(bRes.get("data", {}));
+            bData: dict[str, any] = dict(bRes.get("data", {}));
             activeParkingBooking = dict(bData.get("booking", {}));
             step = 3;
             toastMsg = f"Slot {selectedSlotCode} booked successfully!";
         } else {
-            err: dict = dict(bRes.get("error", {}));
+            err: dict[str, any] = dict(bRes.get("error", {}));
             toastMsg = str(err.get("message", "Booking failed"));
         }
         loading = False;
@@ -233,7 +210,7 @@ def:pub PassengerHome -> JsxPage {
         loading = True;
         mRes = await mark_parked(booking_id=bId);
         if mRes.get("ok", False) {
-            mData: dict = dict(mRes.get("data", {}));
+            mData: dict[str, any] = dict(mRes.get("data", {}));
             activeParkingBooking = dict(mData.get("booking", {}));
             toastMsg = "Vehicle successfully parked! Bay status: OCCUPIED";
         }
@@ -252,7 +229,7 @@ def:pub PassengerHome -> JsxPage {
     }
 
     # Mode 2 Handlers (Bus Journey & Scans)
-    def handle_open_bus_booking(busItem: dict) {
+    def handle_open_bus_booking(busItem: dict[str, any]) {
         selectedBus = busItem;
         showBookingModal = True;
     }
@@ -266,16 +243,16 @@ def:pub PassengerHome -> JsxPage {
             await refresh_trip();
             toastMsg = f"Seat reserved on {busId}! Boarding at {pickupCode}.";
         } else {
-            err: dict = dict(sRes.get("error", {}));
+            err: dict[str, any] = dict(sRes.get("error", {}));
             toastMsg = str(err.get("message", "Seat booking failed"));
         }
         loading = False;
     }
 
-    async def handle_process_scan(scanId: str, qrToken: str, dropCode: str) -> dict {
+    async def handle_process_scan(scanId: str, qrToken: str, dropCode: str) -> dict[str, any] {
         pRes = await process_scan(scan_id=scanId, qr=qrToken, drop=dropCode);
         if pRes.get("ok", False) {
-            pData: dict = dict(pRes.get("data", {}));
+            pData: dict[str, any] = dict(pRes.get("data", {}));
             resCode = str(pData.get("result", ""));
             if resCode == "boarded" {
                 toastMsg = "Confirmed, you are on board!";
@@ -287,7 +264,7 @@ def:pub PassengerHome -> JsxPage {
             await refresh_trip();
             return pData;
         }
-        err: dict = dict(pRes.get("error", {}));
+        err: dict[str, any] = dict(pRes.get("error", {}));
         toastMsg = str(err.get("message", "Scan rejected"));
         return {"result": "rejected", "message": toastMsg};
     }
@@ -300,7 +277,6 @@ def:pub PassengerHome -> JsxPage {
     selBusId = str(selectedBus.get("id", ""));
 
     return <div className="min-h-screen bg-[#0B1220] text-white flex flex-col font-sans selection:bg-[#FFC21A] selection:text-[#0F1B2D]">
-        # Landing Pop-up Modal
         <LandingModal
             isOpen={showLandingModal}
             onSelectParkAndRide={handle_select_park_and_ride}
@@ -308,7 +284,6 @@ def:pub PassengerHome -> JsxPage {
             onClose={lambda { showLandingModal = False; }}
         />
 
-        # Seat Booking Drawer Modal
         <SeatBookingModal
             bus={selectedBus}
             isOpen={showBookingModal}
@@ -317,14 +292,12 @@ def:pub PassengerHome -> JsxPage {
             onConfirmBooking={handle_confirm_seat_booking}
         />
 
-        # Stop QR Camera Scanner Modal
         <QRScannerModal
             isOpen={showScannerModal}
             onClose={lambda { showScannerModal = False; }}
             onProcessScan={handle_process_scan}
         />
 
-        # Top Navigation Bar
         <header className="sticky top-0 z-40 bg-[#0F1B2D]/90 border-b border-white/10 backdrop-blur-xl px-4 py-3.5 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <button
@@ -360,12 +333,9 @@ def:pub PassengerHome -> JsxPage {
             </div>
         </header>
 
-        # Main Page Container
         <main className="flex-1 w-full max-w-4xl mx-auto p-4 sm:p-6 flex flex-col gap-6">
-            # APP MODE 1: PARK & RIDE PARKING FLOW
             {if appMode == "park_and_ride" {
                 <div className="flex flex-col gap-6 max-w-xl mx-auto w-full">
-                    # Step Progress Stepper
                     <div className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/10 text-xs">
                         <button
                             type="button"
@@ -391,7 +361,6 @@ def:pub PassengerHome -> JsxPage {
                         </div>
                     </div>
 
-                    # Step 1: Terminal & Vehicle Setup
                     {if step == 1 {
                         <div className="flex flex-col gap-6">
                             <TerminalPicker
@@ -423,7 +392,6 @@ def:pub PassengerHome -> JsxPage {
                         </div>;
                     }}
 
-                    # Step 2: Slot Recommendation & Interactive Grid
                     {if step == 2 {
                         <div className="flex flex-col gap-6">
                             <SlotRecommendation
@@ -433,7 +401,7 @@ def:pub PassengerHome -> JsxPage {
                             />
 
                             <SlotGrid
-                                slots={terminalSlots}
+                                slots={[s for s in terminalSlots if str(s.get("type", "")) == ("E" if selectedVehicle == "C" and evChoice == "needs_charging" else selectedVehicle)]}
                                 selectedSlotCode={selectedSlotCode}
                                 recommendedSlotCode={str(dict(recommendation.get("options", [{}])[0].get("slot", {})).get("code", ""))}
                                 onSelectSlot={lambda (code: str) { selectedSlotCode = code; }}
@@ -459,7 +427,6 @@ def:pub PassengerHome -> JsxPage {
                         </div>;
                     }}
 
-                    # Step 3: Digital Gate Pass & Proceed to Bus
                     {if step == 3 {
                         <div className="flex flex-col gap-6">
                             <ParkingPass
@@ -473,10 +440,8 @@ def:pub PassengerHome -> JsxPage {
                 </div>;
             }}
 
-            # APP MODE 2: BUS JOURNEY & LIVE TRACKING (Milestone 2)
             {if appMode == "get_into_bus" {
                 <div className="flex flex-col gap-6">
-                    # Mode Switcher / Banner
                     <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#0F1B2D] border border-white/10 text-xs">
                         <div className="flex items-center gap-2.5">
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -492,7 +457,6 @@ def:pub PassengerHome -> JsxPage {
                         </button>
                     </div>
 
-                    # If passenger has an active trip, show TripView
                     {if hasActiveTrip and len(activeTripData) > 0 {
                         <TripView
                             tripData={activeTripData}
@@ -502,7 +466,6 @@ def:pub PassengerHome -> JsxPage {
                     } else {
                         # Main Bus Tracking & Map View
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            # Left Column: Interactive SVG CityMap (7 cols)
                             <div className="lg:col-span-7 flex flex-col gap-3">
                                 <CityMap
                                     mapData={mapData}
@@ -513,9 +476,7 @@ def:pub PassengerHome -> JsxPage {
                                 />
                             </div>
 
-                            # Right Column: Route Filters & Bus Fleet List (5 cols)
                             <div className="lg:col-span-5 flex flex-col gap-4">
-                                # Route Selection Tabs
                                 <div className="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-[#0F1B2D] border border-white/10 text-xs">
                                     <button
                                         type="button"
@@ -547,7 +508,6 @@ def:pub PassengerHome -> JsxPage {
                                     </button>
                                 </div>
 
-                                # Bus Cards List
                                 <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
                                     {for b in filteredBuses {
                                         bid = str(b.get("id", ""));
@@ -561,7 +521,6 @@ def:pub PassengerHome -> JsxPage {
                                     }}
                                 </div>
 
-                                # Scanner Trigger Floating Bar
                                 <button
                                     type="button"
                                     onClick={lambda (_e: MouseEvent) { showScannerModal = True; }}
@@ -577,7 +536,6 @@ def:pub PassengerHome -> JsxPage {
             }}
         </main>
 
-        # Toast notification
         {if toastMsg {
             <div className="fixed bottom-6 right-6 z-50">
                 <Toast
@@ -588,7 +546,6 @@ def:pub PassengerHome -> JsxPage {
             </div>;
         }}
 
-        # Bottom Footer Bar
         <footer className="mt-auto border-t border-white/10 bg-[#0F1B2D]/50 p-4 text-center text-xs text-gray-500">
             <span>Park &amp; Ride Sri Lanka · Jac 0.37 Full-stack System</span>
         </footer>

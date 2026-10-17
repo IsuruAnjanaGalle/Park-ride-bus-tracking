@@ -27,7 +27,6 @@ def:pub VehicleFilter(
         else ("Middle Zone (Standard)" if zoneLetter == "M" else "Rear Zone (Long Stay / Overnight)");
 
     return <div className="flex flex-col gap-5 rounded-2xl bg-[#0F1B2D]/80 border border-white/10 p-5 backdrop-blur-md">
-        # 2. Vehicle Type Selection
         <div>
             <div className="flex items-center justify-between mb-2.5">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-gray-300">
@@ -37,7 +36,6 @@ def:pub VehicleFilter(
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-                # Bike
                 <button
                     type="button"
                     onClick={lambda (_e: MouseEvent) { onChangeVehicle("B"); }}
@@ -48,7 +46,6 @@ def:pub VehicleFilter(
                     <span className="text-[10px] text-gray-500">Type B</span>
                 </button>
 
-                # Motorbike
                 <button
                     type="button"
                     onClick={lambda (_e: MouseEvent) { onChangeVehicle("M"); }}
@@ -59,7 +56,6 @@ def:pub VehicleFilter(
                     <span className="text-[10px] text-gray-500">Type M</span>
                 </button>
 
-                # Car
                 <button
                     type="button"
                     onClick={lambda (_e: MouseEvent) { onChangeVehicle("C"); }}
@@ -72,7 +68,6 @@ def:pub VehicleFilter(
             </div>
         </div>
 
-        # EV Question (conditional on Car)
         {if selectedVehicle == "C" {
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex flex-col gap-3">
                 <div className="flex items-center gap-2">
@@ -81,7 +76,6 @@ def:pub VehicleFilter(
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    # Needs charging
                     <button
                         type="button"
                         onClick={lambda (_e: MouseEvent) { onChangeEv("needs_charging"); }}
@@ -94,7 +88,6 @@ def:pub VehicleFilter(
                         <span className="text-[10px] text-gray-400 block mt-0.5">EV Charging bay (Type E)</span>
                     </button>
 
-                    # Park only
                     <button
                         type="button"
                         onClick={lambda (_e: MouseEvent) { onChangeEv("park_only"); }}
@@ -107,7 +100,6 @@ def:pub VehicleFilter(
                         <span className="text-[10px] text-gray-400 block mt-0.5">Regular bay (Type C)</span>
                     </button>
 
-                    # No EV
                     <button
                         type="button"
                         onClick={lambda (_e: MouseEvent) { onChangeEv("no"); }}
@@ -123,7 +115,6 @@ def:pub VehicleFilter(
             </div>
         }}
 
-        # Accessible parking toggle
         <label className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5 cursor-pointer hover:bg-white/[0.04]">
             <input
                 type="checkbox"
@@ -140,7 +131,6 @@ def:pub VehicleFilter(
             </div>
         </label>
 
-        # 3. Time Schedule & Zone Rule
         <div className="pt-2 border-t border-white/10">
             <div className="flex items-center justify-between mb-2.5">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-gray-300">

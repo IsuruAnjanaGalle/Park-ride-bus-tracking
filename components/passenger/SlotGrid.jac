@@ -13,7 +13,6 @@ def:pub SlotGrid(
     has viewMode: str = "2d";
 
     return <div className="flex flex-col gap-4 rounded-3xl bg-[#0F1B2D]/90 border border-white/10 p-5 backdrop-blur-xl">
-        # Header and filters
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
             <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -25,9 +24,7 @@ def:pub SlotGrid(
                 <p className="text-xs text-gray-400 mt-0.5">Select a free bay to reserve your parking.</p>
             </div>
 
-            # Mode & Zone switchers
             <div className="flex flex-wrap items-center gap-2">
-                # 2D / 3D Toggle
                 <div className="flex items-center gap-1 p-1 rounded-xl bg-white/[0.04] border border-white/10 text-xs">
                     <button
                         type="button"
@@ -45,7 +42,6 @@ def:pub SlotGrid(
                     </button>
                 </div>
 
-                # Zone switchers
                 <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/[0.04] border border-white/10 text-xs">
                     <button
                         type="button"
@@ -79,7 +75,6 @@ def:pub SlotGrid(
             </div>
         </div>
 
-        # Legend bar
         <div className="flex flex-wrap items-center gap-3 text-[11px] text-gray-400 py-1">
             <span className="flex items-center gap-1">
                 <span className="w-3 h-3 rounded bg-emerald-500/20 border border-emerald-500/50" />
@@ -107,7 +102,6 @@ def:pub SlotGrid(
             </span>
         </div>
 
-        # View branch: 2D Bays vs 3D Yard
         {if viewMode == "3d" {
             <div className="relative w-full rounded-2xl overflow-hidden bg-[#070D1A] border border-white/10 p-4 shadow-inner">
                 <div className="flex items-center justify-between text-xs text-gray-400 mb-2">
@@ -118,21 +112,18 @@ def:pub SlotGrid(
                     <span className="text-[11px] text-gray-400">Dashed line guides walking route from Terminal Gate</span>
                 </div>
                 <svg viewBox="0 0 640 330" className="w-full h-auto max-h-[320px] select-none rounded-xl">
-                    # Asphalt Ground
                     <rect width="640" height="330" fill="#080F1D" rx="12" />
 
-                    # Terminal Gate at bottom center
                     <rect x="260" y="300" width="120" height="18" fill="#FFC21A" rx="4" />
                     <text x="320" y="312" fill="#0F1B2D" fontSize="9" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
                         TERMINAL ENTRANCE GATE
                     </text>
 
-                    # Parking bays (3 rows of 8 bays = 24 bays)
                     {for i in range(24) {
                         col = i % 8;
                         row = i // 8;
                         bx = 36 + col * 72;
-                        by = 25 + row * 84;
+                        bay_y = 25 + row * 84;
                         zCode = "F" if row == 0 else ("M" if row == 1 else "R");
                         sCode = f"MKB-C-{zCode}-0{col+1}";
                         isSel = (sCode == selectedSlotCode);
@@ -142,7 +133,7 @@ def:pub SlotGrid(
                         <g key={sCode} onClick={lambda (_e: MouseEvent) { if not isOcc { onSelectSlot(sCode); } }} className="cursor-pointer">
                             <rect
                                 x={bx}
-                                y={by}
+                                y={bay_y}
                                 width="62"
                                 height="68"
                                 rx="6"
@@ -151,28 +142,24 @@ def:pub SlotGrid(
                                 strokeWidth={"2.5" if isSel else "1"}
                             />
 
-                            # Bay label
-                            <text x={bx + 31} y={by + 14} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                            <text x={bx + 31} y={bay_y + 14} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
                                 {f"C-{zCode}-0{col+1}"}
                             </text>
 
-                            # 3D Box Car if occupied
                             {if isOcc {
                                 <g>
-                                    <rect x={bx + 11} y={by + 20} width="40" height="40" rx="4" fill="#334155" />
-                                    <rect x={bx + 15} y={by + 24} width="32" height="20" rx="3" fill="#64748B" />
-                                    <rect x={bx + 18} y={by + 27} width="26" height="10" rx="2" fill="#0B1320" />
+                                    <rect x={bx + 11} y={bay_y + 20} width="40" height="40" rx="4" fill="#334155" />
+                                    <rect x={bx + 15} y={bay_y + 24} width="32" height="20" rx="3" fill="#64748B" />
+                                    <rect x={bx + 18} y={bay_y + 27} width="26" height="10" rx="2" fill="#0B1320" />
                                 </g>;
                             }}
 
-                            # Glow ring if selected
                             {if isSel {
-                                <rect x={bx - 2} y={by - 2} width="66" height="72" rx="8" fill="none" stroke="#FFC21A" strokeWidth="2" strokeDasharray="3 3" />;
+                                <rect x={bx - 2} y={bay_y - 2} width="66" height="72" rx="8" fill="none" stroke="#FFC21A" strokeWidth="2" strokeDasharray="3 3" />;
                             }}
                         </g>;
                     }}
 
-                    # Walking Path from Gate (320, 300) to selected bay
                     <path
                         d="M 320 300 L 320 185 L 180 185 L 180 95"
                         fill="none"
