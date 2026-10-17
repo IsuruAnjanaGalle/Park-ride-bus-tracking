@@ -34,7 +34,7 @@ def:pub DriverApp(busId: str = "MB-101") -> JsxElement {
         seatsLeft: int = 0,
         loading: bool = True;
 
-    def fetch_view {
+    async def fetch_view {
         view_res = await get_driver_view(busId);
         if view_res["ok"] {
             data: dict[str, any] = dict(view_res["data"]);
@@ -59,9 +59,12 @@ def:pub DriverApp(busId: str = "MB-101") -> JsxElement {
         }
     }
 
-    async can with entry {
-        await fetch_view();
-    }
+    # Poll every 2 s (docs/contracts.md 3.19).
+    useEffect(lambda {
+        fetch_view();
+        timer = setInterval(lambda { fetch_view(); }, 2000);
+        return lambda { clearInterval(timer); };
+    }, [busId]);
 
     def open_modal {
         showModal = True;
@@ -200,31 +203,31 @@ def:pub DriverApp(busId: str = "MB-101") -> JsxElement {
                                 <div style={{"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "12px"}}>
                                     <button
                                         style={{"minHeight": "48px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(255, 255, 255, 0.08)", "color": "#fff", "border": "1px solid rgba(255, 255, 255, 0.2)", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_kind("accident")}
+                                        onClick={lambda { select_kind("accident"); }}
                                     >
                                         {"💥 Accident"}
                                     </button>
                                     <button
                                         style={{"minHeight": "48px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(255, 255, 255, 0.08)", "color": "#fff", "border": "1px solid rgba(255, 255, 255, 0.2)", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_kind("breakdown")}
+                                        onClick={lambda { select_kind("breakdown"); }}
                                     >
                                         {"🔧 Breakdown"}
                                     </button>
                                     <button
                                         style={{"minHeight": "48px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(255, 255, 255, 0.08)", "color": "#fff", "border": "1px solid rgba(255, 255, 255, 0.2)", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_kind("flooding")}
+                                        onClick={lambda { select_kind("flooding"); }}
                                     >
                                         {"🌊 Flooding"}
                                     </button>
                                     <button
                                         style={{"minHeight": "48px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(255, 255, 255, 0.08)", "color": "#fff", "border": "1px solid rgba(255, 255, 255, 0.2)", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_kind("road_works")}
+                                        onClick={lambda { select_kind("road_works"); }}
                                     >
                                         {"🚧 Road Works"}
                                     </button>
                                     <button
                                         style={{"minHeight": "48px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(255, 255, 255, 0.08)", "color": "#fff", "border": "1px solid rgba(255, 255, 255, 0.2)", "borderRadius": "10px", "cursor": "pointer", "gridColumn": "span 2"}}
-                                        onClick={lambda: select_kind("road_closed")}
+                                        onClick={lambda { select_kind("road_closed"); }}
                                     >
                                         {"🚫 Road Closed"}
                                     </button>
@@ -240,19 +243,19 @@ def:pub DriverApp(busId: str = "MB-101") -> JsxElement {
                                 <div style={{"display": "flex", "flexDirection": "column", "gap": "12px"}}>
                                     <button
                                         style={{"minHeight": "52px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(245, 158, 11, 0.2)", "color": "#fef08a", "border": "1px solid #f59e0b", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_severity("slow")}
+                                        onClick={lambda { select_severity("slow"); }}
                                     >
                                         {"🟡 Slow · Level 1 Delay"}
                                     </button>
                                     <button
                                         style={{"minHeight": "52px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(239, 68, 68, 0.2)", "color": "#fca5a5", "border": "1px solid #ef4444", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_severity("jammed")}
+                                        onClick={lambda { select_severity("jammed"); }}
                                     >
                                         {"🔴 Jammed · Level 2 Heavy Congestion"}
                                     </button>
                                     <button
                                         style={{"minHeight": "52px", "padding": "14px", "fontSize": "16px", "fontWeight": "700", "background": "rgba(185, 28, 28, 0.4)", "color": "#ffffff", "border": "2px solid #dc2626", "borderRadius": "10px", "cursor": "pointer"}}
-                                        onClick={lambda: select_severity("closed")}
+                                        onClick={lambda { select_severity("closed"); }}
                                     >
                                         {"⛔ Closed · Level 3 Complete Blockage"}
                                     </button>

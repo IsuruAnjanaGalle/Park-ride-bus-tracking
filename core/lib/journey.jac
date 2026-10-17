@@ -84,9 +84,9 @@ def book_seat_rule(world: World, prof: Passenger, bus: Bus, pickup: str, drop: s
 }
 
 """Signed QR for a visit: bus, stop, visit number and expiry in simulated seconds."""
-def visit_token(world: World, stop_visit: StopVisit) -> str {
+def visit_token(world: World, sv: StopVisit) -> str {
     return sign_token({
-        "t": "stop", "bus": stop_visit.bus_id, "stop": stop_visit.stop_code, "visit": stop_visit.visit_no,
+        "t": "stop", "bus": sv.bus_id, "stop": sv.stop_code, "visit": sv.visit_no,
         "exp": int(sim_seconds(get_clock(world))) + STOP_QR_TTL_S
     });
 }
@@ -106,8 +106,8 @@ def arrive_stop(world: World, bus: Bus, trip: Trip, code: str) -> StopVisit {
     coords = static_coords();
     i = trip.stop_codes.index(code);
     here_j = coords[code];
-    bus.lat = float(str(here_j[0]));
-    bus.lng = float(str(here_j[1]));
+    bus.lat = here_j[0];
+    bus.lng = here_j[1];
     bus.from_stop = code;
     bus.road_from = code;
     bus.progress = 0.0;
@@ -117,8 +117,7 @@ def arrive_stop(world: World, bus: Bus, trip: Trip, code: str) -> StopVisit {
         bus.next_stop = nxt;
         bus.road_to = nxt;
         bus.path = [code, nxt];
-        nxt_j = coords.get(nxt, here_j);
-        bus.heading = float(bearing(float(str(here_j[0])), float(str(here_j[1])), float(str(nxt_j[0])), float(str(nxt_j[1]))));
+        bus.heading = bearing(here_j[0], here_j[1], coords[nxt][0], coords[nxt][1]);
     } else {
         bus.next_stop = code;
         bus.road_to = code;
@@ -156,7 +155,6 @@ def depart_stop(world: World, bus: Bus) -> list[str] {
         return events;
     }
     code = sv.stop_code;
-    sv_visit: int = sv.visit_no;
     names = junction_names(world);
     stop_name = names.get(code, code);
     bookings = [trip -->[?:Booking]];
@@ -170,11 +168,11 @@ def depart_stop(world: World, bus: Bus) -> list[str] {
     missing = [b for b in bookings if b.state == "OnBoard" and b.drop == code];
     extra = [
         b for b in bookings
-        if b.state == "Alighted" and b.alight_stop == code and b.alight_visit == sv_visit and b.drop != code
+        if b.state == "Alighted" and b.alight_stop == code and b.alight_visit == sv.visit_no and b.drop != code
     ];
     expected = len(missing) + len([
         b for b in bookings
-        if b.state == "Alighted" and b.alight_stop == code and b.alight_visit == sv_visit and b.drop == code
+        if b.state == "Alighted" and b.alight_stop == code and b.alight_visit == sv.visit_no and b.drop == code
     ]);
     if missing or extra {
         parts: list[str] = [];
@@ -261,7 +259,7 @@ def scan_rule(world: World, prof: Passenger, scan_id: str, qr: str, drop: str) -
             out["message"] = "Already counted - this scan was processed before.";
             out["booking"] = None;
             _log_scan(world, prof, scan_id, out, 0);
-            alert(world, "duplicate_scan", f"Duplicate scan {scan_id} from {prof.username} ignored.", str(out["bus_id"]), str(out["stop"]));
+            alert(world, "duplicate_scan", f"Duplicate scan {scan_id} from {prof.username} ignored.", out["bus_id"], out["stop"]);
             return out;
         }
         if not check["valid"] or payload.get("t") != "stop" {
@@ -274,7 +272,7 @@ def scan_rule(world: World, prof: Passenger, scan_id: str, qr: str, drop: str) -
         trip = current_trip(buses[0]) if buses else None;
         sv = open_visit(trip) if trip else None;
         visit_no = int(payload.get("visit", 0));
-        code: str = str(payload.get("stop", ""));
+        code = payload.get("stop", "");
         if trip is None or sv is None or sv.stop_code != code or sv.visit_no != visit_no {
             return _reject(world, prof, scan_id, out, "The bus is not at this stop right now.", visit_no);
         }
@@ -322,7 +320,7 @@ def scan_rule(world: World, prof: Passenger, scan_id: str, qr: str, drop: str) -
                 out["message"] = "Already on board, ignored.";
             } else {
                 b.state = "Alighted";
-                b.alight_stop = str(code);
+                b.alight_stop = code;
                 b.alight_visit = visit_no;
                 out["result"] = "alighted";
                 out["message"] = "Alighted. Thanks for riding.";
@@ -344,10 +342,10 @@ def _reject(world: World, prof: Passenger, scan_id: str, out: dict[str, any], me
     return out;
 }
 
-def _log_scan(world: World, prof: Passenger, scan_id: str, out: dict[str, any], visit_no: int) {
+def _log_scan(world: World, prof: Passenger, scan_id: str, out: dict[str, any], visit_no: int) -> None {
     world ++> Scan(
-        scan_id=scan_id, username=prof.username, bus_id=str(out.get("bus_id", "")), stop_code=str(out.get("stop", "")),
-        visit_no=visit_no, result=str(out.get("result", "")), at=now_hms(get_clock(world))
+        scan_id=scan_id, username=prof.username, bus_id=out["bus_id"], stop_code=out["stop"],
+        visit_no=visit_no, result=out["result"], at=now_hms(get_clock(world))
     );
 }
 

@@ -1,5 +1,5 @@
 """One re-entrant lock around every change to the shared world (bookings, scans, traffic)."""
 
-import from threading { RLock }
+import threading;
 
-glob WORLD_LOCK: RLock = RLock();
+glob WORLD_LOCK: any = threading.RLock();
