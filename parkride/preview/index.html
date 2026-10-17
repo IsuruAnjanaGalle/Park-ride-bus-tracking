@@ -575,6 +575,20 @@
       const [selectedTerminal, setSelectedTerminal] = useState("stop_makumbura");
       const [selectedVehicle, setSelectedVehicle] = useState("car");
       const [activeViewport, setActiveViewport] = useState("responsive");
+      const [activeTab, setActiveTab] = useState("m1_app");
+      const [m1Step, setM1Step] = useState(1);
+      const [m1Terminal, setM1Terminal] = useState("MKB");
+      const [m1Vehicle, setM1Vehicle] = useState("C");
+      const [m1Ev, setM1Ev] = useState("needs_charging");
+      const [m1Accessible, setM1Accessible] = useState(false);
+      const [m1Arrival, setM1Arrival] = useState("08:00");
+      const [m1ReturnBy, setM1ReturnBy] = useState("10:00");
+      const [m1SelectedSlot, setM1SelectedSlot] = useState("MKB-E-F-01");
+      const [m1IsParked, setM1IsParked] = useState(false);
+      const [m1GridZone, setM1GridZone] = useState("ALL");
+      const [m1Mode, setM1Mode] = useState("park_and_ride");
+      const [m1LandingOpen, setM1LandingOpen] = useState(true);
+      const [m1Toast, setM1Toast] = useState("");
 
       const terminalOptions = [
         { key: "stop_makumbura", label: "Makumbura (MMC)", badge: "42 free" },
@@ -662,6 +676,22 @@
                 </div>
               </div>
 
+              {/* Mode Switcher */}
+              <div className="flex items-center gap-1 bg-[#0F1B2D] p-1 rounded-xl border border-white/10">
+                <button
+                  className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors ${activeTab === "m1_app" ? "bg-[#FFC21A] text-[#0F1B2D] shadow" : "text-gray-400 hover:text-white"}`}
+                  onClick={() => setActiveTab("m1_app")}
+                >
+                  🚗 Passenger App (M1)
+                </button>
+                <button
+                  className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors ${activeTab === "uikit" ? "bg-[#FFC21A] text-[#0F1B2D]" : "text-gray-400 hover:text-white"}`}
+                  onClick={() => setActiveTab("uikit")}
+                >
+                  🎨 UI Kit (17)
+                </button>
+              </div>
+
               {/* Viewport Width Switcher */}
               <div className="flex items-center gap-1.5 bg-[#0F1B2D] p-1 rounded-xl border border-white/10">
                 <button
@@ -689,7 +719,387 @@
           {/* Main Showcase */}
           <main className="flex-1 py-8 px-4 sm:px-6">
             <div className={viewportClass}>
-              <div className="space-y-10">
+              {activeTab === "m1_app" ? (
+                /* --- MILESTONE 1 PASSENGER APP INTERACTIVE FLOW --- */
+                <div className="space-y-6 max-w-xl mx-auto">
+                  {/* Step Progress Tracker */}
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-xs">
+                    <button
+                      onClick={() => setM1Step(1)}
+                      className={`flex items-center gap-1.5 font-bold transition-colors ${m1Step === 1 ? "text-[#FFC21A]" : "text-gray-400 hover:text-white"}`}
+                    >
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${m1Step === 1 ? "bg-[#FFC21A] text-[#0F1B2D]" : "bg-white/10"}`}>1</span>
+                      <span>Setup</span>
+                    </button>
+                    <span className="text-gray-600">→</span>
+                    <button
+                      onClick={() => setM1Step(2)}
+                      className={`flex items-center gap-1.5 font-bold transition-colors ${m1Step === 2 ? "text-[#FFC21A]" : "text-gray-400 hover:text-white"}`}
+                    >
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${m1Step === 2 ? "bg-[#FFC21A] text-[#0F1B2D]" : "bg-white/10"}`}>2</span>
+                      <span>Choose Bay</span>
+                    </button>
+                    <span className="text-gray-600">→</span>
+                    <div className={`flex items-center gap-1.5 font-bold ${m1Step === 3 ? "text-[#FFC21A]" : "text-gray-500"}`}>
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${m1Step === 3 ? "bg-[#FFC21A] text-[#0F1B2D]" : "bg-white/10"}`}>3</span>
+                      <span>Gate Pass</span>
+                    </div>
+                  </div>
+
+                  {/* STEP 1: TERMINAL & VEHICLE FILTER */}
+                  {m1Step === 1 && (
+                    <div className="space-y-6">
+                      {/* Terminal Picker */}
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-xs font-bold uppercase tracking-wider text-gray-300">1. Select Terminal Hub</h3>
+                          <span className="text-xs text-[#FFC21A]">4 Hubs Live</span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {[
+                            { code: "MKB", name: "Makumbura", junction: "MKB", free: 43, total: 112, grid: true, chargers: 8 },
+                            { code: "KDW", name: "Kadawatha", junction: "KDW", free: 36, total: 84, grid: false, chargers: 6 },
+                            { code: "KSB", name: "Kesbewa", junction: "KSB", free: 25, total: 56, grid: false, chargers: 4 },
+                            { code: "PTH", name: "Pettah", junction: "PET", free: 3, total: 36, grid: false, chargers: 4 }
+                          ].map(t => (
+                            <div
+                              key={t.code}
+                              onClick={() => setM1Terminal(t.code)}
+                              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${m1Terminal === t.code ? "border-[#FFC21A] bg-[#FFC21A]/10 shadow-lg" : "border-white/10 bg-white/[0.03] hover:border-white/20"}`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="font-bold text-white text-base">{t.name}</span>
+                                <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-gray-300">{t.code}</span>
+                              </div>
+                              <div className="mt-3 flex items-center justify-between text-xs pt-2 border-t border-white/10">
+                                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+                                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                                  {t.free} Free / {t.total}
+                                </span>
+                                {t.grid && <span className="text-[10px] font-bold text-[#22D3EE] bg-[#22D3EE]/20 px-2 py-0.5 rounded-full">Interactive Grid</span>}
+                              </div>
+                              {t.chargers > 0 && (
+                                <div className="mt-2 text-[11px] text-amber-300/80">⚡ {t.chargers} EV Fast Charger Banks</div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Vehicle & EV & Timing Selector */}
+                      <div className="p-5 rounded-2xl bg-[#0F1B2D]/90 border border-white/10 space-y-5">
+                        {/* Vehicle Type */}
+                        <div>
+                          <span className="text-xs font-bold uppercase tracking-wider text-gray-300 block mb-2">2. Vehicle Type</span>
+                          <div className="grid grid-cols-3 gap-2">
+                            {[
+                              { key: "B", label: "Foot Cycle", icon: "🚲", sub: "Type B" },
+                              { key: "M", label: "Motorbike", icon: "🛵", sub: "Type M" },
+                              { key: "C", label: "Car / SUV", icon: "🚗", sub: "Type C / E" }
+                            ].map(v => (
+                              <button
+                                key={v.key}
+                                onClick={() => setM1Vehicle(v.key)}
+                                className={`p-3 rounded-xl border text-center transition-all ${m1Vehicle === v.key ? "border-[#FFC21A] bg-[#FFC21A]/15 text-[#FFC21A]" : "border-white/10 bg-white/[0.02] text-gray-400 hover:text-white"}`}
+                              >
+                                <span className="text-2xl block mb-1">{v.icon}</span>
+                                <span className="text-xs font-bold block">{v.label}</span>
+                                <span className="text-[10px] text-gray-500">{v.sub}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* EV Charging Question (When Car Selected) */}
+                        {m1Vehicle === "C" && (
+                          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-3">
+                            <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                              <span>⚡</span>
+                              <span>Is it an electric vehicle?</span>
+                            </span>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                              {[
+                                { key: "needs_charging", label: "Needs charging", sub: "EV Charging Bay (Type E)", badge: "⚡" },
+                                { key: "park_only", label: "Park only", sub: "Regular Car Bay (Type C)", badge: "🅿️" },
+                                { key: "no", label: "No (ICE)", sub: "Standard petrol/diesel", badge: "⛽" }
+                              ].map(opt => (
+                                <button
+                                  key={opt.key}
+                                  onClick={() => setM1Ev(opt.key)}
+                                  className={`p-2.5 rounded-lg border text-left transition-all ${m1Ev === opt.key ? "border-[#22D3EE] bg-[#22D3EE]/20 text-[#22D3EE] font-bold" : "border-white/10 bg-white/[0.02] text-gray-400 hover:text-white"}`}
+                                >
+                                  <div className="text-xs font-bold flex items-center justify-between">
+                                    <span>{opt.label}</span>
+                                    <span>{opt.badge}</span>
+                                  </div>
+                                  <span className="text-[10px] text-gray-400 block mt-0.5">{opt.sub}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Accessible Toggle */}
+                        <label className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={m1Accessible}
+                            onChange={(e) => setM1Accessible(e.target.checked)}
+                            className="w-4 h-4 rounded text-[#FFC21A] focus:ring-[#FFC21A]"
+                          />
+                          <div className="text-xs">
+                            <span className="font-bold text-white flex items-center gap-1.5">
+                              <span>♿</span>
+                              <span>Need accessible parking close to entrance</span>
+                            </span>
+                            <span className="text-[11px] text-gray-400 block">Reserved front bays closest to terminal concourse</span>
+                          </div>
+                        </label>
+
+                        {/* Schedule Times */}
+                        <div className="pt-2 border-t border-white/10 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-300">3. Stay Duration</span>
+                            <span className="text-xs font-bold px-2 py-0.5 rounded bg-[#FFC21A]/20 text-[#FFC21A]">
+                              2.0 hrs → Front Zone (F)
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <span className="text-[11px] text-gray-400 block mb-1">Arriving at</span>
+                              <input
+                                type="time"
+                                value={m1Arrival}
+                                onChange={(e) => setM1Arrival(e.target.value)}
+                                className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/15 text-white text-sm"
+                              />
+                            </div>
+                            <div>
+                              <span className="text-[11px] text-gray-400 block mb-1">Returning by</span>
+                              <input
+                                type="time"
+                                value={m1ReturnBy}
+                                onChange={(e) => setM1ReturnBy(e.target.value)}
+                                className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/15 text-white text-sm"
+                              />
+                            </div>
+                          </div>
+                          <p className="text-[10px] text-gray-500">Zone rule: under 3h → Front (F), 3–8h → Middle (M), over 8h → Rear (R).</p>
+                        </div>
+                      </div>
+
+                      <Button
+                        label="Find Best Parking Bays →"
+                        fullWidth={true}
+                        onClick={() => setM1Step(2)}
+                      />
+                    </div>
+                  )}
+
+                  {/* STEP 2: RECOMMENDATIONS & INTERACTIVE 310-BAY GRID */}
+                  {m1Step === 2 && (
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-between">
+                        <button
+                          onClick={() => setM1Step(1)}
+                          className="text-xs text-gray-400 hover:text-white flex items-center gap-1"
+                        >
+                          ← Change Filters
+                        </button>
+                        <span className="text-xs text-[#FFC21A] font-bold">Selected: {m1SelectedSlot}</span>
+                      </div>
+
+                      {/* Algorithmic Recommendations */}
+                      <div className="space-y-3">
+                        <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#FFC21A]/15 to-transparent border border-[#FFC21A]/30 flex items-center justify-between">
+                          <div>
+                            <span className="text-xs font-bold text-[#FFC21A] uppercase tracking-wider block">Recommended: Zone F (Front)</span>
+                            <span className="text-xs text-white">Under 3h stay; slot closest to Makumbura bus concourse.</span>
+                          </div>
+                          <span className="text-xs text-gray-400 font-mono">Rank 1-3</span>
+                        </div>
+
+                        {[
+                          { code: "MKB-E-F-01", rank: "⭐ Best Match", zone: "F", kw: 50, type: "DC Fast", reason: "Directly adjacent to expressway terminal entrance with 50 kW ultra-fast charger." },
+                          { code: "MKB-E-F-02", rank: "Alternative in Zone", zone: "F", kw: 50, type: "DC Fast", reason: "Front row bay with matching charger capacity." },
+                          { code: "MKB-E-F-03", rank: "Standard Charger", zone: "F", kw: 22, type: "AC Medium", reason: "Standard 22 kW AC charging station nearby." }
+                        ].map((rec, i) => (
+                          <div
+                            key={rec.code}
+                            onClick={() => setM1SelectedSlot(rec.code)}
+                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${m1SelectedSlot === rec.code ? "border-[#FFC21A] bg-[#FFC21A]/10 shadow-lg ring-2 ring-[#FFC21A]/20" : "border-white/10 bg-white/[0.03] hover:border-white/20"}`}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${i === 0 ? "bg-[#FFC21A] text-[#0F1B2D]" : "bg-white/10 text-white"}`}>{rec.rank}</span>
+                                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">⚡ {rec.kw} kW {rec.type}</span>
+                                </div>
+                                <h4 className="text-xl font-black text-white mt-1.5">{rec.code}</h4>
+                                <p className="text-xs text-gray-300 mt-1">{rec.reason}</p>
+                              </div>
+                              <div className="pt-1">
+                                {m1SelectedSlot === rec.code ? (
+                                  <span className="px-3 py-1 rounded-xl bg-[#FFC21A] text-[#0F1B2D] text-xs font-black shadow">✓ Selected</span>
+                                ) : (
+                                  <span className="px-3 py-1 rounded-xl border border-white/20 text-xs font-semibold text-gray-300">Select</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Interactive 2D Bay Grid */}
+                      <div className="p-5 rounded-3xl bg-[#0F1B2D]/90 border border-white/10 space-y-4">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                          <div>
+                            <h4 className="text-sm font-bold text-white">Makumbura Parking Bays Grid</h4>
+                            <span className="text-[11px] text-gray-400">Click any free slot to reserve</span>
+                          </div>
+                          <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl text-xs">
+                            {["ALL", "F", "M", "R"].map(z => (
+                              <button
+                                key={z}
+                                onClick={() => setM1GridZone(z)}
+                                className={`px-2.5 py-0.5 rounded-lg font-bold ${m1GridZone === z ? "bg-[#FFC21A] text-[#0F1B2D]" : "text-gray-400"}`}
+                              >
+                                {z === "ALL" ? "All" : `Zone ${z}`}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Grid slots preview */}
+                        <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-64 overflow-y-auto pr-1">
+                          {[
+                            { code: "MKB-E-F-01", zone: "F", state: "free", kw: 50 },
+                            { code: "MKB-E-F-02", zone: "F", state: "free", kw: 50 },
+                            { code: "MKB-E-F-03", zone: "F", state: "free", kw: 22 },
+                            { code: "MKB-E-F-04", zone: "F", state: "occupied", kw: 22 },
+                            { code: "MKB-C-F-01", zone: "F", state: "free", acc: true },
+                            { code: "MKB-C-F-02", zone: "F", state: "free", acc: true },
+                            { code: "MKB-C-F-03", zone: "F", state: "occupied" },
+                            { code: "MKB-C-F-04", zone: "F", state: "occupied" },
+                            { code: "MKB-C-M-01", zone: "M", state: "free" },
+                            { code: "MKB-C-M-02", zone: "M", state: "free" },
+                            { code: "MKB-C-M-03", zone: "M", state: "occupied" },
+                            { code: "MKB-C-M-04", zone: "M", state: "booked" },
+                            { code: "MKB-C-R-01", zone: "R", state: "free" },
+                            { code: "MKB-C-R-02", zone: "R", state: "free" },
+                            { code: "MKB-C-R-03", zone: "R", state: "occupied" },
+                            { code: "MKB-C-R-04", zone: "R", state: "occupied" },
+                          ].filter(s => m1GridZone === "ALL" || s.zone === m1GridZone).map(s => {
+                            const isSel = m1SelectedSlot === s.code;
+                            const isFree = s.state === "free";
+                            return (
+                              <div
+                                key={s.code}
+                                onClick={() => isFree && setM1SelectedSlot(s.code)}
+                                className={`p-2 rounded-xl border text-center transition-all ${isSel ? "border-[#FFC21A] bg-[#FFC21A]/20 ring-2 ring-[#FFC21A]/30 text-white font-bold" : isFree ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:border-emerald-400 cursor-pointer" : s.state === "booked" ? "border-amber-500/30 bg-amber-500/10 text-amber-300 opacity-60" : "border-white/5 bg-white/[0.02] text-gray-500 opacity-40 cursor-not-allowed"}`}
+                              >
+                                <span className="text-[10px] block font-mono font-bold truncate">{s.code.replace("MKB-", "")}</span>
+                                <span className="text-[9px] block uppercase mt-1">{s.state}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <Button
+                        label={`Book Slot ${m1SelectedSlot} →`}
+                        fullWidth={true}
+                        onClick={() => {
+                          setM1Step(3);
+                          setM1Toast(`Slot ${m1SelectedSlot} confirmed!`);
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* STEP 3: DIGITAL GATE PASS WITH 'MARK VEHICLE AS PARKED' */}
+                  {m1Step === 3 && (
+                    <div className="space-y-6">
+                      <div className="p-5 rounded-3xl bg-[#0F1B2D] border border-white/15 text-center space-y-4 shadow-2xl">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold border border-white/10 bg-white/5">
+                          <span className={`w-2 h-2 rounded-full ${m1IsParked ? "bg-emerald-400" : "bg-amber-400"} animate-pulse`} />
+                          <span className={`uppercase tracking-wider ${m1IsParked ? "text-emerald-300" : "text-amber-300"}`}>
+                            Status: {m1IsParked ? "Parked (Occupied)" : "Active Reservation"}
+                          </span>
+                        </div>
+
+                        <h2 className="text-3xl font-black text-white tracking-tight">{m1SelectedSlot}</h2>
+                        <span className="text-xs text-gray-400 block">Makumbura Terminal · Zone F Bay</span>
+
+                        <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-left">
+                          <div>
+                            <span className="text-gray-500 block text-[10px] uppercase font-bold">Arrived</span>
+                            <span className="font-bold text-white text-sm">{m1Arrival}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500 block text-[10px] uppercase font-bold">Return By</span>
+                            <span className="font-bold text-white text-sm">{m1ReturnBy}</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2">
+                          <QRPanel
+                            qrToken={`PKR.PARK.MKB.${m1SelectedSlot}.HMAC_SHA256_VALID_2026`}
+                            slotCode={m1SelectedSlot}
+                            terminalName="Makumbura MMC"
+                            expiryText={`Valid until ${m1ReturnBy}`}
+                            verified={true}
+                          />
+                        </div>
+
+                        {/* Primary Action Button */}
+                        <div className="pt-3 space-y-3">
+                          {!m1IsParked ? (
+                            <button
+                              onClick={() => {
+                                setM1IsParked(true);
+                                setM1Toast("Vehicle successfully parked! Bay status: OCCUPIED");
+                              }}
+                              className="w-full py-4 px-6 rounded-2xl bg-[#FFC21A] text-[#0F1B2D] font-black text-base shadow-xl shadow-[#FFC21A]/20 hover:bg-[#e5ad16] active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                              <span>🚗</span>
+                              <span>Mark vehicle as parked</span>
+                            </button>
+                          ) : (
+                            <div className="space-y-2.5">
+                              <button
+                                onClick={() => setActiveTab("uikit")}
+                                className="w-full py-4 px-6 rounded-2xl bg-[#22D3EE] text-[#0F1B2D] font-black text-base shadow-xl shadow-[#22D3EE]/20 hover:bg-[#1bb8cf] active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                              >
+                                <span>🚌</span>
+                                <span>Proceed to Metro Bus Tracker →</span>
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setM1IsParked(false);
+                                  setM1Step(1);
+                                  setM1Toast("Slot released. Thank you for using Park & Ride!");
+                                }}
+                                className="w-full py-2.5 px-4 rounded-xl border border-white/20 bg-white/5 text-xs text-gray-300 font-bold hover:bg-white/10"
+                              >
+                                Release Slot & Check Out
+                              </button>
+                            </div>
+                          )}
+
+                          <p className="text-[11px] text-gray-400 leading-relaxed">
+                            {!m1IsParked
+                              ? "Show this HMAC QR pass at the entrance boom barrier scanner to open the gate."
+                              : "Vehicle registered as parked. Bay is locked to your session. Head to Bay 1 for bus boarding."}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* --- ORIGINAL 17 UI KIT COMPONENT SHOWCASE --- */
+                <div className="space-y-10">
 
                 {/* Section 1: Hero & 3D Tilt Landing Cards */}
                 <section className="space-y-4">
@@ -930,6 +1340,10 @@
             isVisible={isToastOpen}
             onClose={() => setIsToastOpen(false)}
           />
+                        </div>
+              )}
+            </div>
+          </main>
         </WallBackground3D>
       );
     }
