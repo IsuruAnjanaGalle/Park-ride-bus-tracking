@@ -4,38 +4,39 @@ Filters out passed stops and confirms seat allocation per segment.
 """
 
 def:pub SeatBookingModal(
-    bus: dict,
+    bus: dict[str, any],
     isOpen: bool = False,
     initialPickup: str = "",
     onClose: any = None,
     onConfirmBooking: any = None
 ) -> JsxElement {
-    has pickup: str = initialPickup;
-    has drop: str = "";
+    has pickupSel: str = initialPickup;
+    has dropSel: str = "";
     has isSubmitting: bool = False;
 
     if not isOpen {
         return <div className="hidden" />;
     }
 
-    bDict: dict = dict(bus);
+    bDict: dict[str, any] = dict(bus);
     bid = str(bDict.get("id", "MB-101"));
     plate = str(bDict.get("plate", "NB-4101"));
     routeName = str(bDict.get("route_name", "Metro Route"));
     seatsLeft = int(str(bDict.get("seats_left", "40")));
 
-    rawStops: list[dict] = [dict(s) for s in list(bDict.get("stops", []))];
+    rawStops: list[dict[str, any]] = [dict(s) for s in list(bDict.get("stops", []))];
 
     # Available stops (exclude already passed stops)
     activeStops = [s for s in rawStops if not bool(s.get("passed", False))];
 
-    # Auto-initialize pickup if empty
+    # Default pickup to the first stop not yet passed, drop to the last
+    pickup = pickupSel;
     if len(pickup) == 0 and len(activeStops) > 0 {
         firstStop = dict(activeStops[0]);
         pickup = str(firstStop.get("code", ""));
     }
 
-    # Auto-initialize drop to last stop if empty
+    drop = dropSel;
     if len(drop) == 0 and len(activeStops) > 1 {
         lastStop = dict(activeStops[-1]);
         drop = str(lastStop.get("code", ""));
@@ -94,7 +95,7 @@ def:pub SeatBookingModal(
                         </label>
                         <select
                             value={pickup}
-                            onChange={lambda (e: ChangeEvent) { pickup = str(e.target.value); }}
+                            onChange={lambda (e: ChangeEvent) { pickupSel = str(e.target.value); }}
                             className="w-full p-3.5 rounded-2xl bg-[#090F1B] border border-white/15 text-white font-bold text-sm focus:border-[#FFC21A] focus:outline-none"
                         >
                             {for s in activeStops {
@@ -114,7 +115,7 @@ def:pub SeatBookingModal(
                         </label>
                         <select
                             value={drop}
-                            onChange={lambda (e: ChangeEvent) { drop = str(e.target.value); }}
+                            onChange={lambda (e: ChangeEvent) { dropSel = str(e.target.value); }}
                             className="w-full p-3.5 rounded-2xl bg-[#090F1B] border border-white/15 text-white font-bold text-sm focus:border-[#FFC21A] focus:outline-none"
                         >
                             {for s in activeStops {

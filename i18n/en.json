@@ -40,7 +40,6 @@
   "scan.already_on_board": "Already on board, ignored",
   "scan.walk_in_needs_drop": "Where are you going?",
   "scan.rejected": "This QR was not accepted",
-  "trip.arrival_alert": "Your stop is 2 stops away",
   "trip.title": "Active journey",
   "trip.arrival_alert": "Your stop is 2 stops away",
   "trip.stops_remaining": "stops remaining",

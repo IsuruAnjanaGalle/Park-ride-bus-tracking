@@ -56,22 +56,6 @@ walker:pub recommend_slots {
             return;
         }
         report ok(recommend(term, self.vehicle, self.ev, self.accessible, stay_hours(self.arrival, self.return_by)));
-        hours = stay_hours(self.arrival, self.return_by);
-        zone = zone_for_stay(hours);
-        kind = "E" if self.vehicle == "C" and self.ev == "needs_charging" else self.vehicle;
-        free = [s for s in terminal_slots(term) if s.kind == kind and s.state == "free"];
-        free = sorted(free, key=lambda (s: Slot) { (0 if s.zone == zone else 1, s.nn); });
-        options: list[dict[str, any]] = [];
-        for (i, s) in enumerate(free[:3]) {
-            options.append({
-                "rank": i + 1,
-                "slot": slot_dict(s),
-                "zone": s.zone,
-                "score": 100 - 5 * s.nn,
-                "reason": f"Zone {s.zone}, slot {s.nn} from the exit."
-            });
-        }
-        report ok({"terminal": term.code, "zone": zone, "stay_hours": hours, "slot_type": kind, "options": options, "fallback": None});
     }
 }
 
@@ -113,21 +97,6 @@ walker:protect book_slot {
         } else {
             report ok({"booking": parking_booking_dict(pb, slot_by_code(world, pb.terminal, pb.slot_code))});
         }
-        matches = [s for s in terminal_slots(term) if s.code == self.slot_code];
-        if not matches {
-            report fail("NOT_FOUND", f"No slot {self.slot_code}.");
-            return;
-        }
-        (code, pb) = book(world, prof, term, self.slot_code, self.arrival, self.return_by);
-        if code == "NOT_FOUND" {
-            report fail(code, f"No slot {self.slot_code} at {term.code}.");
-        } elif code == "CONFLICT" {
-            report fail(code, f"Slot {self.slot_code} was just taken. Pick another option.");
-        } elif code == "ALREADY_BOOKED" {
-            report fail(code, f"You already have parking booking {pb.id} ({pb.slot_code}).");
-        } else {
-            report ok({"booking": parking_booking_dict(pb, slot_by_code(world, pb.terminal, pb.slot_code))});
-        }
     }
 }
 
@@ -152,12 +121,6 @@ walker:protect mark_parked {
             return;
         }
         slot = slot_by_code(world, pb.terminal, pb.slot_code);
-        term = find_terminal(world, "MKB");
-        slot = [s for s in terminal_slots(term) if s.code == "MKB-C-F-03"][0] if term else None;
-        pb = ParkingBooking(
-            id=self.booking_id, username="passenger", slot_code="MKB-C-F-03", terminal="MKB",
-            arrival="08:00", return_by="10:00", state="parked"
-        );
         report ok({"booking": parking_booking_dict(pb, slot), "slot": slot_dict(slot) if slot else None});
     }
 }
@@ -186,11 +149,6 @@ walker:protect release_slot {
         }
         if release(world, pb) {
             report fail("INVALID_INPUT", f"Booking {pb.id} is already {pb.state}.");
-            return;
-        }
-        slot = slot_by_code(world, pb.terminal, pb.slot_code);
-        if not self.booking_id and not self.qr {
-            report fail("INVALID_INPUT", "Give booking_id or qr.");
             return;
         }
         slot = slot_by_code(world, pb.terminal, pb.slot_code);
