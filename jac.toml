@@ -39,6 +39,10 @@ watchdog = ">=3.0.0"
 [serve]
 port = 8000
 
+[check]
+# Dev C's pre-0.37 screens wait in legacy/ until ported (docs/decisions.md D-15).
+exclude = ["legacy/*"]
+
 [test]
 directory = "tests"
 
