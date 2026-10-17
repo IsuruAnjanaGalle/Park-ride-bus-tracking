@@ -2,6 +2,11 @@
 
 The primary administrative interface for ParkRide dispatchers and operators.
 Optimized for 1440px+ projector displays in high-contrast Night Theme.
+Includes:
+- Milestone 1 Operations: Fleet list, NextStopPanel with 1m QR pass, Scan & Alert feeds
+- Milestone 2 Live Map: Shared CityMap placeholder with fleet pins & click-to-inspect
+- Milestone 3 Traffic & Driver: Speed controls, pause/resume, 5 traffic presets
+- Milestone 4 Demo Mode: Docked DemoCaptionBar with step narrative & controls
 """
 
 import from ..components.admin.LocalUI { LocalBadge, LocalButton, CityMapPlaceholder }
@@ -10,6 +15,7 @@ import from ..components.admin.BusRow { BusRow, BusInfo }
 import from ..components.admin.NextStopPanel { NextStopPanel, StopExchangeInfo }
 import from ..components.admin.ScanFeed { ScanFeed, ScanEvent }
 import from ..components.admin.AlertFeed { AlertFeed, AlertEvent }
+import from ..components.admin.DemoCaptionBar { DemoCaptionBar, DemoStepInfo }
 import from ..components.admin.SampleData {
     get_sample_fleet,
     get_sample_stop_exchange,
@@ -30,6 +36,47 @@ def render_fleet_row(
     );
 }
 
+def get_demo_steps -> list[DemoStepInfo] {
+    return [
+        DemoStepInfo(
+            step_index=1,
+            total_steps=6,
+            title="System Boot & Graph Topology Initialization",
+            proves="Object-Spatial graph loads 10 multimodal stops, 17 road links, parking bays, and active shuttle fleet."
+        ),
+        DemoStepInfo(
+            step_index=2,
+            total_steps=6,
+            title="Commuter Checks Parking & Allocates EV Bay",
+            proves="Smart allocation evaluates walking distance to terminal entrance, reserving optimal Bay EV-01 at Makumbura MMC."
+        ),
+        DemoStepInfo(
+            step_index=3,
+            total_steps=6,
+            title="Cryptographic QR Pass Minting (HMAC-SHA256)",
+            proves="Mints tamper-proof combo pass encoding booking ID, vehicle plate, terminal, and epoch expiration."
+        ),
+        DemoStepInfo(
+            step_index=4,
+            total_steps=6,
+            title="Automated Barrier Validation & Slot Transition",
+            proves="Sub-second cryptographic validation opens barrier gate and transitions bay status from RESERVED to OCCUPIED."
+        ),
+        DemoStepInfo(
+            step_index=5,
+            total_steps=6,
+            title="Expressway Shuttle Boarding & Real-Time Telemetry",
+            proves="Live bus telemetry updates GPS coordinates (68.5 km/h, 315° NW), passenger load, and dynamic arrival ETA."
+        ),
+        DemoStepInfo(
+            step_index=6,
+            total_steps=6,
+            title="Dynamic Congestion Rerouting (Dijkstra Optimization)",
+            proves="Arterial congestion factor re-weights edges, automatically routing commuters onto E02 Expressway shuttle saving 35m."
+        )
+    ];
+}
+
 def:pub AdminView -> JsxElement {
     has activeTab: str = "home",
         selectedBusId: str = "bus_ex1_01",
@@ -39,7 +86,10 @@ def:pub AdminView -> JsxElement {
         fleet: list[BusInfo] = get_sample_fleet(),
         stopInfo: StopExchangeInfo = get_sample_stop_exchange(),
         scans: list[ScanEvent] = get_sample_scans(),
-        alerts: list[AlertEvent] = get_sample_alerts();
+        alerts: list[AlertEvent] = get_sample_alerts(),
+        demoSteps: list[DemoStepInfo] = get_demo_steps(),
+        demoStepIdx: int = 0,
+        demoPlaying: bool = False;
 
     def select_tab(tab_name: str) {
         activeTab = tab_name;
@@ -64,6 +114,19 @@ def:pub AdminView -> JsxElement {
     def set_preset_jam { trafficPreset = "High Level Road jam"; }
     def set_preset_cutoff { trafficPreset = "Makumbura cut off"; }
 
+    def demo_play_pause {
+        demoPlaying = not demoPlaying;
+    }
+
+    def demo_next {
+        demoStepIdx = (demoStepIdx + 1) % len(demoSteps);
+    }
+
+    def demo_restart {
+        demoStepIdx = 0;
+        demoPlaying = False;
+    }
+
     # Find selected bus or default to first
     active_bus = fleet[0];
     for b in fleet {
@@ -73,6 +136,7 @@ def:pub AdminView -> JsxElement {
     }
 
     clock_status = "10:26:00 +05:30 (" + ("PAUSED" if simPaused else ("Sim " + simSpeed)) + ")";
+    current_demo_step = demoSteps[demoStepIdx];
 
     home_content = (
         <div style={{"display": "flex", "flexDirection": "column", "gap": "24px"}}>
@@ -329,6 +393,16 @@ def:pub AdminView -> JsxElement {
             simClock={clock_status}
             systemHealth="OPTIMAL"
         >
-            {home_content if activeTab == "home" else (account_content if activeTab == "bus_account" else demo_content)}
+            <div style={{"display": "flex", "flexDirection": "column", "gap": "16px"}}>
+                {home_content if activeTab == "home" else (account_content if activeTab == "bus_account" else demo_content)}
+
+                <DemoCaptionBar
+                    step={current_demo_step}
+                    isPlaying={demoPlaying}
+                    onPlayPause={demo_play_pause}
+                    onNext={demo_next}
+                    onRestart={demo_restart}
+                />
+            </div>
         </AdminShell>;
 }
