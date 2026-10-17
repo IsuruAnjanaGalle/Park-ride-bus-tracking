@@ -1,12 +1,10 @@
-"""Demo walkers (contracts.md 3.16, 3.21). Admin login required.
+"""Demo walkers (contracts.md 3.16, 3.20, 3.21). Admin login required.
 
-demo_control clock actions (status, speed, pause, resume) and reset_demo are real.
-run_demo removed (D-C01).
 demo_control, run_demo and reset_demo are real.
 """
 
 import from core.lib.envelope { ok, fail }
-import from core.lib.world { get_world, get_clock, reset_world }
+import from core.lib.world { get_world, get_clock, find_bus, reset_world }
 import from core.lib.clock { clock_dict, set_speed, set_paused }
 import from core.lib.profiles { admin_error }
 import from core.lib.rules { SPEEDS }
@@ -17,6 +15,10 @@ import from core.lib.sim { tick, jump_and_hold, depart_now }
 walker:protect demo_control {
     has action: str = "status",
         speed: float = 0.0,
+        bus_id: str = "",
+        stop: str = "",
+        count: int = 1,
+        drop: str = "",
         reports: list[dict[str, any]] = [];
 
     can run with Root entry {
@@ -44,8 +46,6 @@ walker:protect demo_control {
         } elif self.action == "resume" {
             set_paused(clock, False);
             message = "Clock running.";
-        } else {
-            report fail("INVALID_INPUT", "action must be status, speed, pause, or resume.");
         } elif self.action == "jump" {
             bus = find_bus(world, self.bus_id);
             if bus is None or not self.stop {
