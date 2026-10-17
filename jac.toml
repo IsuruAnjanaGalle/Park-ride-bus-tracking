@@ -1,0 +1,58 @@
+[project]
+name = "parkride"
+version = "0.1.0"
+description = "Park & Ride Sri Lanka - park, ride a live-tracked Metro bus, board and alight by QR"
+entry-point = "main"
+kind = "web-app"
+jac-version = "==0.37.25"
+
+[dependencies]
+
+[dependencies.npm]
+react = "19.3.1"
+react-dom = "19.3.1"
+react-router-dom = "6.30.1"
+react-error-boundary = "5.0.0"
+lucide-react = "1.58.0"
+"qrcode.react" = "4.2.0"
+html5-qrcode = "2.3.8"
+motion = "14.3.0"
+three = "0.186.1"
+"@react-three/fiber" = "9.8.2"
+"@react-three/drei" = "10.7.9"
+
+[dependencies.npm.dev]
+vite = "6.4.1"
+"@vitejs/plugin-react" = "4.7.0"
+typescript = "5.9.3"
+"@types/react" = "19.2.7"
+"@types/react-dom" = "19.2.3"
+"@types/three" = "0.186.0"
+tailwindcss = "4.3.3"
+"@tailwindcss/vite" = "4.3.3"
+
+[dev-dependencies]
+
+[dev-dependencies.pypi]
+watchdog = ">=3.0.0"
+
+[serve]
+port = 8000
+
+[test]
+directory = "tests"
+
+[dev]
+# Tests share the persisted shared world, so run them one at a time.
+test_jobs = "0"
+
+[client]
+
+[client.vite]
+plugins = ["tailwindcss()"]
+lib_imports = ["import tailwindcss from '@tailwindcss/vite'"]
+
+[client.app_meta_data]
+title = "Park & Ride Sri Lanka"
+description = "Park at a Metro terminal, ride a live-tracked bus, board and alight by QR."
+theme_color = "#0F1B2D"

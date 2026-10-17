@@ -1,0 +1,859 @@
+{
+  "source": "Traffic Rerouting Lab prototype (https://claude.ai/artifact/6tDaoFnCfCsBe2PDDEJBMA) — exported from its code, not retyped",
+  "units": {
+    "lat_lng": "WGS84 degrees",
+    "km": "road length = straight-line haversine x 1.25, rounded to 0.01"
+  },
+  "speed_kmh": {
+    "A": 30,
+    "B": 22,
+    "E": 60
+  },
+  "level_factor": {
+    "0_free": 1,
+    "1_slow": 0.55,
+    "2_jammed": 0.25,
+    "3_closed": 0
+  },
+  "crawl_kmh_on_closed_road": 5,
+  "switch_rule": {
+    "min_saving_minutes": 1,
+    "min_saving_ratio": 0.1
+  },
+  "recheck_every_sim_seconds": 15,
+  "dwell_seconds_at_stop": 30,
+  "roads_are": "two-way; create one Road edge per direction in Jac",
+  "junction_count": 34,
+  "road_count": 53,
+  "junctions": [
+    {
+      "code": "PET",
+      "name": "Pettah",
+      "lat": 6.9355,
+      "lng": 79.851,
+      "kind": "terminal"
+    },
+    {
+      "code": "KLP",
+      "name": "Kollupitiya",
+      "lat": 6.911,
+      "lng": 79.8495,
+      "kind": "junction"
+    },
+    {
+      "code": "TWH",
+      "name": "Town Hall",
+      "lat": 6.916,
+      "lng": 79.8625,
+      "kind": "stop"
+    },
+    {
+      "code": "MAR",
+      "name": "Maradana",
+      "lat": 6.9285,
+      "lng": 79.866,
+      "kind": "junction"
+    },
+    {
+      "code": "DEM",
+      "name": "Dematagoda",
+      "lat": 6.9375,
+      "lng": 79.88,
+      "kind": "junction"
+    },
+    {
+      "code": "BOR",
+      "name": "Borella",
+      "lat": 6.914,
+      "lng": 79.8775,
+      "kind": "stop"
+    },
+    {
+      "code": "KLW",
+      "name": "Kolonnawa",
+      "lat": 6.931,
+      "lng": 79.889,
+      "kind": "junction"
+    },
+    {
+      "code": "RAJ",
+      "name": "Rajagiriya",
+      "lat": 6.909,
+      "lng": 79.8935,
+      "kind": "junction"
+    },
+    {
+      "code": "NAR",
+      "name": "Narahenpita",
+      "lat": 6.893,
+      "lng": 79.8775,
+      "kind": "stop"
+    },
+    {
+      "code": "NAL",
+      "name": "Nawala",
+      "lat": 6.892,
+      "lng": 79.889,
+      "kind": "junction"
+    },
+    {
+      "code": "BAT",
+      "name": "Battaramulla",
+      "lat": 6.9,
+      "lng": 79.918,
+      "kind": "stop"
+    },
+    {
+      "code": "HAV",
+      "name": "Havelock",
+      "lat": 6.8825,
+      "lng": 79.865,
+      "kind": "stop"
+    },
+    {
+      "code": "KIR",
+      "name": "Kirulapone",
+      "lat": 6.8785,
+      "lng": 79.877,
+      "kind": "junction"
+    },
+    {
+      "code": "KOH",
+      "name": "Kohuwala",
+      "lat": 6.868,
+      "lng": 79.8845,
+      "kind": "stop"
+    },
+    {
+      "code": "NUG",
+      "name": "Nugegoda",
+      "lat": 6.865,
+      "lng": 79.8995,
+      "kind": "junction"
+    },
+    {
+      "code": "PEP",
+      "name": "Pepiliyana",
+      "lat": 6.854,
+      "lng": 79.8925,
+      "kind": "junction"
+    },
+    {
+      "code": "NAW",
+      "name": "Nawinna",
+      "lat": 6.8545,
+      "lng": 79.914,
+      "kind": "stop"
+    },
+    {
+      "code": "APK",
+      "name": "Apeksha Hospital",
+      "lat": 6.8475,
+      "lng": 79.9275,
+      "kind": "stop"
+    },
+    {
+      "code": "BRG",
+      "name": "Boralesgamuwa",
+      "lat": 6.84,
+      "lng": 79.901,
+      "kind": "stop"
+    },
+    {
+      "code": "WER",
+      "name": "Werahera",
+      "lat": 6.816,
+      "lng": 79.903,
+      "kind": "stop"
+    },
+    {
+      "code": "BOK",
+      "name": "Bokundara",
+      "lat": 6.818,
+      "lng": 79.918,
+      "kind": "junction"
+    },
+    {
+      "code": "PLD",
+      "name": "Piliyandala",
+      "lat": 6.8015,
+      "lng": 79.9225,
+      "kind": "stop"
+    },
+    {
+      "code": "KSB",
+      "name": "Kesbewa",
+      "lat": 6.796,
+      "lng": 79.9405,
+      "kind": "terminal"
+    },
+    {
+      "code": "THL",
+      "name": "Thalawathugoda",
+      "lat": 6.87,
+      "lng": 79.935,
+      "kind": "junction"
+    },
+    {
+      "code": "PAN",
+      "name": "Pannipitiya",
+      "lat": 6.847,
+      "lng": 79.948,
+      "kind": "junction"
+    },
+    {
+      "code": "KOT",
+      "name": "Kottawa",
+      "lat": 6.841,
+      "lng": 79.965,
+      "kind": "stop"
+    },
+    {
+      "code": "MKB",
+      "name": "Makumbura",
+      "lat": 6.838,
+      "lng": 79.979,
+      "kind": "terminal"
+    },
+    {
+      "code": "MAL",
+      "name": "Malabe",
+      "lat": 6.905,
+      "lng": 79.958,
+      "kind": "junction"
+    },
+    {
+      "code": "ATH",
+      "name": "Athurugiriya",
+      "lat": 6.8735,
+      "lng": 79.989,
+      "kind": "junction"
+    },
+    {
+      "code": "KDU",
+      "name": "Kaduwela",
+      "lat": 6.935,
+      "lng": 79.984,
+      "kind": "junction"
+    },
+    {
+      "code": "PEL",
+      "name": "Peliyagoda",
+      "lat": 6.963,
+      "lng": 79.88,
+      "kind": "junction"
+    },
+    {
+      "code": "KLN",
+      "name": "Kelaniya Campus",
+      "lat": 6.9735,
+      "lng": 79.916,
+      "kind": "stop"
+    },
+    {
+      "code": "KIB",
+      "name": "Kiribathgoda",
+      "lat": 6.979,
+      "lng": 79.929,
+      "kind": "junction"
+    },
+    {
+      "code": "KDW",
+      "name": "Kadawatha",
+      "lat": 7.001,
+      "lng": 79.952,
+      "kind": "terminal"
+    }
+  ],
+  "roads": [
+    {
+      "from": "PET",
+      "to": "KLP",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.41,
+      "free_minutes": 6.82
+    },
+    {
+      "from": "PET",
+      "to": "TWH",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.14,
+      "free_minutes": 6.28
+    },
+    {
+      "from": "PET",
+      "to": "MAR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.29,
+      "free_minutes": 4.58
+    },
+    {
+      "from": "PET",
+      "to": "PEL",
+      "cls": "A",
+      "class_name": "main",
+      "km": 5.53,
+      "free_minutes": 11.06
+    },
+    {
+      "from": "KLP",
+      "to": "TWH",
+      "cls": "B",
+      "class_name": "local",
+      "km": 1.92,
+      "free_minutes": 5.24
+    },
+    {
+      "from": "KLP",
+      "to": "HAV",
+      "cls": "A",
+      "class_name": "main",
+      "km": 4.5,
+      "free_minutes": 9
+    },
+    {
+      "from": "TWH",
+      "to": "MAR",
+      "cls": "B",
+      "class_name": "local",
+      "km": 1.8,
+      "free_minutes": 4.91
+    },
+    {
+      "from": "TWH",
+      "to": "BOR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.09,
+      "free_minutes": 4.18
+    },
+    {
+      "from": "TWH",
+      "to": "HAV",
+      "cls": "A",
+      "class_name": "main",
+      "km": 4.67,
+      "free_minutes": 9.34
+    },
+    {
+      "from": "MAR",
+      "to": "BOR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.57,
+      "free_minutes": 5.14
+    },
+    {
+      "from": "MAR",
+      "to": "DEM",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.3,
+      "free_minutes": 4.6
+    },
+    {
+      "from": "DEM",
+      "to": "BOR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.28,
+      "free_minutes": 6.56
+    },
+    {
+      "from": "DEM",
+      "to": "KLW",
+      "cls": "A",
+      "class_name": "main",
+      "km": 1.54,
+      "free_minutes": 3.08
+    },
+    {
+      "from": "DEM",
+      "to": "PEL",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.54,
+      "free_minutes": 7.08
+    },
+    {
+      "from": "BOR",
+      "to": "RAJ",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.31,
+      "free_minutes": 4.62
+    },
+    {
+      "from": "BOR",
+      "to": "NAR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.92,
+      "free_minutes": 5.84
+    },
+    {
+      "from": "KLW",
+      "to": "RAJ",
+      "cls": "B",
+      "class_name": "local",
+      "km": 3.12,
+      "free_minutes": 8.51
+    },
+    {
+      "from": "RAJ",
+      "to": "BAT",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.6,
+      "free_minutes": 7.2
+    },
+    {
+      "from": "RAJ",
+      "to": "NAL",
+      "cls": "B",
+      "class_name": "local",
+      "km": 2.44,
+      "free_minutes": 6.65
+    },
+    {
+      "from": "NAR",
+      "to": "NAL",
+      "cls": "B",
+      "class_name": "local",
+      "km": 1.59,
+      "free_minutes": 4.34
+    },
+    {
+      "from": "NAR",
+      "to": "KIR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.02,
+      "free_minutes": 4.04
+    },
+    {
+      "from": "NAL",
+      "to": "BAT",
+      "cls": "B",
+      "class_name": "local",
+      "km": 4.15,
+      "free_minutes": 11.32
+    },
+    {
+      "from": "NAL",
+      "to": "NUG",
+      "cls": "B",
+      "class_name": "local",
+      "km": 4.02,
+      "free_minutes": 10.96
+    },
+    {
+      "from": "HAV",
+      "to": "KIR",
+      "cls": "A",
+      "class_name": "main",
+      "km": 1.75,
+      "free_minutes": 3.5
+    },
+    {
+      "from": "KIR",
+      "to": "KOH",
+      "cls": "A",
+      "class_name": "main",
+      "km": 1.79,
+      "free_minutes": 3.58
+    },
+    {
+      "from": "KOH",
+      "to": "NUG",
+      "cls": "B",
+      "class_name": "local",
+      "km": 2.11,
+      "free_minutes": 5.75
+    },
+    {
+      "from": "KOH",
+      "to": "PEP",
+      "cls": "B",
+      "class_name": "local",
+      "km": 2.24,
+      "free_minutes": 6.11
+    },
+    {
+      "from": "NUG",
+      "to": "NAW",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.48,
+      "free_minutes": 4.96
+    },
+    {
+      "from": "NUG",
+      "to": "PEP",
+      "cls": "B",
+      "class_name": "local",
+      "km": 1.81,
+      "free_minutes": 4.94
+    },
+    {
+      "from": "NAW",
+      "to": "APK",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.1,
+      "free_minutes": 4.2
+    },
+    {
+      "from": "APK",
+      "to": "PAN",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.83,
+      "free_minutes": 5.66
+    },
+    {
+      "from": "APK",
+      "to": "THL",
+      "cls": "B",
+      "class_name": "local",
+      "km": 3.29,
+      "free_minutes": 8.97
+    },
+    {
+      "from": "PAN",
+      "to": "KOT",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.49,
+      "free_minutes": 4.98
+    },
+    {
+      "from": "PAN",
+      "to": "THL",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.67,
+      "free_minutes": 7.34
+    },
+    {
+      "from": "THL",
+      "to": "BAT",
+      "cls": "A",
+      "class_name": "main",
+      "km": 4.78,
+      "free_minutes": 9.56
+    },
+    {
+      "from": "BAT",
+      "to": "MAL",
+      "cls": "A",
+      "class_name": "main",
+      "km": 5.56,
+      "free_minutes": 11.12
+    },
+    {
+      "from": "MAL",
+      "to": "ATH",
+      "cls": "A",
+      "class_name": "main",
+      "km": 6.12,
+      "free_minutes": 12.24
+    },
+    {
+      "from": "MAL",
+      "to": "KDU",
+      "cls": "A",
+      "class_name": "main",
+      "km": 5.5,
+      "free_minutes": 11
+    },
+    {
+      "from": "ATH",
+      "to": "KOT",
+      "cls": "A",
+      "class_name": "main",
+      "km": 5.6,
+      "free_minutes": 11.2
+    },
+    {
+      "from": "ATH",
+      "to": "MKB",
+      "cls": "B",
+      "class_name": "local",
+      "km": 5.12,
+      "free_minutes": 13.96
+    },
+    {
+      "from": "KOT",
+      "to": "MKB",
+      "cls": "A",
+      "class_name": "main",
+      "km": 1.98,
+      "free_minutes": 3.96
+    },
+    {
+      "from": "PEP",
+      "to": "BRG",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.27,
+      "free_minutes": 4.54
+    },
+    {
+      "from": "BRG",
+      "to": "WER",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.35,
+      "free_minutes": 6.7
+    },
+    {
+      "from": "BRG",
+      "to": "BOK",
+      "cls": "B",
+      "class_name": "local",
+      "km": 3.85,
+      "free_minutes": 10.5
+    },
+    {
+      "from": "WER",
+      "to": "PLD",
+      "cls": "A",
+      "class_name": "main",
+      "km": 3.36,
+      "free_minutes": 6.72
+    },
+    {
+      "from": "WER",
+      "to": "BOK",
+      "cls": "B",
+      "class_name": "local",
+      "km": 2.09,
+      "free_minutes": 5.7
+    },
+    {
+      "from": "BOK",
+      "to": "PLD",
+      "cls": "B",
+      "class_name": "local",
+      "km": 2.38,
+      "free_minutes": 6.49
+    },
+    {
+      "from": "BOK",
+      "to": "KSB",
+      "cls": "B",
+      "class_name": "local",
+      "km": 4.36,
+      "free_minutes": 11.89
+    },
+    {
+      "from": "PLD",
+      "to": "KSB",
+      "cls": "A",
+      "class_name": "main",
+      "km": 2.6,
+      "free_minutes": 5.2
+    },
+    {
+      "from": "PEL",
+      "to": "KLN",
+      "cls": "A",
+      "class_name": "main",
+      "km": 5.18,
+      "free_minutes": 10.36
+    },
+    {
+      "from": "KLN",
+      "to": "KIB",
+      "cls": "A",
+      "class_name": "main",
+      "km": 1.95,
+      "free_minutes": 3.9
+    },
+    {
+      "from": "KIB",
+      "to": "KDW",
+      "cls": "A",
+      "class_name": "main",
+      "km": 4.41,
+      "free_minutes": 8.82
+    },
+    {
+      "from": "KDU",
+      "to": "KDW",
+      "cls": "E",
+      "class_name": "expressway",
+      "km": 10.18,
+      "free_minutes": 10.18
+    }
+  ],
+  "routes": [
+    {
+      "id": "R1",
+      "name": "Makumbura - Pettah",
+      "stops": [
+        "MKB",
+        "KOT",
+        "BAT",
+        "BOR",
+        "TWH",
+        "PET"
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "Makumbura - Kadawatha",
+      "stops": [
+        "MKB",
+        "APK",
+        "NAW",
+        "NAR",
+        "KLN",
+        "KDW"
+      ]
+    },
+    {
+      "id": "R3",
+      "name": "Kesbewa - Pettah",
+      "stops": [
+        "KSB",
+        "PLD",
+        "WER",
+        "BRG",
+        "KOH",
+        "HAV",
+        "PET"
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "id": "clear",
+      "name": "Clear roads",
+      "description": "Every road free-flowing",
+      "roads": []
+    },
+    {
+      "id": "rush",
+      "name": "Morning rush",
+      "description": "8 busy roads around Borella, Nugegoda and Kelaniya",
+      "roads": [
+        {
+          "from": "NUG",
+          "to": "NAW",
+          "level": 1,
+          "level_name": "slow"
+        },
+        {
+          "from": "NAW",
+          "to": "APK",
+          "level": 1,
+          "level_name": "slow"
+        },
+        {
+          "from": "MAR",
+          "to": "BOR",
+          "level": 1,
+          "level_name": "slow"
+        },
+        {
+          "from": "TWH",
+          "to": "BOR",
+          "level": 1,
+          "level_name": "slow"
+        },
+        {
+          "from": "PEL",
+          "to": "KLN",
+          "level": 1,
+          "level_name": "slow"
+        },
+        {
+          "from": "BOR",
+          "to": "NAR",
+          "level": 1,
+          "level_name": "slow"
+        },
+        {
+          "from": "DEM",
+          "to": "BOR",
+          "level": 2,
+          "level_name": "jammed"
+        },
+        {
+          "from": "KIR",
+          "to": "KOH",
+          "level": 2,
+          "level_name": "jammed"
+        }
+      ]
+    },
+    {
+      "id": "crash",
+      "name": "Crash near Rajagiriya",
+      "description": "Rajagiriya – Battaramulla closed. Watch MB-101.",
+      "roads": [
+        {
+          "from": "RAJ",
+          "to": "BAT",
+          "level": 3,
+          "level_name": "closed"
+        },
+        {
+          "from": "BOR",
+          "to": "RAJ",
+          "level": 1,
+          "level_name": "slow"
+        }
+      ]
+    },
+    {
+      "id": "hlr",
+      "name": "High Level Road jam",
+      "description": "Nugegoda to Maharagama jammed, and no faster road",
+      "roads": [
+        {
+          "from": "NUG",
+          "to": "NAW",
+          "level": 2,
+          "level_name": "jammed"
+        },
+        {
+          "from": "NAW",
+          "to": "APK",
+          "level": 2,
+          "level_name": "jammed"
+        },
+        {
+          "from": "APK",
+          "to": "PAN",
+          "level": 1,
+          "level_name": "slow"
+        }
+      ]
+    },
+    {
+      "id": "cut",
+      "name": "Makumbura cut off",
+      "description": "Both roads into Makumbura closed",
+      "roads": [
+        {
+          "from": "KOT",
+          "to": "MKB",
+          "level": 3,
+          "level_name": "closed"
+        },
+        {
+          "from": "ATH",
+          "to": "MKB",
+          "level": 3,
+          "level_name": "closed"
+        }
+      ]
+    }
+  ]
+}

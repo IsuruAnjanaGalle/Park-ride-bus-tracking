@@ -1,53 +1,32 @@
-name: ParkRide CI Pipeline
+name: CI
 
 on:
-  push:
-    branches: [main, master, develop]
   pull_request:
-    branches: [main, master]
+    branches: [main]
+  push:
+    branches: [main]
 
 jobs:
-  validate-and-test:
-    name: Jac Type Check & Test Suite
+  core:
+    name: jac check, jac test, jac share
     runs-on: ubuntu-latest
-
+    timeout-minutes: 40
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: 'pip'
-
-      - name: Install Jaclang & Dependencies
+      - name: Install jac 0.37.25
         run: |
-          python -m pip install --upgrade pip
-          pip install jaclang
+          curl -fsSL https://raw.githubusercontent.com/jaseci-labs/jaseci/main/scripts/install.sh | bash -s -- --version 0.37.25
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Verify Jac Version
-        run: |
-          jac --version
+      - name: Jac version
+        run: jac --version
 
-      - name: Type Check Core Graph Models & Walkers
-        working-directory: ./parkride
-        run: |
-          jac check core/models/nodes.jac
-          jac check core/models/edges.jac
-          jac check core/lib/clock.jac
-          jac check core/lib/qr_sign.jac
-          jac check core/lib/allocation.jac
-          jac check core/lib/forecast.jac
-          jac check core/lib/dijkstra.jac
+      - name: Jac share (>= 85%)
+        run: python3 scripts/jac_share.py
 
-      - name: Run Core Test Suite
-        working-directory: ./parkride
-        run: |
-          jac test tests/test_core.jac -v
+      - name: jac check (whole project)
+        run: jac check
 
-      - name: Test Python Helper Utility
-        working-directory: ./parkride
-        run: |
-          python scripts/jac_share.py data
-          python scripts/jac_share.py token --booking-id "ci_test_01"
+      - name: jac test
+        run: jac test
