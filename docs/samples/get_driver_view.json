@@ -1,0 +1,101 @@
+{
+  "data": {
+    "bus": {
+      "alert": false,
+      "capacity": 40,
+      "color": "blue",
+      "direction": "reverse",
+      "eta_min": 10.1,
+      "from_stop": {
+        "code": "BOR",
+        "name": "Borella"
+      },
+      "heading": 109.2,
+      "id": "MB-101",
+      "lat": 6.9119,
+      "lng": 79.883575,
+      "next_stop": {
+        "code": "BAT",
+        "name": "Battaramulla"
+      },
+      "on_board": 0,
+      "plate": "NB-4101",
+      "reroute_reason": "",
+      "rerouted": false,
+      "route": "R1",
+      "route_name": "Makumbura - Pettah",
+      "seats_left": 40,
+      "segment_seats": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "state": "moving",
+      "stops": [
+        {
+          "code": "PET",
+          "eta_min": null,
+          "name": "Pettah",
+          "passed": true
+        },
+        {
+          "code": "TWH",
+          "eta_min": null,
+          "name": "Town Hall",
+          "passed": true
+        },
+        {
+          "code": "BOR",
+          "eta_min": null,
+          "name": "Borella",
+          "passed": true
+        },
+        {
+          "code": "BAT",
+          "eta_min": 10.1,
+          "name": "Battaramulla",
+          "passed": false
+        },
+        {
+          "code": "KOT",
+          "eta_min": 31.0,
+          "name": "Kottawa",
+          "passed": false
+        },
+        {
+          "code": "MKB",
+          "eta_min": 34.9,
+          "name": "Makumbura",
+          "passed": false
+        }
+      ]
+    },
+    "eta_min": 10.1,
+    "instruction": {
+      "km": 1.0,
+      "text": "Continue toward Battaramulla",
+      "toward": "Battaramulla",
+      "turn": "straight"
+    },
+    "next_stop": {
+      "code": "BAT",
+      "name": "Battaramulla"
+    },
+    "path": [
+      "BOR",
+      "BAT"
+    ],
+    "reroute_reason": "",
+    "rerouted": false,
+    "road": {
+      "a": "BOR",
+      "b": "BAT",
+      "level": 0
+    },
+    "waiting_at_next": 0
+  },
+  "error": null,
+  "ok": true
+}

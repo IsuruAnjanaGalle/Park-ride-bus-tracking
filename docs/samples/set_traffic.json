@@ -1,0 +1,20 @@
+{
+  "data": {
+    "decisions": [],
+    "preset": "crash",
+    "roads": [
+      {
+        "a": "RAJ",
+        "b": "BAT",
+        "level": 3
+      },
+      {
+        "a": "BOR",
+        "b": "RAJ",
+        "level": 1
+      }
+    ]
+  },
+  "error": null,
+  "ok": true
+}

@@ -1,0 +1,23 @@
+{
+  "data": {
+    "booking": {
+      "bus_id": "MB-102",
+      "created_at": "08:02:12",
+      "drop": {
+        "code": "BOR",
+        "name": "Borella"
+      },
+      "id": "BK-0001",
+      "pickup": {
+        "code": "KOT",
+        "name": "Kottawa"
+      },
+      "route": "R1",
+      "state": "Pending",
+      "walk_in": false
+    },
+    "seats_left_on_segment": 39
+  },
+  "error": null,
+  "ok": true
+}
