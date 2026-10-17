@@ -118,7 +118,7 @@ test "8 walker end-to-end: set_traffic crash reroutes MB-101 in get_driver_view"
     rep2 = (root spawn get_driver_view(bus_id="MB-101")).reports;
     assert rep2[0]["ok"];
     assert rep2[0]["data"]["rerouted"];
-    assert "Rajagiriya" in rep2[0]["data"]["reroute_reason"];
-    assert "NAL" in rep2[0]["data"]["path"];
+    assert "Rajagiriya" in str(rep2[0]["data"]["reroute_reason"]);
+    assert "NAL" in list(rep2[0]["data"]["path"]);
 }
 

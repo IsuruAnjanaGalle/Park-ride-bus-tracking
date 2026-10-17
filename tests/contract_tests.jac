@@ -19,10 +19,11 @@ import from core.walkers.demo { demo_control, run_demo, reset_demo }
 """Check the envelope, optionally dump it, and return its data."""
 def expect_ok(name: str, rep: list[dict[str, any]], keys: list[str]) -> dict[str, any] {
     assert len(rep) == 1, f"{name}: expected one report, got {len(rep)}";
-    env = rep[0];
+    env: dict[str, any] = dict(rep[0]);
     assert env["ok"], f"{name}: {env['error']}";
+    data: dict[str, any] = dict(env.get("data", {}));
     for k in keys {
-        assert k in env["data"], f"{name}: missing {k}";
+        assert k in data, f"{name}: missing {k}";
     }
     if os.environ.get("DUMP_SAMPLES") == "1" {
         os.makedirs("docs/samples", exist_ok=True);
@@ -30,7 +31,7 @@ def expect_ok(name: str, rep: list[dict[str, any]], keys: list[str]) -> dict[str
             json.dump(env, fh, indent=2, sort_keys=True);
         }
     }
-    return env["data"];
+    return data;
 }
 
 test "every walker reports its contract shape" {
@@ -46,24 +47,27 @@ test "every walker reports its contract shape" {
         (root spawn recommend_slots(terminal="MKB", vehicle="C", ev="no", arrival="08:00", return_by="10:00")).reports,
         ["zone", "stay_hours", "slot_type", "options", "fallback"]
     );
-    slot_code = rec["options"][0]["slot"]["code"];
+    slot_code: str = str(rec["options"][0]["slot"]["code"]);
     pb = expect_ok(
         "book_slot",
         (root spawn book_slot(terminal="MKB", slot_code=slot_code, arrival="08:00", return_by="10:00")).reports,
         ["booking"]
     );
-    expect_ok("mark_parked", (root spawn mark_parked(booking_id=pb["booking"]["id"])).reports, ["booking", "slot"]);
-    expect_ok("release_slot", (root spawn release_slot(booking_id=pb["booking"]["id"])).reports, ["booking", "slot"]);
+    pb_id: str = str(pb["booking"]["id"]);
+    expect_ok("mark_parked", (root spawn mark_parked(booking_id=pb_id)).reports, ["booking", "slot"]);
+    expect_ok("release_slot", (root spawn release_slot(booking_id=pb_id)).reports, ["booking", "slot"]);
     expect_ok("get_map", (root spawn get_map()).reports, ["junctions", "roads", "routes", "bounds"]);
     buses = expect_ok("get_buses", (root spawn get_buses()).reports, ["clock", "buses"]);
-    assert len(buses["buses"]) == 9;
+    buses_list: list = list(buses["buses"]);
+    assert len(buses_list) == 9;
     expect_ok("book_seat", (root spawn book_seat(bus_id="MB-102", pickup="KOT", drop="BOR")).reports, ["booking", "seats_left_on_segment"]);
     expect_ok("get_trip", (root spawn get_trip()).reports, ["booking", "bus", "stops", "stops_remaining", "alert", "alert_message", "delay"]);
     expect_ok("admin_bus_list", (root spawn admin_bus_list()).reports, ["clock", "buses"]);
     expect_ok("admin_bus_account", (root spawn admin_bus_account(bus_id="MB-101")).reports, ["bus", "position", "path", "next_stop", "eta_min", "trips_today"]);
     expect_ok("demo_control", (root spawn demo_control(action="jump", bus_id="MB-101", stop="BAT")).reports, ["clock", "message"]);
     nxt = expect_ok("admin_next_stop", (root spawn admin_next_stop(bus_id="MB-101")).reports, ["bus_id", "stop", "eta_min", "qr", "getting_off", "bookings_to_board", "walk_ins", "seats_left_after"]);
-    expect_ok("process_scan", (root spawn process_scan(scan_id="scan-0001", qr=nxt["qr"])).reports, ["result", "message", "scan_id", "booking", "stop", "bus_id"]);
+    qr_code: str = str(nxt["qr"]);
+    expect_ok("process_scan", (root spawn process_scan(scan_id="scan-0001", qr=qr_code)).reports, ["result", "message", "scan_id", "booking", "stop", "bus_id"]);
     expect_ok("admin_feed", (root spawn admin_feed()).reports, ["scans", "alerts", "decisions"]);
     expect_ok("demo_control", (root spawn demo_control(action="status")).reports, ["clock", "message"]);
     expect_ok("set_traffic", (root spawn set_traffic(preset="crash")).reports, ["preset", "roads", "decisions"]);

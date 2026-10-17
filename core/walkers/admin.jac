@@ -122,6 +122,10 @@ walker:protect admin_next_stop {
     }
 }
 
+def _sort_at(x: dict[str, any]) -> str {
+    return str(x.get("at", ""));
+}
+
 walker:protect admin_feed {
     has limit: int = 50,
         reports: list[dict[str, any]] = [];
@@ -139,12 +143,10 @@ walker:protect admin_feed {
             scans.append(scan_dict(s, names));
         }
         alerts = [alert_dict(a) for a in [world -->[?:Alert]]];
-        scans = sorted(scans, key=lambda (x: dict[str, any]) { x["at"]; }, reverse=True)[:self.limit];
-        alerts = sorted(alerts, key=lambda (x: dict[str, any]) { x["at"]; }, reverse=True)[:self.limit];
-        decisions = sorted(
-            [{"at": d.at, "bus_id": d.bus_id, "decision": d.decision, "reason": d.reason} for d in [world -->[?:Decision]]],
-            key=lambda (x: dict[str, any]) { x["at"]; }, reverse=True
-        )[:self.limit];
+        dec_list = [{"at": d.at, "bus_id": d.bus_id, "decision": d.decision, "reason": d.reason} for d in [world -->[?:Decision]]];
+        scans = sorted(scans, key=_sort_at, reverse=True)[:self.limit];
+        alerts = sorted(alerts, key=_sort_at, reverse=True)[:self.limit];
+        decisions = sorted(dec_list, key=_sort_at, reverse=True)[:self.limit];
         report ok({"scans": scans, "alerts": alerts, "decisions": decisions});
     }
 }

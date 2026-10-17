@@ -62,7 +62,7 @@ def run_step(world: World, i: int) -> dict[str, any] {
     if i == 0 {
         term = must_terminal(world, "MKB");
         rec = recommend(term, "C", "no", False, 2.0);
-        code = rec["options"][0]["slot"]["code"];
+        code = str(rec["options"][0]["slot"]["code"]);
         (err, pb) = book(world, me, term, code, "08:00", "10:00");
         return {"zone": rec["zone"], "slot": code, "error": err, "booking": pb.id if pb else ""};
     }
@@ -102,7 +102,7 @@ def run_step(world: World, i: int) -> dict[str, any] {
         jump_and_hold(world, bus, "BAT");
         clear_roads(world);
         for r in [p for p in load_json("road-network.json")["presets"] if p["id"] == "crash"][0]["roads"] {
-            set_road_level(world, r["from"], r["to"], r["level"]);
+            set_road_level(world, str(r["from"]), str(r["to"]), int(r["level"]));
         }
         events = depart_now(world, bus);
         return {"events": events, "path": bus.path, "rerouted": bus.rerouted, "reason": bus.reroute_reason};

@@ -17,5 +17,5 @@ import "./styles/tokens.css";
 import "./styles/motion.css";
 
 def:pub app(children: any) -> JsxElement {
-    <>{children}</>
+    return <>{children}</>;
 }
