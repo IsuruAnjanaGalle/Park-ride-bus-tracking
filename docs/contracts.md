@@ -11,6 +11,7 @@ Screens never call walkers directly: they call the function with the same name i
 | Walker | Auth | Status | Milestone |
 | --- | --- | --- | --- |
 | get_profile | login | real | 0 |
+| verify_login | public | real | 0 |
 | get_terminals | public | real | 1 |
 | get_slots | public | real | 1 |
 | recommend_slots | public | real | 1 |
@@ -52,6 +53,7 @@ Every walker reports exactly one value:
 | `NOT_FOUND` | Unknown terminal, slot, bus, booking or preset |
 | `FORBIDDEN` | Admin walker called without the admin role, or a username claimed by another login |
 | `NO_PROFILE` | Logged in, but `get_profile` was never called for this login |
+| `BAD_LOGIN` | Username not in `docs/data/users.csv`, or the wrong password |
 | `CONFLICT` | The slot or seat was taken in the meantime (milestone 1+) |
 | `NO_SEAT` | No free seat on some segment between pickup and drop (milestone 2+) |
 | `PASSED_STOP` | Pickup is a stop the bus has already left (milestone 2+) |
@@ -85,10 +87,17 @@ Scan outcomes (duplicate, rejected, …) are **not** errors: `process_scan` retu
 Inputs are keyword arguments of the `api.jac` function (the walker's `has` fields). Defaults shown after `=`.
 
 ### 3.0 get_profile — login
-Binds the logged-in user to a username (first claim wins) and returns the role. `api.login()` calls it for you.
-- In: `username: str`
+Binds the logged-in user to a username from `docs/data/users.csv` and returns the role (D-29). `api.login()` calls it for you.
+- In: `username: str`, `password: str = ""`
+  - A login with no profile yet must send the right password; the right password also moves the profile to this login (e.g. after a password change). A login already bound to `username` may leave it empty. `role` always follows users.csv.
 - Out: `{username, role}` — `role` passenger or admin.
-- Errors: `INVALID_INPUT`, `FORBIDDEN` (the username belongs to another login).
+- Errors: `INVALID_INPUT`, `BAD_LOGIN` (unknown username or wrong password), `FORBIDDEN` (the username belongs to another login and no password was sent).
+
+### 3.0a verify_login — public
+Checks a username and password against `docs/data/users.csv` before `api.login()` signs in to the platform, so a typo never creates a platform account.
+- In: `username: str`, `password: str`
+- Out: `{username, role, account}` — `account` is the platform login name, `parkride-<username>-<tag>`; it changes whenever the password does.
+- Errors: `BAD_LOGIN`.
 
 ### 3.1 get_terminals — public
 - In: none

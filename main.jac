@@ -4,7 +4,7 @@ Server: the walker modules below are the API (POST /walker/<name>, see docs/cont
 Client: file-based routing from pages/ - / passenger, /admin, /driver/:busId, /dev/core.
 """
 
-import from core.walkers.profile { get_profile }
+import from core.walkers.profile { get_profile, verify_login }
 import from core.walkers.parking { get_terminals, get_slots, recommend_slots, book_slot, mark_parked, release_slot }
 import from core.walkers.buses { get_map, get_buses, book_seat, get_trip }
 import from core.walkers.scans { process_scan }

@@ -6,6 +6,7 @@ the caller. get_profile binds that root to a username once; later calls find it 
 
 import from core.models.nodes { World, Passenger }
 import from core.lib.envelope { fail }
+import from core.lib.accounts { find_account, check_password }
 
 """The id of the caller's own root (stable per login)."""
 def caller_root_id -> str {
@@ -38,6 +39,52 @@ def claim_profile(world: World, name: str) -> Passenger | None {
     fresh = Passenger(username=name, role="passenger", root_id=rid);
     world ++> fresh;
     return fresh;
+}
+
+"""Bind the caller to `name` even if another login holds it (the password was checked)."""
+def bind_profile(world: World, name: str) -> Passenger {
+    rid = caller_root_id();
+    for other in [world -->[?:Passenger, root_id == rid]] {
+        if other.username != name {
+            other.root_id = "";
+        }
+    }
+    named = [world -->[?:Passenger, username == name]];
+    if named {
+        prof = named[0];
+        prof.root_id = rid;
+        return prof;
+    }
+    fresh = Passenger(username=name, role="passenger", root_id=rid);
+    world ++> fresh;
+    return fresh;
+}
+
+"""get_profile's rule (docs/decisions.md D-29): `name` must be in users.csv. A login without a
+profile, or any call that sends a password, needs the right password; the right password also moves
+the profile to this login. The role always follows users.csv.
+Returns (error_code, profile); error_code is "" on success, else BAD_LOGIN or FORBIDDEN."""
+def login_profile(world: World, name: str, password: str) -> tuple[str, any] {
+    acct = find_account(name);
+    if acct is None {
+        return ("BAD_LOGIN", None);
+    }
+    prof: Passenger | None = None;
+    if password or caller_profile(world) is None {
+        if not check_password(password, acct.password_hash) {
+            return ("BAD_LOGIN", None);
+        }
+        prof = bind_profile(world, name);
+    } else {
+        prof = claim_profile(world, name);
+    }
+    if prof is None {
+        return ("FORBIDDEN", None);
+    }
+    if prof.role != acct.role {
+        prof.role = acct.role;
+    }
+    return ("", prof);
 }
 
 """None when the caller is an admin, else the FORBIDDEN envelope to report."""
