@@ -40,10 +40,10 @@ def:pub PassengerHome -> JsxPage {
     has selectedSlotCode: str = "MKB-E-F-01";
 
     # Backend data state
-    has terminals: list[dict] = [];
-    has terminalSlots: list[dict] = [];
-    has recommendation: dict = {};
-    has activeBooking: dict = {};
+    has terminals: list[dict[str, any]] = [];
+    has terminalSlots: list[dict[str, any]] = [];
+    has recommendation: dict[str, any] = {};
+    has activeBooking: dict[str, any] = {};
     has loading: bool = False;
     has toastMsg: str = "";
 
