@@ -1,0 +1,8207 @@
+{
+  "source": "SOW Appendix A + Traffic Rerouting Lab prototype. Generated deterministically (seed 20261017); do not hand-edit — regenerate.",
+  "slot_code": "TERMINAL-TYPE-ZONE-NN; types B foot cycle, M motorcycle, C car, E EV charging; zones F front (near exit), M middle, R rear; NN counted from the exit",
+  "notes": [
+    "Pettah terminal code is PTH; its map junction code is PET.",
+    "EV slots are counted inside the SOW car totals: C here = SOW car total minus EV slots.",
+    "EV slots are all in the front zone (chargers near the gate).",
+    "2 accessible car slots per terminal: C-F-01 and C-F-02, never pre-occupied.",
+    "Only Makumbura needs the full slot grid in the UI today; other terminals can show counts from this file."
+  ],
+  "terminals": [
+    {
+      "code": "MKB",
+      "name": "Makumbura",
+      "junction": "MKB",
+      "full_grid_in_ui": true,
+      "chargers": [
+        {
+          "n": 2,
+          "kw": 50,
+          "type": "DC"
+        },
+        {
+          "n": 6,
+          "kw": 22,
+          "type": "AC"
+        }
+      ]
+    },
+    {
+      "code": "KDW",
+      "name": "Kadawatha",
+      "junction": "KDW",
+      "full_grid_in_ui": false,
+      "chargers": [
+        {
+          "n": 6,
+          "kw": 22,
+          "type": "AC"
+        }
+      ]
+    },
+    {
+      "code": "KSB",
+      "name": "Kesbewa",
+      "junction": "KSB",
+      "full_grid_in_ui": false,
+      "chargers": [
+        {
+          "n": 4,
+          "kw": 7,
+          "type": "AC"
+        }
+      ]
+    },
+    {
+      "code": "PTH",
+      "name": "Pettah",
+      "junction": "PET",
+      "full_grid_in_ui": false,
+      "chargers": [
+        {
+          "n": 4,
+          "kw": 22,
+          "type": "AC"
+        }
+      ]
+    }
+  ],
+  "slot_summary": [
+    {
+      "terminal": "MKB",
+      "by_type": {
+        "B": {
+          "total": 40,
+          "zones": {
+            "F": 12,
+            "M": 16,
+            "R": 12
+          },
+          "occupied": 12,
+          "free": 28
+        },
+        "M": {
+          "total": 150,
+          "zones": {
+            "F": 45,
+            "M": 60,
+            "R": 45
+          },
+          "occupied": 96,
+          "free": 54
+        },
+        "C": {
+          "total": 112,
+          "zones": {
+            "F": 34,
+            "M": 44,
+            "R": 34
+          },
+          "occupied": 69,
+          "free": 43
+        },
+        "E": {
+          "total": 8,
+          "zones": {
+            "F": 8,
+            "M": 0,
+            "R": 0
+          },
+          "occupied": 5,
+          "free": 3
+        }
+      }
+    },
+    {
+      "terminal": "KDW",
+      "by_type": {
+        "B": {
+          "total": 40,
+          "zones": {
+            "F": 12,
+            "M": 16,
+            "R": 12
+          },
+          "occupied": 9,
+          "free": 31
+        },
+        "M": {
+          "total": 120,
+          "zones": {
+            "F": 36,
+            "M": 48,
+            "R": 36
+          },
+          "occupied": 70,
+          "free": 50
+        },
+        "C": {
+          "total": 84,
+          "zones": {
+            "F": 25,
+            "M": 34,
+            "R": 25
+          },
+          "occupied": 48,
+          "free": 36
+        },
+        "E": {
+          "total": 6,
+          "zones": {
+            "F": 6,
+            "M": 0,
+            "R": 0
+          },
+          "occupied": 3,
+          "free": 3
+        }
+      }
+    },
+    {
+      "terminal": "KSB",
+      "by_type": {
+        "B": {
+          "total": 30,
+          "zones": {
+            "F": 9,
+            "M": 12,
+            "R": 9
+          },
+          "occupied": 6,
+          "free": 24
+        },
+        "M": {
+          "total": 80,
+          "zones": {
+            "F": 24,
+            "M": 32,
+            "R": 24
+          },
+          "occupied": 41,
+          "free": 39
+        },
+        "C": {
+          "total": 56,
+          "zones": {
+            "F": 17,
+            "M": 22,
+            "R": 17
+          },
+          "occupied": 31,
+          "free": 25
+        },
+        "E": {
+          "total": 4,
+          "zones": {
+            "F": 4,
+            "M": 0,
+            "R": 0
+          },
+          "occupied": 2,
+          "free": 2
+        }
+      }
+    },
+    {
+      "terminal": "PTH",
+      "by_type": {
+        "B": {
+          "total": 20,
+          "zones": {
+            "F": 6,
+            "M": 8,
+            "R": 6
+          },
+          "occupied": 11,
+          "free": 9
+        },
+        "M": {
+          "total": 60,
+          "zones": {
+            "F": 18,
+            "M": 24,
+            "R": 18
+          },
+          "occupied": 52,
+          "free": 8
+        },
+        "C": {
+          "total": 36,
+          "zones": {
+            "F": 11,
+            "M": 14,
+            "R": 11
+          },
+          "occupied": 33,
+          "free": 3
+        },
+        "E": {
+          "total": 4,
+          "zones": {
+            "F": 4,
+            "M": 0,
+            "R": 0
+          },
+          "occupied": 4,
+          "free": 0
+        }
+      }
+    }
+  ],
+  "slots": [
+    {
+      "code": "MKB-B-F-01",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-02",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-03",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-04",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-05",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-06",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-07",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-08",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-09",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-10",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-11",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-F-12",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-01",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-02",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-03",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-04",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-05",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-06",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-07",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-08",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-09",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-10",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-11",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-12",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-13",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-14",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-15",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-M-16",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "M",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-01",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-02",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-03",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-04",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-05",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-06",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-07",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-08",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-09",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-10",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-11",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-B-R-12",
+      "terminal": "MKB",
+      "type": "B",
+      "zone": "R",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-01",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-02",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-03",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-04",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-05",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-06",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-07",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-08",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-09",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-10",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-11",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-12",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-13",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-14",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-15",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-16",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-17",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-18",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-19",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-20",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-21",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-22",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-23",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 23,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-24",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-25",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-26",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-27",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 27,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-28",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 28,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-29",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 29,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-30",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 30,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-31",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 31,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-32",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 32,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-33",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-34",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 34,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-35",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 35,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-36",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 36,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-37",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 37,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-38",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 38,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-39",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 39,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-40",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 40,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-41",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 41,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-42",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 42,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-43",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 43,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-44",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 44,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-F-45",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "F",
+      "nn": 45,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-01",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-02",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-03",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-04",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-05",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-06",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-07",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-08",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-09",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-10",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-11",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-12",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-13",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-14",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-15",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-16",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-17",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-18",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-19",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-20",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 20,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-21",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-22",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-23",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 23,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-24",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-25",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 25,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-26",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-27",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 27,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-28",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 28,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-29",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 29,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-30",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 30,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-31",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 31,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-32",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 32,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-33",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-34",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 34,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-35",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 35,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-36",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 36,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-37",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 37,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-38",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 38,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-39",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 39,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-40",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 40,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-41",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 41,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-42",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 42,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-43",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 43,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-44",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 44,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-45",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 45,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-46",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 46,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-47",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 47,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-48",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 48,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-49",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 49,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-50",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 50,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-51",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 51,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-52",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 52,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-53",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 53,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-54",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 54,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-55",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 55,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-56",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 56,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-57",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 57,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-58",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 58,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-59",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 59,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-M-60",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "M",
+      "nn": 60,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-01",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-02",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-03",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-04",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-05",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-06",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-07",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-08",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-09",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-10",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-11",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-12",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-13",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-14",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-15",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-16",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-17",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-18",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-19",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-20",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-21",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-22",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-23",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 23,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-24",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-25",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-26",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-27",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 27,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-28",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 28,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-29",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 29,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-30",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 30,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-31",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 31,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-32",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 32,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-33",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-34",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 34,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-35",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 35,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-36",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 36,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-37",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 37,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-38",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 38,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-39",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 39,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-40",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 40,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-41",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 41,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-42",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 42,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-43",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 43,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-44",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 44,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-M-R-45",
+      "terminal": "MKB",
+      "type": "M",
+      "zone": "R",
+      "nn": 45,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-01",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "MKB-C-F-02",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "MKB-C-F-03",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-04",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-05",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-06",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-07",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-08",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-09",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-10",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-11",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-12",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-13",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-14",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-15",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-16",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-17",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-18",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-19",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-20",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-21",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-22",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-23",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-24",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-25",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-26",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-27",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 27,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-28",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 28,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-29",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 29,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-30",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 30,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-31",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 31,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-32",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 32,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-33",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-F-34",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F",
+      "nn": 34,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-01",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-02",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-03",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-04",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-05",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-06",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-07",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-08",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-09",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-10",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-11",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-12",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-13",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-14",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-15",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-16",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-17",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-18",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-19",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 19,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-20",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-21",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-22",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-23",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-24",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-25",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-26",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-27",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 27,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-28",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 28,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-29",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 29,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-30",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 30,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-31",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 31,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-32",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 32,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-33",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-34",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 34,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-35",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 35,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-36",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 36,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-37",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 37,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-38",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 38,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-39",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 39,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-40",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 40,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-41",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 41,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-42",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 42,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-43",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 43,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-M-44",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "M",
+      "nn": 44,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-01",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-02",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-03",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-04",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-05",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-06",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-07",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-08",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-09",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-10",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-11",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-12",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-13",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-14",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-15",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-16",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-17",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-18",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-19",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-20",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-21",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-22",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-23",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 23,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-24",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-25",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-26",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-27",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 27,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-28",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 28,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-29",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 29,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-30",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 30,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-31",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 31,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-32",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 32,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-33",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-C-R-34",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "R",
+      "nn": 34,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "MKB-E-F-01",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 50,
+      "charger_type": "DC"
+    },
+    {
+      "code": "MKB-E-F-02",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 50,
+      "charger_type": "DC"
+    },
+    {
+      "code": "MKB-E-F-03",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 3,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "MKB-E-F-04",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "MKB-E-F-05",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "MKB-E-F-06",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "MKB-E-F-07",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "MKB-E-F-08",
+      "terminal": "MKB",
+      "type": "E",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KDW-B-F-01",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-02",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-03",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-04",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-05",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-06",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-07",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-08",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-09",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-10",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-11",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-F-12",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "F",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-01",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-02",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-03",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-04",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-05",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-06",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-07",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-08",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-09",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-10",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-11",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-12",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-13",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-14",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-15",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-M-16",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "M",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-01",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-02",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-03",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-04",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-05",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-06",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-07",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-08",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-09",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-10",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-11",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-B-R-12",
+      "terminal": "KDW",
+      "type": "B",
+      "zone": "R",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-01",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-02",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-03",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-04",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-05",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-06",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-07",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-08",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-09",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-10",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-11",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-12",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-13",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-14",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-15",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-16",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-17",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-18",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-19",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-20",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-21",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-22",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-23",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-24",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-25",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-26",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-27",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 27,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-28",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 28,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-29",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 29,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-30",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 30,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-31",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 31,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-32",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 32,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-33",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-34",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 34,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-35",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 35,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-F-36",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "F",
+      "nn": 36,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-01",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-02",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-03",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-04",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-05",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-06",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-07",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-08",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-09",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-10",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-11",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-12",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-13",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-14",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-15",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-16",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-17",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-18",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-19",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-20",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-21",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-22",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-23",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-24",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-25",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-26",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-27",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 27,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-28",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 28,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-29",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 29,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-30",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 30,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-31",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 31,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-32",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 32,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-33",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 33,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-34",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 34,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-35",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 35,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-36",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 36,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-37",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 37,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-38",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 38,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-39",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 39,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-40",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 40,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-41",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 41,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-42",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 42,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-43",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 43,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-44",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 44,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-45",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 45,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-46",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 46,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-47",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 47,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-M-48",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "M",
+      "nn": 48,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-01",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-02",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-03",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-04",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-05",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-06",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-07",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-08",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-09",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-10",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-11",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-12",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-13",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-14",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-15",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-16",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-17",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-18",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-19",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-20",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-21",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-22",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-23",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-24",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-25",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-26",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 26,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-27",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 27,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-28",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 28,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-29",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 29,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-30",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 30,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-31",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 31,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-32",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 32,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-33",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 33,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-34",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 34,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-35",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 35,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-M-R-36",
+      "terminal": "KDW",
+      "type": "M",
+      "zone": "R",
+      "nn": 36,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-01",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "KDW-C-F-02",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "KDW-C-F-03",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-04",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-05",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-06",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-07",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-08",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-09",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-10",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-11",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-12",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-13",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-14",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-15",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-16",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-17",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-18",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-19",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-20",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-21",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-22",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-23",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 23,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-24",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-F-25",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "F",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-01",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-02",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-03",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-04",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-05",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-06",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-07",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-08",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-09",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-10",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-11",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-12",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-13",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-14",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-15",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-16",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-17",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-18",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-19",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 19,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-20",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 20,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-21",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-22",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-23",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-24",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-25",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-26",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-27",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 27,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-28",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 28,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-29",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 29,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-30",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 30,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-31",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 31,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-32",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 32,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-33",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 33,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-M-34",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "M",
+      "nn": 34,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-01",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-02",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-03",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-04",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-05",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-06",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-07",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-08",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-09",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-10",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-11",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-12",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-13",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-14",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-15",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-16",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-17",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-18",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-19",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 19,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-20",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 20,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-21",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-22",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-23",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-24",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KDW-C-R-25",
+      "terminal": "KDW",
+      "type": "C",
+      "zone": "R",
+      "nn": 25,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KDW-E-F-01",
+      "terminal": "KDW",
+      "type": "E",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KDW-E-F-02",
+      "terminal": "KDW",
+      "type": "E",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KDW-E-F-03",
+      "terminal": "KDW",
+      "type": "E",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KDW-E-F-04",
+      "terminal": "KDW",
+      "type": "E",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KDW-E-F-05",
+      "terminal": "KDW",
+      "type": "E",
+      "zone": "F",
+      "nn": 5,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KDW-E-F-06",
+      "terminal": "KDW",
+      "type": "E",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KSB-B-F-01",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-02",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-03",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-04",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-05",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-06",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-07",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-08",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-F-09",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "F",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-01",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-02",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-03",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-04",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-05",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-06",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-07",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-08",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-09",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-10",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-11",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-M-12",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "M",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-01",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-02",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-03",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-04",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-05",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-06",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-07",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-08",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-B-R-09",
+      "terminal": "KSB",
+      "type": "B",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-01",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-02",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-03",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-04",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-05",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-06",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-07",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-08",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-09",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-10",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-11",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-12",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-13",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-14",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-15",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-16",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-17",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-18",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-19",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-20",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-21",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-22",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-23",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 23,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-F-24",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "F",
+      "nn": 24,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-01",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-02",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-03",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-04",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-05",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-06",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-07",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-08",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-09",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-10",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-11",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-12",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-13",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-14",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-15",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-16",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-17",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-18",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-19",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-20",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-21",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-22",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-23",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-24",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-25",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 25,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-26",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 26,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-27",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 27,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-28",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 28,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-29",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 29,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-30",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 30,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-31",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 31,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-M-32",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "M",
+      "nn": 32,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-01",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-02",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-03",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-04",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-05",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-06",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-07",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-08",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-09",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-10",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-11",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-12",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-13",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-14",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-15",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-16",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-17",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-18",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-19",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 19,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-20",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-21",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-22",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-23",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-M-R-24",
+      "terminal": "KSB",
+      "type": "M",
+      "zone": "R",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-01",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "KSB-C-F-02",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "KSB-C-F-03",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-04",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-05",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-06",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-07",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-08",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 8,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-09",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-10",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-11",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-12",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-13",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-14",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-15",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-16",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-F-17",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "F",
+      "nn": 17,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-01",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-02",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-03",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-04",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-05",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-06",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-07",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-08",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-09",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-10",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-11",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-12",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-13",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-14",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-15",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-16",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-17",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-18",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-19",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-20",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 20,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-21",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 21,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-M-22",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "M",
+      "nn": 22,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-01",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-02",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 2,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-03",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-04",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-05",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-06",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-07",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-08",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-09",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-10",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-11",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-12",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 12,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-13",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-14",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-15",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 15,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-16",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-C-R-17",
+      "terminal": "KSB",
+      "type": "C",
+      "zone": "R",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "KSB-E-F-01",
+      "terminal": "KSB",
+      "type": "E",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 7,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KSB-E-F-02",
+      "terminal": "KSB",
+      "type": "E",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 7,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KSB-E-F-03",
+      "terminal": "KSB",
+      "type": "E",
+      "zone": "F",
+      "nn": 3,
+      "state": "free",
+      "accessible": false,
+      "charger_kw": 7,
+      "charger_type": "AC"
+    },
+    {
+      "code": "KSB-E-F-04",
+      "terminal": "KSB",
+      "type": "E",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 7,
+      "charger_type": "AC"
+    },
+    {
+      "code": "PTH-B-F-01",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "F",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-F-02",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-F-03",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "F",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-F-04",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "F",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-F-05",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "F",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-F-06",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "F",
+      "nn": 6,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-01",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-02",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-03",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-04",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 4,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-05",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-06",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-07",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-M-08",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-R-01",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "R",
+      "nn": 1,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-R-02",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "R",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-R-03",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "R",
+      "nn": 3,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-R-04",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-R-05",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-B-R-06",
+      "terminal": "PTH",
+      "type": "B",
+      "zone": "R",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-01",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-02",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-03",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-04",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-05",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-06",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-07",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-08",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-09",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-10",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 10,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-11",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 11,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-12",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-13",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-14",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-15",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-16",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 16,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-17",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-F-18",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "F",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-01",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-02",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-03",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-04",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-05",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-06",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-07",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 7,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-08",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-09",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-10",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-11",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-12",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-13",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-14",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-15",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-16",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-17",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-18",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 18,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-19",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 19,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-20",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 20,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-21",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 21,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-22",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 22,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-23",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 23,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-M-24",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "M",
+      "nn": 24,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-01",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-02",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-03",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-04",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-05",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-06",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-07",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-08",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-09",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 9,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-10",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-11",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-12",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-13",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 13,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-14",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 14,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-15",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 15,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-16",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 16,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-17",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 17,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-M-R-18",
+      "terminal": "PTH",
+      "type": "M",
+      "zone": "R",
+      "nn": 18,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-01",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 1,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "PTH-C-F-02",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 2,
+      "state": "free",
+      "accessible": true
+    },
+    {
+      "code": "PTH-C-F-03",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-04",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-05",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-06",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-07",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-08",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-09",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-10",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-F-11",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "F",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-01",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-02",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-03",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-04",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-05",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 5,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-06",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-07",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-08",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-09",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-10",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-11",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-12",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 12,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-13",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 13,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-M-14",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "M",
+      "nn": 14,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-01",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-02",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-03",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-04",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-05",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 5,
+      "state": "free",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-06",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 6,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-07",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 7,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-08",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 8,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-09",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 9,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-10",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 10,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-C-R-11",
+      "terminal": "PTH",
+      "type": "C",
+      "zone": "R",
+      "nn": 11,
+      "state": "occupied",
+      "accessible": false
+    },
+    {
+      "code": "PTH-E-F-01",
+      "terminal": "PTH",
+      "type": "E",
+      "zone": "F",
+      "nn": 1,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "PTH-E-F-02",
+      "terminal": "PTH",
+      "type": "E",
+      "zone": "F",
+      "nn": 2,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "PTH-E-F-03",
+      "terminal": "PTH",
+      "type": "E",
+      "zone": "F",
+      "nn": 3,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    },
+    {
+      "code": "PTH-E-F-04",
+      "terminal": "PTH",
+      "type": "E",
+      "zone": "F",
+      "nn": 4,
+      "state": "occupied",
+      "accessible": false,
+      "charger_kw": 22,
+      "charger_type": "AC"
+    }
+  ],
+  "routes": [
+    {
+      "id": "R1",
+      "name": "Makumbura - Pettah",
+      "color": "blue",
+      "stops": [
+        {
+          "code": "MKB",
+          "name": "Makumbura"
+        },
+        {
+          "code": "KOT",
+          "name": "Kottawa"
+        },
+        {
+          "code": "BAT",
+          "name": "Battaramulla"
+        },
+        {
+          "code": "BOR",
+          "name": "Borella"
+        },
+        {
+          "code": "TWH",
+          "name": "Town Hall"
+        },
+        {
+          "code": "PET",
+          "name": "Pettah"
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "Makumbura - Kadawatha",
+      "color": "violet",
+      "stops": [
+        {
+          "code": "MKB",
+          "name": "Makumbura"
+        },
+        {
+          "code": "APK",
+          "name": "Apeksha Hospital"
+        },
+        {
+          "code": "NAW",
+          "name": "Nawinna"
+        },
+        {
+          "code": "NAR",
+          "name": "Narahenpita"
+        },
+        {
+          "code": "KLN",
+          "name": "Kelaniya Campus"
+        },
+        {
+          "code": "KDW",
+          "name": "Kadawatha"
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "name": "Kesbewa - Pettah",
+      "color": "teal",
+      "stops": [
+        {
+          "code": "KSB",
+          "name": "Kesbewa"
+        },
+        {
+          "code": "PLD",
+          "name": "Piliyandala"
+        },
+        {
+          "code": "WER",
+          "name": "Werahera"
+        },
+        {
+          "code": "BRG",
+          "name": "Boralesgamuwa"
+        },
+        {
+          "code": "KOH",
+          "name": "Kohuwala"
+        },
+        {
+          "code": "HAV",
+          "name": "Havelock"
+        },
+        {
+          "code": "PET",
+          "name": "Pettah"
+        }
+      ]
+    }
+  ],
+  "buses": [
+    {
+      "id": "MB-101",
+      "route": "R1",
+      "plate": "NB-4101",
+      "driver": "Sunil Perera",
+      "capacity": 40,
+      "conductor": "Kasun Fernando",
+      "route_name": "Makumbura - Pettah",
+      "start": {
+        "direction": "reverse",
+        "from_stop": "BOR",
+        "next_stop": "BAT",
+        "progress_on_first_road": 0.15
+      }
+    },
+    {
+      "id": "MB-102",
+      "route": "R1",
+      "plate": "NB-4102",
+      "driver": "Nimal Jayasinghe",
+      "capacity": 40,
+      "conductor": "Tharindu Silva",
+      "route_name": "Makumbura - Pettah",
+      "start": {
+        "direction": "forward",
+        "from_stop": "MKB",
+        "next_stop": "KOT",
+        "progress_on_first_road": 0.02
+      }
+    },
+    {
+      "id": "MB-103",
+      "route": "R1",
+      "plate": "NB-4103",
+      "driver": "Ruwan Dissanayake",
+      "capacity": 40,
+      "conductor": "Chamara Bandara",
+      "route_name": "Makumbura - Pettah",
+      "start": {
+        "direction": "forward",
+        "from_stop": "KOT",
+        "next_stop": "BAT",
+        "progress_on_first_road": 0.4
+      }
+    },
+    {
+      "id": "MB-201",
+      "route": "R2",
+      "plate": "NB-4201",
+      "driver": "Mahesh Wickramasinghe",
+      "capacity": 40,
+      "conductor": "Dilshan Rathnayake",
+      "route_name": "Makumbura - Kadawatha",
+      "start": {
+        "direction": "forward",
+        "from_stop": "NAR",
+        "next_stop": "KLN",
+        "progress_on_first_road": 0.3
+      }
+    },
+    {
+      "id": "MB-202",
+      "route": "R2",
+      "plate": "NB-4202",
+      "driver": "Ajith Kumara",
+      "capacity": 40,
+      "conductor": "Nuwan Herath",
+      "route_name": "Makumbura - Kadawatha",
+      "start": {
+        "direction": "reverse",
+        "from_stop": "NAW",
+        "next_stop": "APK",
+        "progress_on_first_road": 0.5
+      }
+    },
+    {
+      "id": "MB-203",
+      "route": "R2",
+      "plate": "NB-4203",
+      "driver": "Prasanna Gunawardena",
+      "capacity": 40,
+      "conductor": "Isuru Karunaratne",
+      "route_name": "Makumbura - Kadawatha",
+      "start": {
+        "direction": "forward",
+        "from_stop": "KLN",
+        "next_stop": "KDW",
+        "progress_on_first_road": 0.6
+      }
+    },
+    {
+      "id": "MB-301",
+      "route": "R3",
+      "plate": "NB-4301",
+      "driver": "Lalith Senanayake",
+      "capacity": 40,
+      "conductor": "Sahan Weerasinghe",
+      "route_name": "Kesbewa - Pettah",
+      "start": {
+        "direction": "forward",
+        "from_stop": "BRG",
+        "next_stop": "KOH",
+        "progress_on_first_road": 0.4
+      }
+    },
+    {
+      "id": "MB-302",
+      "route": "R3",
+      "plate": "NB-4302",
+      "driver": "Upul Rajapaksha",
+      "capacity": 40,
+      "conductor": "Janith Abeysekara",
+      "route_name": "Kesbewa - Pettah",
+      "start": {
+        "direction": "forward",
+        "from_stop": "KOH",
+        "next_stop": "HAV",
+        "progress_on_first_road": 0.6
+      }
+    },
+    {
+      "id": "MB-303",
+      "route": "R3",
+      "plate": "NB-4303",
+      "driver": "Chaminda Samarasinghe",
+      "capacity": 40,
+      "conductor": "Hasitha Mendis",
+      "route_name": "Kesbewa - Pettah",
+      "start": {
+        "direction": "reverse",
+        "from_stop": "BRG",
+        "next_stop": "WER",
+        "progress_on_first_road": 0.3
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "passenger",
+      "role": "passenger",
+      "password": "demo-passenger",
+      "note": "demo only"
+    },
+    {
+      "username": "admin",
+      "role": "admin",
+      "password": "demo-admin",
+      "note": "demo only"
+    }
+  ],
+  "demo_clock": {
+    "start": "08:00:00",
+    "speed": 30,
+    "speeds_allowed": [
+      1,
+      10,
+      30
+    ]
+  }
+}

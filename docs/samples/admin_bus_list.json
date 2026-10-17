@@ -1,0 +1,683 @@
+{
+  "data": {
+    "buses": [
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "blue",
+        "direction": "reverse",
+        "eta_min": 10.1,
+        "from_stop": {
+          "code": "BOR",
+          "name": "Borella"
+        },
+        "heading": 109.2,
+        "id": "MB-101",
+        "lat": 6.9119,
+        "lng": 79.883575,
+        "next_stop": {
+          "code": "BAT",
+          "name": "Battaramulla"
+        },
+        "on_board": 0,
+        "plate": "NB-4101",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R1",
+        "route_name": "Makumbura - Pettah",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "PET",
+            "eta_min": null,
+            "name": "Pettah",
+            "passed": true
+          },
+          {
+            "code": "TWH",
+            "eta_min": null,
+            "name": "Town Hall",
+            "passed": true
+          },
+          {
+            "code": "BOR",
+            "eta_min": null,
+            "name": "Borella",
+            "passed": true
+          },
+          {
+            "code": "BAT",
+            "eta_min": 10.1,
+            "name": "Battaramulla",
+            "passed": false
+          },
+          {
+            "code": "KOT",
+            "eta_min": 31.0,
+            "name": "Kottawa",
+            "passed": false
+          },
+          {
+            "code": "MKB",
+            "eta_min": 34.9,
+            "name": "Makumbura",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "blue",
+        "direction": "forward",
+        "eta_min": 3.9,
+        "from_stop": {
+          "code": "MKB",
+          "name": "Makumbura"
+        },
+        "heading": 282.2,
+        "id": "MB-102",
+        "lat": 6.83806,
+        "lng": 79.97872,
+        "next_stop": {
+          "code": "KOT",
+          "name": "Kottawa"
+        },
+        "on_board": 0,
+        "plate": "NB-4102",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R1",
+        "route_name": "Makumbura - Pettah",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "MKB",
+            "eta_min": null,
+            "name": "Makumbura",
+            "passed": true
+          },
+          {
+            "code": "KOT",
+            "eta_min": 3.9,
+            "name": "Kottawa",
+            "passed": false
+          },
+          {
+            "code": "BAT",
+            "eta_min": 24.8,
+            "name": "Battaramulla",
+            "passed": false
+          },
+          {
+            "code": "BOR",
+            "eta_min": 36.6,
+            "name": "Borella",
+            "passed": false
+          },
+          {
+            "code": "TWH",
+            "eta_min": 40.8,
+            "name": "Town Hall",
+            "passed": false
+          },
+          {
+            "code": "PET",
+            "eta_min": 47.1,
+            "name": "Pettah",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "blue",
+        "direction": "forward",
+        "eta_min": 12.5,
+        "from_stop": {
+          "code": "KOT",
+          "name": "Kottawa"
+        },
+        "heading": 321.7,
+        "id": "MB-103",
+        "lat": 6.8646,
+        "lng": 79.9462,
+        "next_stop": {
+          "code": "BAT",
+          "name": "Battaramulla"
+        },
+        "on_board": 0,
+        "plate": "NB-4103",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R1",
+        "route_name": "Makumbura - Pettah",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "MKB",
+            "eta_min": null,
+            "name": "Makumbura",
+            "passed": true
+          },
+          {
+            "code": "KOT",
+            "eta_min": null,
+            "name": "Kottawa",
+            "passed": true
+          },
+          {
+            "code": "BAT",
+            "eta_min": 12.5,
+            "name": "Battaramulla",
+            "passed": false
+          },
+          {
+            "code": "BOR",
+            "eta_min": 24.4,
+            "name": "Borella",
+            "passed": false
+          },
+          {
+            "code": "TWH",
+            "eta_min": 28.6,
+            "name": "Town Hall",
+            "passed": false
+          },
+          {
+            "code": "PET",
+            "eta_min": 34.8,
+            "name": "Pettah",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "violet",
+        "direction": "forward",
+        "eta_min": 17.3,
+        "from_stop": {
+          "code": "NAR",
+          "name": "Narahenpita"
+        },
+        "heading": 25.4,
+        "id": "MB-201",
+        "lat": 6.91715,
+        "lng": 79.88905,
+        "next_stop": {
+          "code": "KLN",
+          "name": "Kelaniya Campus"
+        },
+        "on_board": 0,
+        "plate": "NB-4201",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R2",
+        "route_name": "Makumbura - Kadawatha",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "MKB",
+            "eta_min": null,
+            "name": "Makumbura",
+            "passed": true
+          },
+          {
+            "code": "APK",
+            "eta_min": null,
+            "name": "Apeksha Hospital",
+            "passed": true
+          },
+          {
+            "code": "NAW",
+            "eta_min": null,
+            "name": "Nawinna",
+            "passed": true
+          },
+          {
+            "code": "NAR",
+            "eta_min": null,
+            "name": "Narahenpita",
+            "passed": true
+          },
+          {
+            "code": "KLN",
+            "eta_min": 17.3,
+            "name": "Kelaniya Campus",
+            "passed": false
+          },
+          {
+            "code": "KDW",
+            "eta_min": 29.9,
+            "name": "Kadawatha",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "violet",
+        "direction": "reverse",
+        "eta_min": 2.1,
+        "from_stop": {
+          "code": "NAW",
+          "name": "Nawinna"
+        },
+        "heading": 117.6,
+        "id": "MB-202",
+        "lat": 6.851,
+        "lng": 79.92075,
+        "next_stop": {
+          "code": "APK",
+          "name": "Apeksha Hospital"
+        },
+        "on_board": 0,
+        "plate": "NB-4202",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R2",
+        "route_name": "Makumbura - Kadawatha",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "KDW",
+            "eta_min": null,
+            "name": "Kadawatha",
+            "passed": true
+          },
+          {
+            "code": "KLN",
+            "eta_min": null,
+            "name": "Kelaniya Campus",
+            "passed": true
+          },
+          {
+            "code": "NAR",
+            "eta_min": null,
+            "name": "Narahenpita",
+            "passed": true
+          },
+          {
+            "code": "NAW",
+            "eta_min": null,
+            "name": "Nawinna",
+            "passed": true
+          },
+          {
+            "code": "APK",
+            "eta_min": 2.1,
+            "name": "Apeksha Hospital",
+            "passed": false
+          },
+          {
+            "code": "MKB",
+            "eta_min": 16.6,
+            "name": "Makumbura",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "violet",
+        "direction": "forward",
+        "eta_min": 5.0,
+        "from_stop": {
+          "code": "KLN",
+          "name": "Kelaniya Campus"
+        },
+        "heading": 52.4,
+        "id": "MB-203",
+        "lat": 6.99,
+        "lng": 79.9376,
+        "next_stop": {
+          "code": "KDW",
+          "name": "Kadawatha"
+        },
+        "on_board": 0,
+        "plate": "NB-4203",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R2",
+        "route_name": "Makumbura - Kadawatha",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "MKB",
+            "eta_min": null,
+            "name": "Makumbura",
+            "passed": true
+          },
+          {
+            "code": "APK",
+            "eta_min": null,
+            "name": "Apeksha Hospital",
+            "passed": true
+          },
+          {
+            "code": "NAW",
+            "eta_min": null,
+            "name": "Nawinna",
+            "passed": true
+          },
+          {
+            "code": "NAR",
+            "eta_min": null,
+            "name": "Narahenpita",
+            "passed": true
+          },
+          {
+            "code": "KLN",
+            "eta_min": null,
+            "name": "Kelaniya Campus",
+            "passed": true
+          },
+          {
+            "code": "KDW",
+            "eta_min": 5.0,
+            "name": "Kadawatha",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "teal",
+        "direction": "forward",
+        "eta_min": 5.4,
+        "from_stop": {
+          "code": "BRG",
+          "name": "Boralesgamuwa"
+        },
+        "heading": 329.7,
+        "id": "MB-301",
+        "lat": 6.8512,
+        "lng": 79.8944,
+        "next_stop": {
+          "code": "KOH",
+          "name": "Kohuwala"
+        },
+        "on_board": 0,
+        "plate": "NB-4301",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R3",
+        "route_name": "Kesbewa - Pettah",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "KSB",
+            "eta_min": null,
+            "name": "Kesbewa",
+            "passed": true
+          },
+          {
+            "code": "PLD",
+            "eta_min": null,
+            "name": "Piliyandala",
+            "passed": true
+          },
+          {
+            "code": "WER",
+            "eta_min": null,
+            "name": "Werahera",
+            "passed": true
+          },
+          {
+            "code": "BRG",
+            "eta_min": null,
+            "name": "Boralesgamuwa",
+            "passed": true
+          },
+          {
+            "code": "KOH",
+            "eta_min": 5.4,
+            "name": "Kohuwala",
+            "passed": false
+          },
+          {
+            "code": "HAV",
+            "eta_min": 12.1,
+            "name": "Havelock",
+            "passed": false
+          },
+          {
+            "code": "PET",
+            "eta_min": 27.4,
+            "name": "Pettah",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "teal",
+        "direction": "forward",
+        "eta_min": 2.7,
+        "from_stop": {
+          "code": "KOH",
+          "name": "Kohuwala"
+        },
+        "heading": 306.8,
+        "id": "MB-302",
+        "lat": 6.8767,
+        "lng": 79.8728,
+        "next_stop": {
+          "code": "HAV",
+          "name": "Havelock"
+        },
+        "on_board": 0,
+        "plate": "NB-4302",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R3",
+        "route_name": "Kesbewa - Pettah",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "KSB",
+            "eta_min": null,
+            "name": "Kesbewa",
+            "passed": true
+          },
+          {
+            "code": "PLD",
+            "eta_min": null,
+            "name": "Piliyandala",
+            "passed": true
+          },
+          {
+            "code": "WER",
+            "eta_min": null,
+            "name": "Werahera",
+            "passed": true
+          },
+          {
+            "code": "BRG",
+            "eta_min": null,
+            "name": "Boralesgamuwa",
+            "passed": true
+          },
+          {
+            "code": "KOH",
+            "eta_min": null,
+            "name": "Kohuwala",
+            "passed": true
+          },
+          {
+            "code": "HAV",
+            "eta_min": 2.7,
+            "name": "Havelock",
+            "passed": false
+          },
+          {
+            "code": "PET",
+            "eta_min": 17.9,
+            "name": "Pettah",
+            "passed": false
+          }
+        ]
+      },
+      {
+        "alert": false,
+        "capacity": 40,
+        "color": "teal",
+        "direction": "reverse",
+        "eta_min": 4.7,
+        "from_stop": {
+          "code": "BRG",
+          "name": "Boralesgamuwa"
+        },
+        "heading": 175.3,
+        "id": "MB-303",
+        "lat": 6.8328,
+        "lng": 79.9016,
+        "next_stop": {
+          "code": "WER",
+          "name": "Werahera"
+        },
+        "on_board": 0,
+        "plate": "NB-4303",
+        "reroute_reason": "",
+        "rerouted": false,
+        "route": "R3",
+        "route_name": "Kesbewa - Pettah",
+        "seats_left": 40,
+        "segment_seats": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "state": "moving",
+        "stops": [
+          {
+            "code": "PET",
+            "eta_min": null,
+            "name": "Pettah",
+            "passed": true
+          },
+          {
+            "code": "HAV",
+            "eta_min": null,
+            "name": "Havelock",
+            "passed": true
+          },
+          {
+            "code": "KOH",
+            "eta_min": null,
+            "name": "Kohuwala",
+            "passed": true
+          },
+          {
+            "code": "BRG",
+            "eta_min": null,
+            "name": "Boralesgamuwa",
+            "passed": true
+          },
+          {
+            "code": "WER",
+            "eta_min": 4.7,
+            "name": "Werahera",
+            "passed": false
+          },
+          {
+            "code": "PLD",
+            "eta_min": 11.4,
+            "name": "Piliyandala",
+            "passed": false
+          },
+          {
+            "code": "KSB",
+            "eta_min": 16.6,
+            "name": "Kesbewa",
+            "passed": false
+          }
+        ]
+      }
+    ],
+    "clock": {
+      "paused": false,
+      "sim_seconds": 144.8,
+      "speed": 30.0,
+      "time": "08:02:24"
+    }
+  },
+  "error": null,
+  "ok": true
+}
