@@ -58,13 +58,13 @@ def:pub PassengerHome -> JsxPage {
     has terminals: list[dict[str, any]] = [];
     has terminalSlots: list[dict[str, any]] = [];
     has recommendation: dict[str, any] = {};
-    has activeParkingBooking: dict = {};
+    has activeParkingBooking: dict[str, any] = {};
 
     # Bus tracking & journey state (Milestone 2)
-    has mapData: dict = {};
-    has buses: list[dict] = [];
+    has mapData: dict[str, any] = {};
+    has buses: list[dict[str, any]] = [];
     has selectedRoute: str = "ALL";
-    has selectedBus: dict = {};
+    has selectedBus: dict[str, any] = {};
     has showBookingModal: bool = False;
     has showScannerModal: bool = False;
     has hasActiveTrip: bool = False;
@@ -85,7 +85,7 @@ def:pub PassengerHome -> JsxPage {
         # 1. Fetch parking terminals
         tRes = await get_terminals();
         if tRes.get("ok", False) {
-            tData: dict = dict(tRes.get("data", {}));
+            tData: dict[str, any] = dict(tRes.get("data", {}));
             terminals = list(tData.get("terminals", []));
         }
 
@@ -95,7 +95,7 @@ def:pub PassengerHome -> JsxPage {
         # 3. Fetch road network map for Colombo
         mRes = await get_map();
         if mRes.get("ok", False) {
-            mData: dict = dict(mRes.get("data", {}));
+            mData: dict[str, any] = dict(mRes.get("data", {}));
             mapData = mData;
         }
 
@@ -115,18 +115,18 @@ def:pub PassengerHome -> JsxPage {
             return_by=returnBy
         );
         if rRes.get("ok", False) {
-            rData: dict = dict(rRes.get("data", {}));
+            rData: dict[str, any] = dict(rRes.get("data", {}));
             recommendation = rData;
             opts = list(rData.get("options", []));
             if len(opts) > 0 {
-                firstSlot: dict = dict(opts[0].get("slot", {}));
+                firstSlot: dict[str, any] = dict(opts[0].get("slot", {}));
                 selectedSlotCode = str(firstSlot.get("code", "MKB-C-F-01"));
             }
         }
 
         sRes = await get_slots(terminal=selectedTerminal);
         if sRes.get("ok", False) {
-            sData: dict = dict(sRes.get("data", {}));
+            sData: dict[str, any] = dict(sRes.get("data", {}));
             terminalSlots = list(sData.get("slots", []));
         }
     }
@@ -135,7 +135,7 @@ def:pub PassengerHome -> JsxPage {
         rParam = "" if selectedRoute == "ALL" else selectedRoute;
         bRes = await get_buses(route=rParam);
         if bRes.get("ok", False) {
-            bData: dict = dict(bRes.get("data", {}));
+            bData: dict[str, any] = dict(bRes.get("data", {}));
             buses = [dict(b) for b in list(bData.get("buses", []))];
         }
     }
@@ -144,7 +144,7 @@ def:pub PassengerHome -> JsxPage {
         if hasActiveTrip {
             trRes = await get_trip();
             if trRes.get("ok", False) {
-                trData: dict = dict(trRes.get("data", {}));
+                trData: dict[str, any] = dict(trRes.get("data", {}));
                 activeTripData = trData;
             }
         }
@@ -194,12 +194,12 @@ def:pub PassengerHome -> JsxPage {
             return_by=returnBy
         );
         if bRes.get("ok", False) {
-            bData: dict = dict(bRes.get("data", {}));
+            bData: dict[str, any] = dict(bRes.get("data", {}));
             activeParkingBooking = dict(bData.get("booking", {}));
             step = 3;
             toastMsg = f"Slot {selectedSlotCode} booked successfully!";
         } else {
-            err: dict = dict(bRes.get("error", {}));
+            err: dict[str, any] = dict(bRes.get("error", {}));
             toastMsg = str(err.get("message", "Booking failed"));
         }
         loading = False;
@@ -210,7 +210,7 @@ def:pub PassengerHome -> JsxPage {
         loading = True;
         mRes = await mark_parked(booking_id=bId);
         if mRes.get("ok", False) {
-            mData: dict = dict(mRes.get("data", {}));
+            mData: dict[str, any] = dict(mRes.get("data", {}));
             activeParkingBooking = dict(mData.get("booking", {}));
             toastMsg = "Vehicle successfully parked! Bay status: OCCUPIED";
         }
@@ -229,7 +229,7 @@ def:pub PassengerHome -> JsxPage {
     }
 
     # Mode 2 Handlers (Bus Journey & Scans)
-    def handle_open_bus_booking(busItem: dict) {
+    def handle_open_bus_booking(busItem: dict[str, any]) {
         selectedBus = busItem;
         showBookingModal = True;
     }
@@ -243,16 +243,16 @@ def:pub PassengerHome -> JsxPage {
             await refresh_trip();
             toastMsg = f"Seat reserved on {busId}! Boarding at {pickupCode}.";
         } else {
-            err: dict = dict(sRes.get("error", {}));
+            err: dict[str, any] = dict(sRes.get("error", {}));
             toastMsg = str(err.get("message", "Seat booking failed"));
         }
         loading = False;
     }
 
-    async def handle_process_scan(scanId: str, qrToken: str, dropCode: str) -> dict {
+    async def handle_process_scan(scanId: str, qrToken: str, dropCode: str) -> dict[str, any] {
         pRes = await process_scan(scan_id=scanId, qr=qrToken, drop=dropCode);
         if pRes.get("ok", False) {
-            pData: dict = dict(pRes.get("data", {}));
+            pData: dict[str, any] = dict(pRes.get("data", {}));
             resCode = str(pData.get("result", ""));
             if resCode == "boarded" {
                 toastMsg = "Confirmed, you are on board!";
@@ -264,7 +264,7 @@ def:pub PassengerHome -> JsxPage {
             await refresh_trip();
             return pData;
         }
-        err: dict = dict(pRes.get("error", {}));
+        err: dict[str, any] = dict(pRes.get("error", {}));
         toastMsg = str(err.get("message", "Scan rejected"));
         return {"result": "rejected", "message": toastMsg};
     }

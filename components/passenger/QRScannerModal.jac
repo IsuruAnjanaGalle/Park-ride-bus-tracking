@@ -13,7 +13,7 @@ def:pub QRScannerModal(
 ) -> JsxElement {
     has inputToken: str = "";
     has dropTarget: str = "";
-    has scanResult: dict = {};
+    has scanResult: dict[str, any] = {};
     has lastScanId: str = "";
     has isProcessing: bool = False;
 
@@ -40,7 +40,7 @@ def:pub QRScannerModal(
         isProcessing = False;
     }
 
-    resDict: dict = dict(scanResult);
+    resDict: dict[str, any] = dict(scanResult);
     resStatus = str(resDict.get("result", ""));
     resMsg = str(resDict.get("message", ""));
 

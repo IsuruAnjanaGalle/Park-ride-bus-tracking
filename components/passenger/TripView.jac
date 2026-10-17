@@ -5,13 +5,13 @@ and the button to trigger stop QR scanning.
 """
 
 def:pub TripView(
-    tripData: dict,
+    tripData: dict[str, any],
     onOpenScanner: any = None,
     onFinishTrip: any = None
 ) -> JsxElement {
-    tDict: dict = dict(tripData);
-    booking: dict = dict(tDict.get("booking", {}));
-    bus: dict = dict(tDict.get("bus", {}));
+    tDict: dict[str, any] = dict(tripData);
+    booking: dict[str, any] = dict(tDict.get("booking", {}));
+    bus: dict[str, any] = dict(tDict.get("bus", {}));
     alert = bool(tDict.get("alert", False));
     alertMessage = str(tDict.get("alert_message", "Your stop is 2 stops away"));
     stopsRemaining = int(str(tDict.get("stops_remaining", "2")));
@@ -24,7 +24,7 @@ def:pub TripView(
     pickupCode = str(booking.get("pickup", "MKB"));
     dropCode = str(booking.get("drop", "BOR"));
 
-    rawStops: list[dict] = [dict(s) for s in list(tDict.get("stops", []))];
+    rawStops: list[dict[str, any]] = [dict(s) for s in list(tDict.get("stops", []))];
 
     return (
         <div className="space-y-6">
@@ -46,7 +46,7 @@ def:pub TripView(
 
             # 2. Traffic Delay Alert if present
             {if delayDict {
-                dInfo: dict = dict(delayDict);
+                dInfo: dict[str, any] = dict(delayDict);
                 dMins = int(str(dInfo.get("minutes", "5")));
                 dReason = str(dInfo.get("reason", "Heavy congestion"));
                 <div className="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2.5">
