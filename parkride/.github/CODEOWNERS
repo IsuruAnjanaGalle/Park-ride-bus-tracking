@@ -1,0 +1,9 @@
+# ParkRide Code Owners
+# Defines repository maintainers responsible for reviewing code changes.
+
+*                   @IsuruAnjanaGalle
+/core/              @IsuruAnjanaGalle
+/tests/             @IsuruAnjanaGalle
+/glue/              @IsuruAnjanaGalle
+/docs/              @IsuruAnjanaGalle
+/.github/           @IsuruAnjanaGalle
