@@ -1,0 +1,22 @@
+# Jac compiler and build cache
+.jac/
+jac.lock
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Node / JS / TS
+node_modules/
+dist/
+build/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
