@@ -2,7 +2,19 @@
   "data": {
     "alerts": [],
     "decisions": [],
-    "scans": []
+    "scans": [
+      {
+        "at": "08:04:02",
+        "bus_id": "MB-101",
+        "passenger": "ad*in",
+        "scan_id": "scan-0001",
+        "stop": {
+          "code": "BAT",
+          "name": "Battaramulla"
+        },
+        "type": "rejected"
+      }
+    ]
   },
   "error": null,
   "ok": true

@@ -49,30 +49,33 @@ import from mock.mocks {
 """Per-walker mock switch. Set an entry to False once the walker is `real` in contracts.md."""
 glob USE_MOCK: dict[str, bool] = {
     "get_profile": False,
-    "get_terminals": True,
-    "get_slots": True,
-    "recommend_slots": True,
-    "book_slot": True,
-    "mark_parked": True,
-    "release_slot": True,
-    "get_map": True,
-    "get_buses": True,
-    "book_seat": True,
-    "get_trip": True,
-    "process_scan": True,
+    "get_terminals": False,
+    "get_slots": False,
+    "recommend_slots": False,
+    "book_slot": False,
+    "mark_parked": False,
+    "release_slot": False,
+    "get_map": False,
+    "get_buses": False,
+    "book_seat": False,
+    "get_trip": False,
+    "process_scan": False,
     "admin_bus_list": True,
     "admin_bus_account": True,
     "admin_next_stop": True,
     "admin_feed": True,
-    "demo_control": True,
-    "set_traffic": True,
-    "report_incident": True,
-    "get_driver_view": True,
-    "run_demo": True,
+    "demo_control": False,
+    "set_traffic": False,
+    "report_incident": False,
+    "get_driver_view": False,
+    "run_demo": False,
     "reset_demo": False
 };
 
-"""Turn every mock on or off at once (the MOCK toggle on /dev/core)."""
+"""Turn every mock on or off at once (the MOCK toggle on /dev/core).
+
+Still mocked (Dev C finishes them): admin_bus_list, admin_bus_account, admin_next_stop, admin_feed.
+"""
 def set_all_mocks(on: bool) -> None {
     for name in Object.keys(USE_MOCK) {
         if name != "get_profile" {

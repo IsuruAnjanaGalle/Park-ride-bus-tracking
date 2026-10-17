@@ -3,9 +3,9 @@
     "booking": {
       "arrival": "08:00",
       "id": "PB-0001",
-      "qr": "eyJpZCI6IlBCLTAwMDEiLCJyZXR1cm5fYnkiOiIxMDowMCIsInNsb3QiOiJNS0ItQy1GLTAxIiwidCI6InBhcmtpbmciLCJ0ZXJtaW5hbCI6Ik1LQiJ9.300e7e60abe1680e3c3b99da4dd0cb7b820efef9687a3a478d7a3b8fbab12845",
+      "qr": "eyJpZCI6IlBCLTAwMDEiLCJyZXR1cm5fYnkiOiIxMDowMCIsInNsb3QiOiJNS0ItQy1GLTA1IiwidCI6InBhcmtpbmciLCJ0ZXJtaW5hbCI6Ik1LQiJ9.051a075f3fd690cd995b5a43bd756aa143d3ee49e354b285866d4ddabaf62260",
       "return_by": "10:00",
-      "slot_code": "MKB-C-F-01",
+      "slot_code": "MKB-C-F-05",
       "state": "booked",
       "terminal": "MKB",
       "type": "C",

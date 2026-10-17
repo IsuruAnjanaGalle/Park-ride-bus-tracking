@@ -6,15 +6,15 @@
         "capacity": 40,
         "color": "blue",
         "direction": "reverse",
-        "eta_min": 10.1,
+        "eta_min": 10.0,
         "from_stop": {
           "code": "BOR",
           "name": "Borella"
         },
-        "heading": 109.2,
+        "heading": 107.5,
         "id": "MB-101",
-        "lat": 6.9119,
-        "lng": 79.883575,
+        "lat": 6.911999,
+        "lng": 79.883902,
         "next_stop": {
           "code": "BAT",
           "name": "Battaramulla"
@@ -55,19 +55,19 @@
           },
           {
             "code": "BAT",
-            "eta_min": 10.1,
+            "eta_min": 10.0,
             "name": "Battaramulla",
             "passed": false
           },
           {
             "code": "KOT",
-            "eta_min": 31.0,
+            "eta_min": 32.4,
             "name": "Kottawa",
             "passed": false
           },
           {
             "code": "MKB",
-            "eta_min": 34.9,
+            "eta_min": 36.8,
             "name": "Makumbura",
             "passed": false
           }
@@ -78,15 +78,15 @@
         "capacity": 40,
         "color": "blue",
         "direction": "forward",
-        "eta_min": 3.9,
+        "eta_min": 2.0,
         "from_stop": {
           "code": "MKB",
           "name": "Makumbura"
         },
         "heading": 282.2,
         "id": "MB-102",
-        "lat": 6.83806,
-        "lng": 79.97872,
+        "lat": 6.83946,
+        "lng": 79.972185,
         "next_stop": {
           "code": "KOT",
           "name": "Kottawa"
@@ -115,31 +115,31 @@
           },
           {
             "code": "KOT",
-            "eta_min": 3.9,
+            "eta_min": 2.0,
             "name": "Kottawa",
             "passed": false
           },
           {
             "code": "BAT",
-            "eta_min": 24.8,
+            "eta_min": 24.4,
             "name": "Battaramulla",
             "passed": false
           },
           {
             "code": "BOR",
-            "eta_min": 36.6,
+            "eta_min": 36.7,
             "name": "Borella",
             "passed": false
           },
           {
             "code": "TWH",
-            "eta_min": 40.8,
+            "eta_min": 41.4,
             "name": "Town Hall",
             "passed": false
           },
           {
             "code": "PET",
-            "eta_min": 47.1,
+            "eta_min": 48.2,
             "name": "Pettah",
             "passed": false
           }
@@ -150,15 +150,15 @@
         "capacity": 40,
         "color": "blue",
         "direction": "forward",
-        "eta_min": 12.5,
+        "eta_min": 20.0,
         "from_stop": {
           "code": "KOT",
           "name": "Kottawa"
         },
-        "heading": 321.7,
+        "heading": 289.6,
         "id": "MB-103",
-        "lat": 6.8646,
-        "lng": 79.9462,
+        "lat": 6.843227,
+        "lng": 79.95869,
         "next_stop": {
           "code": "BAT",
           "name": "Battaramulla"
@@ -193,25 +193,25 @@
           },
           {
             "code": "BAT",
-            "eta_min": 12.5,
+            "eta_min": 20.0,
             "name": "Battaramulla",
             "passed": false
           },
           {
             "code": "BOR",
-            "eta_min": 24.4,
+            "eta_min": 32.4,
             "name": "Borella",
             "passed": false
           },
           {
             "code": "TWH",
-            "eta_min": 28.6,
+            "eta_min": 37.0,
             "name": "Town Hall",
             "passed": false
           },
           {
             "code": "PET",
-            "eta_min": 34.8,
+            "eta_min": 43.8,
             "name": "Pettah",
             "passed": false
           }
@@ -222,15 +222,15 @@
         "capacity": 40,
         "color": "violet",
         "direction": "forward",
-        "eta_min": 17.3,
+        "eta_min": 28.0,
         "from_stop": {
           "code": "NAR",
           "name": "Narahenpita"
         },
-        "heading": 25.4,
+        "heading": 0.0,
         "id": "MB-201",
-        "lat": 6.91715,
-        "lng": 79.88905,
+        "lat": 6.899647,
+        "lng": 79.8775,
         "next_stop": {
           "code": "KLN",
           "name": "Kelaniya Campus"
@@ -277,13 +277,13 @@
           },
           {
             "code": "KLN",
-            "eta_min": 17.3,
+            "eta_min": 28.0,
             "name": "Kelaniya Campus",
             "passed": false
           },
           {
             "code": "KDW",
-            "eta_min": 29.9,
+            "eta_min": 41.2,
             "name": "Kadawatha",
             "passed": false
           }
@@ -294,15 +294,15 @@
         "capacity": 40,
         "color": "violet",
         "direction": "reverse",
-        "eta_min": 2.1,
+        "eta_min": 0.3,
         "from_stop": {
           "code": "NAW",
           "name": "Nawinna"
         },
         "heading": 117.6,
         "id": "MB-202",
-        "lat": 6.851,
-        "lng": 79.92075,
+        "lat": 6.847919,
+        "lng": 79.926692,
         "next_stop": {
           "code": "APK",
           "name": "Apeksha Hospital"
@@ -349,13 +349,13 @@
           },
           {
             "code": "APK",
-            "eta_min": 2.1,
+            "eta_min": 0.3,
             "name": "Apeksha Hospital",
             "passed": false
           },
           {
             "code": "MKB",
-            "eta_min": 16.6,
+            "eta_min": 15.4,
             "name": "Makumbura",
             "passed": false
           }
@@ -366,15 +366,15 @@
         "capacity": 40,
         "color": "violet",
         "direction": "forward",
-        "eta_min": 5.0,
+        "eta_min": 10.9,
         "from_stop": {
           "code": "KLN",
           "name": "Kelaniya Campus"
         },
-        "heading": 52.4,
+        "heading": 66.9,
         "id": "MB-203",
-        "lat": 6.99,
-        "lng": 79.9376,
+        "lat": 6.976107,
+        "lng": 79.922162,
         "next_stop": {
           "code": "KDW",
           "name": "Kadawatha"
@@ -427,7 +427,7 @@
           },
           {
             "code": "KDW",
-            "eta_min": 5.0,
+            "eta_min": 10.9,
             "name": "Kadawatha",
             "passed": false
           }
@@ -438,15 +438,15 @@
         "capacity": 40,
         "color": "teal",
         "direction": "forward",
-        "eta_min": 5.4,
+        "eta_min": 8.8,
         "from_stop": {
           "code": "BRG",
           "name": "Boralesgamuwa"
         },
-        "heading": 329.7,
+        "heading": 328.9,
         "id": "MB-301",
-        "lat": 6.8512,
-        "lng": 79.8944,
+        "lat": 6.8457,
+        "lng": 79.897539,
         "next_stop": {
           "code": "KOH",
           "name": "Kohuwala"
@@ -494,19 +494,19 @@
           },
           {
             "code": "KOH",
-            "eta_min": 5.4,
+            "eta_min": 8.8,
             "name": "Kohuwala",
             "passed": false
           },
           {
             "code": "HAV",
-            "eta_min": 12.1,
+            "eta_min": 16.4,
             "name": "Havelock",
             "passed": false
           },
           {
             "code": "PET",
-            "eta_min": 27.4,
+            "eta_min": 32.5,
             "name": "Pettah",
             "passed": false
           }
@@ -517,15 +517,15 @@
         "capacity": 40,
         "color": "teal",
         "direction": "forward",
-        "eta_min": 2.7,
+        "eta_min": 5.2,
         "from_stop": {
           "code": "KOH",
           "name": "Kohuwala"
         },
-        "heading": 306.8,
+        "heading": 324.7,
         "id": "MB-302",
-        "lat": 6.8767,
-        "lng": 79.8728,
+        "lat": 6.873422,
+        "lng": 79.880627,
         "next_stop": {
           "code": "HAV",
           "name": "Havelock"
@@ -579,13 +579,13 @@
           },
           {
             "code": "HAV",
-            "eta_min": 2.7,
+            "eta_min": 5.2,
             "name": "Havelock",
             "passed": false
           },
           {
             "code": "PET",
-            "eta_min": 17.9,
+            "eta_min": 21.4,
             "name": "Pettah",
             "passed": false
           }
@@ -596,15 +596,15 @@
         "capacity": 40,
         "color": "teal",
         "direction": "reverse",
-        "eta_min": 4.7,
+        "eta_min": 2.8,
         "from_stop": {
           "code": "BRG",
           "name": "Boralesgamuwa"
         },
         "heading": 175.3,
         "id": "MB-303",
-        "lat": 6.8328,
-        "lng": 79.9016,
+        "lat": 6.826178,
+        "lng": 79.902152,
         "next_stop": {
           "code": "WER",
           "name": "Werahera"
@@ -652,19 +652,19 @@
           },
           {
             "code": "WER",
-            "eta_min": 4.7,
+            "eta_min": 2.8,
             "name": "Werahera",
             "passed": false
           },
           {
             "code": "PLD",
-            "eta_min": 11.4,
+            "eta_min": 10.1,
             "name": "Piliyandala",
             "passed": false
           },
           {
             "code": "KSB",
-            "eta_min": 16.6,
+            "eta_min": 15.8,
             "name": "Kesbewa",
             "passed": false
           }
@@ -673,9 +673,9 @@
     ],
     "clock": {
       "paused": false,
-      "sim_seconds": 123.4,
+      "sim_seconds": 115.7,
       "speed": 30.0,
-      "time": "08:02:03"
+      "time": "08:01:55"
     }
   },
   "error": null,

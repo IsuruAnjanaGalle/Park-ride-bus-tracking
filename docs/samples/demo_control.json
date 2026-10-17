@@ -2,9 +2,9 @@
   "data": {
     "clock": {
       "paused": false,
-      "sim_seconds": 183.8,
+      "sim_seconds": 255.2,
       "speed": 30.0,
-      "time": "08:03:03"
+      "time": "08:04:15"
     },
     "message": "Clock status."
   },

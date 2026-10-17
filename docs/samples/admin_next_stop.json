@@ -2,10 +2,10 @@
   "data": {
     "bookings_to_board": 0,
     "bus_id": "MB-101",
-    "eta_min": 10.1,
+    "eta_min": 20.9,
     "getting_off": 0,
     "getting_off_names": [],
-    "qr": "eyJidXMiOiJNQi0xMDEiLCJleHAiOjc2Mywic3RvcCI6IkJBVCIsInQiOiJzdG9wIiwidmlzaXQiOjF9.5721c9b7501bc93881680a9acb4b59ee27ffbe8c31121f7e439ab2cd2537f1ff",
+    "qr": "eyJidXMiOiJNQi0xMDEiLCJleHAiOjgzMSwic3RvcCI6IkJBVCIsInQiOiJzdG9wIiwidmlzaXQiOjF9.2c6ee14120aee9518396b6bfa871be4263ba715002d01e5ae03067428a113a26",
     "qr_expires_in_s": 600,
     "seats_left_after": 40,
     "stop": {
