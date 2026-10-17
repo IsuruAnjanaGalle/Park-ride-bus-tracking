@@ -4,11 +4,11 @@ Shows bus ID, route badge, destination, next stop ETA, and live seats left.
 """
 
 def:pub BusCard(
-    bus: dict,
+    bus: dict[str, any],
     isSelected: bool = False,
     onSelect: any = None
 ) -> JsxElement {
-    bDict: dict = dict(bus);
+    bDict: dict[str, any] = dict(bus);
     bid = str(bDict.get("id", "MB-101"));
     plate = str(bDict.get("plate", "NB-4101"));
     route = str(bDict.get("route", "R1"));
@@ -19,7 +19,7 @@ def:pub BusCard(
     etaMin = float(str(bDict.get("eta_min", "5.0")));
     alert = bool(bDict.get("alert", False));
 
-    nextStopDict: dict = dict(bDict.get("next_stop", {}));
+    nextStopDict: dict[str, any] = dict(bDict.get("next_stop", {}));
     nextStopName = str(nextStopDict.get("name", "Next Stop"));
 
     routeBg = "#A855F7" if (colorName == "violet" or colorName == "purple") else ("#14B8A6" if colorName == "teal" else "#3B82F6");

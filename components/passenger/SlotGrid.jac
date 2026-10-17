@@ -132,7 +132,7 @@ def:pub SlotGrid(
                         col = i % 8;
                         row = i // 8;
                         bx = 36 + col * 72;
-                        by = 25 + row * 84;
+                        bay_y = 25 + row * 84;
                         zCode = "F" if row == 0 else ("M" if row == 1 else "R");
                         sCode = f"MKB-C-{zCode}-0{col+1}";
                         isSel = (sCode == selectedSlotCode);
@@ -142,7 +142,7 @@ def:pub SlotGrid(
                         <g key={sCode} onClick={lambda (_e: MouseEvent) { if not isOcc { onSelectSlot(sCode); } }} className="cursor-pointer">
                             <rect
                                 x={bx}
-                                y={by}
+                                y={bay_y}
                                 width="62"
                                 height="68"
                                 rx="6"
@@ -152,22 +152,22 @@ def:pub SlotGrid(
                             />
 
                             # Bay label
-                            <text x={bx + 31} y={by + 14} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                            <text x={bx + 31} y={bay_y + 14} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
                                 {f"C-{zCode}-0{col+1}"}
                             </text>
 
                             # 3D Box Car if occupied
                             {if isOcc {
                                 <g>
-                                    <rect x={bx + 11} y={by + 20} width="40" height="40" rx="4" fill="#334155" />
-                                    <rect x={bx + 15} y={by + 24} width="32" height="20" rx="3" fill="#64748B" />
-                                    <rect x={bx + 18} y={by + 27} width="26" height="10" rx="2" fill="#0B1320" />
+                                    <rect x={bx + 11} y={bay_y + 20} width="40" height="40" rx="4" fill="#334155" />
+                                    <rect x={bx + 15} y={bay_y + 24} width="32" height="20" rx="3" fill="#64748B" />
+                                    <rect x={bx + 18} y={bay_y + 27} width="26" height="10" rx="2" fill="#0B1320" />
                                 </g>;
                             }}
 
                             # Glow ring if selected
                             {if isSel {
-                                <rect x={bx - 2} y={by - 2} width="66" height="72" rx="8" fill="none" stroke="#FFC21A" strokeWidth="2" strokeDasharray="3 3" />;
+                                <rect x={bx - 2} y={bay_y - 2} width="66" height="72" rx="8" fill="none" stroke="#FFC21A" strokeWidth="2" strokeDasharray="3 3" />;
                             }}
                         </g>;
                     }}
