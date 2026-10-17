@@ -29,17 +29,6 @@ def:pub SeatBookingModal(
     # Available stops (exclude already passed stops)
     activeStops = [s for s in rawStops if not bool(s.get("passed", False))];
 
-    # Default pickup to the first stop not yet passed, drop to the last
-    pickup = pickupSel;
-    if len(pickup) == 0 and len(activeStops) > 0 {
-        firstStop = dict(activeStops[0]);
-        pickup = str(firstStop.get("code", ""));
-    }
-
-    drop = dropSel;
-    if len(drop) == 0 and len(activeStops) > 1 {
-        lastStop = dict(activeStops[-1]);
-        drop = str(lastStop.get("code", ""));
     # Pickup and drop come from this bus's stops not yet passed. A choice that does not fit this
     # bus (another bus was opened, or initialPickup is not ahead of it) falls back to the defaults:
     # pickup = initialPickup if it is ahead, else the next stop; drop = the last stop.
@@ -70,8 +59,7 @@ def:pub SeatBookingModal(
         }
     }
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-md animate-fade-in">
+    return <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-md animate-fade-in">
             <div className="w-full max-w-lg bg-[#0F1B2D] border border-white/15 rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 space-y-6 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-start justify-between">
                     <div>
@@ -112,7 +100,7 @@ def:pub SeatBookingModal(
                                 sName = str(s.get("name", ""));
                                 <option key={f"pick-{sCode}"} value={sCode}>
                                     {f"{sName} ({sCode})"}
-                                </option>;
+                                </option>
                             }}
                         </select>
                     </div>
@@ -131,7 +119,7 @@ def:pub SeatBookingModal(
                                 sName = str(s.get("name", ""));
                                 <option key={f"drop-{sCode}"} value={sCode}>
                                     {f"{sName} ({sCode})"}
-                                </option>;
+                                </option>
                             }}
                         </select>
                     </div>
@@ -141,7 +129,7 @@ def:pub SeatBookingModal(
                     <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold flex items-center gap-2">
                         <span>⚠️</span>
                         <span>Destination stop must be after boarding stop on this route.</span>
-                    </div>;
+                    </div>
                 } else {
                     <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center justify-between">
                         <span className="flex items-center gap-2">
@@ -149,7 +137,7 @@ def:pub SeatBookingModal(
                             <span>Seat verified free across all route segments</span>
                         </span>
                         <span className="font-mono font-bold">{f"{dropIdx - pickupIdx} stops"}</span>
-                    </div>;
+                    </div>
                 }}
 
                 <div className="pt-2 flex items-center gap-3">
@@ -170,6 +158,5 @@ def:pub SeatBookingModal(
                     </button>
                 </div>
             </div>
-        </div>
-    );
+        </div>;
 }
