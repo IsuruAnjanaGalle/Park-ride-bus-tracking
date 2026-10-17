@@ -115,7 +115,10 @@ def replan(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, changed
     names = junction_names(world);
     end = bus.road_to;
     rest = bus.path[bus.path.index(end):] if end in bus.path else [end];
-    touched = [k for k in changed if _uses(bus.path, k)];
+    touched = sorted(
+        [k for k in changed if _uses(bus.path, k)],
+        key=lambda (k: str) { -adj.get(k.split("|")[0], {}).get(k.split("|")[1], [0, "A", 0])[2]; }
+    );
     old = path_cost(adj, rest) if rest[-1] == bus.next_stop else INF;
     (fresh, new) = plan_route(adj, end, bus.next_stop);
     if not fresh {
