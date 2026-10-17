@@ -13,6 +13,7 @@ import from core.lib.locks { WORLD_LOCK }
 import from core.lib.geo { bearing, lerp }
 import from core.lib.journey { depart_stop, arrive_stop, jump_to }
 import from core.lib.routing { build_adj, plan_route, path_cost, road_kmh, INF }
+import from core.lib.static { static_coords }
 
 glob DWELL_S: float = 30.0;
 glob MAX_TICK_S: float = 180.0;
@@ -25,26 +26,26 @@ def log_decision(world: World, bus: Bus, decision: str, reason: str) -> dict[str
     return {"at": at, "bus_id": bus.id, "decision": decision, "reason": reason};
 }
 
-def jmap_of(world: World) -> dict[str, Junction] {
-    return {j.code: j for j in get_junctions(world)};
+def jmap_of(world: World) -> dict[str, list[float]] {
+    return static_coords();
 }
 
 """Place the bus on the map from its current road and progress."""
-def place(jmap: dict[str, Junction], bus: Bus) -> None {
+def place(jmap: dict[str, list[float]], bus: Bus) -> None {
     a = jmap.get(bus.road_from);
     b = jmap.get(bus.road_to);
     if a is None {
         return;
     }
-    if b is None or b.code == a.code {
-        bus.lat = a.lat;
-        bus.lng = a.lng;
+    if b is None or bus.road_to == bus.road_from {
+        bus.lat = a[0];
+        bus.lng = a[1];
         return;
     }
     t = max(0.0, min(bus.progress, 1.0));
-    bus.lat = round(lerp(a.lat, b.lat, t), 6);
-    bus.lng = round(lerp(a.lng, b.lng, t), 6);
-    bus.heading = bearing(a.lat, a.lng, b.lat, b.lng);
+    bus.lat = round(lerp(a[0], b[0], t), 6);
+    bus.lng = round(lerp(a[1], b[1], t), 6);
+    bus.heading = bearing(a[0], a[1], b[0], b[1]);
 }
 
 """Plan the roads from `here` to the trip's next stop and start driving (or wait)."""
@@ -299,8 +300,8 @@ def instruction(world: World, bus: Bus) -> dict[str, any] {
     a = jmap[bus.road_from];
     b = jmap[bus.road_to];
     c = jmap[nxt];
-    h1 = bearing(a.lat, a.lng, b.lat, b.lng);
-    h2 = bearing(b.lat, b.lng, c.lat, c.lng);
+    h1 = bearing(a[0], a[1], b[0], b[1]);
+    h2 = bearing(b[0], b[1], c[0], c[1]);
     delta = (h2 - h1 + 540.0) % 360.0 - 180.0;
     turn = "right" if delta > 30 else ("left" if delta < -30 else "straight");
     verb = "Continue" if turn == "straight" else f"Turn {turn}";
@@ -351,5 +352,22 @@ def depart_now(world: World, bus: Bus) -> list[str] {
         }
         place(jmap_of(world), bus);
         return events;
+    }
+}
+
+"""Stable entry point for Dev C's simulator: bring one bus up to the DemoClock's current time.
+
+Signature is fixed: advance_bus(world, bus). Safe to call on every poll.
+"""
+def advance_bus(world: World, bus: Bus) -> None {
+    with WORLD_LOCK {
+        clock = get_clock(world);
+        now = sim_seconds(clock);
+        dt = min(max(now - clock.last_tick, 0.0), MAX_TICK_S);
+        if dt <= 0 {
+            return;
+        }
+        advance(world, build_adj(world), bus, now, dt);
+        place(jmap_of(world), bus);
     }
 }
