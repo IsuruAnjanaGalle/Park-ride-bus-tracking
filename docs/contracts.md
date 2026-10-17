@@ -11,6 +11,26 @@ Screens never call walkers directly: they call the function with the same name i
 | Walker | Auth | Status | Milestone |
 | --- | --- | --- | --- |
 | get_profile | login | real | 0 |
+| get_terminals | public | stub | 1 |
+| get_slots | public | stub | 1 |
+| recommend_slots | public | stub | 1 |
+| book_slot | login | stub | 1 |
+| mark_parked | login | stub | 1 |
+| release_slot | login | stub | 1 |
+| get_map | public | stub | 2 |
+| get_buses | public | stub | 2–3 |
+| book_seat | login | stub | 2 |
+| get_trip | login | stub | 2–3 |
+| process_scan | login | stub | 2 |
+| admin_bus_list | admin | stub | 2 |
+| admin_bus_account | admin | stub | 2 |
+| admin_next_stop | admin | stub | 2 |
+| admin_feed | admin | stub | 2 |
+| demo_control | admin | real (status / speed / pause / resume) | 3 |
+| set_traffic | admin | real | 3 |
+| report_incident | public (driver) | real | 3 |
+| get_driver_view | public (driver) | real | 3 |
+| run_demo | admin | removed (D-C01) | - |
 | get_terminals | public | real | 1 |
 | get_slots | public | real | 1 |
 | recommend_slots | public | real | 1 |
@@ -192,6 +212,8 @@ Poll every 2 s. Newest first.
 - Out: `{scans: [ScanRow], alerts: [Alert], decisions: [Decision]}`
 
 ### 3.16 demo_control — admin
+- In: `action: str = "status"`, `speed: float = 0`
+  - `status`; `speed` (1, 5, 10 or 30); `pause`; `resume`.
 - In: `action: str = "status"`, `speed: float = 0`, `bus_id: str = ""`, `stop: str = ""`, `count: int = 1`, `drop: str = ""`
   - `status`; `speed` (1, 5, 10 or 30); `pause`; `resume`.
   - `jump` (`bus_id`, `stop`): the bus drives stop by stop to `stop` (skipped stops run their departure rules), arrives, and **waits there** so its stop QR can be scanned. Jumping to a route's final terminal turns the bus around there, ready for the trip back.
@@ -218,6 +240,8 @@ Poll every 2 s.
   - `turn` left, right, straight, arrive. `text` e.g. "Turn right toward Nawala". `waiting_at_next` = pending bookings at the next stop. `reroute_reason` e.g. "Rajagiriya – Battaramulla closed · saves 6 min".
 - Errors: `NOT_FOUND`.
 
+### 3.20 run_demo — admin (removed (D-C01))
+Scripted demo mode is cancelled. Reset demo is kept via `reset_demo`.
 ### 3.20 run_demo — admin — hidden (not used)
 Demo mode is cancelled for today. The walker still works but no screen may call it.
 

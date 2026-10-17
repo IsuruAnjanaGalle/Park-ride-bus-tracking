@@ -8,15 +8,17 @@ import from core.seed.seed { load_json }
 
 glob _CACHE: dict[str, any] = {};
 
-def _net -> dict[str, any] {
+def _net -> any {
     if not _CACHE {
         net = load_json("road-network.json");
         _CACHE["names"] = {j["code"]: j["name"] for j in net["junctions"]};
         _CACHE["coords"] = {j["code"]: [j["lat"], j["lng"]] for j in net["junctions"]};
-        base: dict[str, dict[str, list[any]]] = {j["code"]: {} for j in net["junctions"]};
+        base = {j["code"]: {} for j in net["junctions"]};
         for r in net["roads"] {
-            base[r["from"]][r["to"]] = [float(r["km"]), r["cls"]];
-            base[r["to"]][r["from"]] = [float(r["km"]), r["cls"]];
+            km = float(f"{r['km']}");
+            cls = r["cls"];
+            base[r["from"]][r["to"]] = [km, cls];
+            base[r["to"]][r["from"]] = [km, cls];
         }
         _CACHE["base"] = base;
     }
@@ -24,17 +26,17 @@ def _net -> dict[str, any] {
 }
 
 """Junction code -> name."""
-def static_names -> dict[str, str] {
+def static_names -> any {
     return _net()["names"];
 }
 
 """Junction code -> [lat, lng]."""
-def static_coords -> dict[str, list[float]] {
+def static_coords -> any {
     return _net()["coords"];
 }
 
 """Junction code -> {neighbour -> [km, cls]} for every road, both directions."""
-def static_roads -> dict[str, dict[str, list[any]]] {
+def static_roads -> any {
     return _net()["base"];
 }
 

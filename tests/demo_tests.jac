@@ -5,10 +5,12 @@ import from core.lib.demo_engine { control, CAPTIONS }
 def play_once -> list[dict[str, any]] {
     first = control("restart");
     assert first["step"] == 0;
-    assert first["last"]["reset_seconds"] < 5.0, first["last"];
+    last_d: dict = dict(first["last"]);
+    assert float(str(last_d.get("reset_seconds", 0))) < 5.0, first["last"];
     lasts: list[dict[str, any]] = [];
     for _ in CAPTIONS {
-        lasts.append(control("next")["last"]);
+        nxt = control("next");
+        lasts.append(dict(nxt["last"]));
     }
     assert control("status")["finished"];
     return lasts;
@@ -22,10 +24,13 @@ test "the judge story runs twice in a row" {
         assert s[2]["error"] == "", s[2];
         assert s[3]["scan"] == "boarded", s[3];
         assert s[4]["scan"] == "duplicate", s[4];
-        assert len(s[5]["riders"]) == 3, s[5];
+        riders_list: list = list(s[5].get("riders", []));
+        assert len(riders_list) == 3, s[5];
         assert s[6]["alert"], s[6];
-        assert s[7]["rerouted"] and "NAL" in s[7]["path"], s[7];
+        path_list: list = list(s[7].get("path", []));
+        assert s[7]["rerouted"] and "NAL" in path_list, s[7];
         assert s[8]["scans"] == ["alighted", "alighted", "alighted"], s[8];
-        assert "mismatch alert" in s[9]["events"], s[9];
+        events_list: list = list(s[9].get("events", []));
+        assert "mismatch alert" in events_list, s[9];
     }
 }

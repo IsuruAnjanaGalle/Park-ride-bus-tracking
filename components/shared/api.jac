@@ -5,6 +5,38 @@ it returns the sample from mock/mocks.jac; with False it spawns the real walker.
 Dev A flips a walker to False when contracts.md marks it `real`. Owner: Dev A.
 """
 
+import from "@jac/runtime" { jacLogin, jacSignup, jacLogout, jacIsLoggedIn, SignupResult }
+import from core.walkers.profile { get_profile as w_get_profile }
+import from core.walkers.parking {
+    get_terminals as w_get_terminals,
+    get_slots as w_get_slots,
+    recommend_slots as w_recommend_slots,
+    book_slot as w_book_slot,
+    mark_parked as w_mark_parked,
+    release_slot as w_release_slot
+}
+import from core.walkers.buses {
+    get_map as w_get_map,
+    get_buses as w_get_buses,
+    book_seat as w_book_seat,
+    get_trip as w_get_trip
+}
+import from core.walkers.scans { process_scan as w_process_scan }
+import from core.walkers.admin {
+    admin_bus_list as w_admin_bus_list,
+    admin_bus_account as w_admin_bus_account,
+    admin_next_stop as w_admin_next_stop,
+    admin_feed as w_admin_feed
+}
+import from core.walkers.traffic {
+    set_traffic as w_set_traffic,
+    report_incident as w_report_incident,
+    get_driver_view as w_get_driver_view
+}
+import from core.walkers.demo {
+    demo_control as w_demo_control,
+    reset_demo as w_reset_demo
+}
 # Walkers are called by name: importing them would compile each into a class named like
 # the function below and clash (see docs/decisions.md D-24).
 import from "@jac/runtime" { jacLogin, jacSignup, jacLogout, jacIsLoggedIn, jacSpawn, SignupResult }
@@ -38,6 +70,12 @@ glob USE_MOCK: dict[str, bool] = {
     "set_traffic": False,
     "report_incident": False,
     "get_driver_view": False,
+    "reset_demo": False
+};
+
+"""Turn every mock on or off at once (the MOCK toggle on /dev/core)."""
+def set_all_mocks(on: bool) {
+    for name in USE_MOCK.keys() {
     "run_demo": False,
     "reset_demo": False
 };
@@ -64,8 +102,10 @@ def _err(code: str, message: str) -> dict[str, any] {
 
 """First report of a spawn result, or an error envelope when the call failed."""
 def _first(result: any) -> dict[str, any] {
-    if result and result.reports and len(result.reports) > 0 {
-        return result.reports[0];
+    reports: list[any] = list(getattr(result, "reports", [])) if result else [];
+    if len(reports) > 0 {
+        rep: dict[str, any] = dict(reports[0]);
+        return rep;
     }
     return _err("EMPTY", "The server sent no report.");
 }
@@ -91,7 +131,7 @@ async def _call(name: str, fields: dict[str, any]) -> dict[str, any] {
 
 """Map a thrown error (e.g. no session) to an envelope."""
 def _thrown(e: any) -> dict[str, any] {
-    text = String(e);
+    text: str = str(e);
     if "UNAUTHORIZED" in text or "401" in text {
         return _err("UNAUTHORIZED", "Please log in first.");
     }
@@ -107,12 +147,15 @@ such as the built-in "admin" (docs/decisions.md D-21).
 """
 async def:pub login(username: str, password: str) -> dict[str, any] {
     ok: bool = False;
-    signup: SignupResult | None = None;
+    signup: any = None;
     result: any = None;
     account = "parkride-" + username;
     try {
         ok = await jacLogin(account, password);
         if not ok {
+            signup = await jacSignup(username, password);
+            if signup and getattr(signup, "success", False) {
+                ok = await jacLogin(username, password);
             signup = await jacSignup(account, password);
             if signup and signup.success {
                 ok = await jacLogin(account, password);
@@ -123,9 +166,10 @@ async def:pub login(username: str, password: str) -> dict[str, any] {
         }
         result = await jacSpawn("get_profile", "", {"username": username});
         env = _first(result);
-        if env["ok"] {
-            localStorage.setItem("parkride_user", env["data"]["username"]);
-            localStorage.setItem("parkride_role", env["data"]["role"]);
+        if env.get("ok") {
+            data: dict = dict(env.get("data", {}));
+            localStorage.setItem("parkride_user", str(data.get("username", "")));
+            localStorage.setItem("parkride_role", str(data.get("role", "")));
         }
         return env;
     } except Exception as e {
@@ -133,6 +177,7 @@ async def:pub login(username: str, password: str) -> dict[str, any] {
     }
 }
 
+def logout {
 def:pub logout -> None {
     jacLogout();
     localStorage.removeItem("parkride_user");
@@ -344,6 +389,7 @@ async def:pub admin_feed(limit: int = 50) -> dict[str, any] {
 
 # ---- demo, traffic, driver ----------------------------------------------------
 
+async def demo_control(action: str = "status", speed: float = 0.0) -> dict[str, any] {
 async def:pub demo_control(
     action: str = "status", speed: float = 0.0, bus_id: str = "", stop: str = "",
     count: int = 1, drop: str = ""
@@ -352,6 +398,9 @@ async def:pub demo_control(
         return mock_demo_control();
     }
     try {
+        return _first(root spawn w_demo_control(
+            action=action, speed=speed
+        ));
         return await _call("demo_control", {"action": action, "speed": speed, "bus_id": bus_id, "stop": stop, "count": count, "drop": drop});
     } except Exception as e {
         return _thrown(e);
@@ -391,6 +440,7 @@ async def:pub get_driver_view(bus_id: str) -> dict[str, any] {
     }
 }
 
+async def reset_demo -> dict[str, any] {
 async def:pub run_demo(action: str = "status") -> dict[str, any] {
     if USE_MOCK["run_demo"] {
         return mock_run_demo();
