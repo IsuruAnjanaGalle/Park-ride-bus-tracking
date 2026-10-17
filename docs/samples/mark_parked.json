@@ -1,0 +1,28 @@
+{
+  "data": {
+    "booking": {
+      "arrival": "08:00",
+      "id": "PB-0001",
+      "qr": "",
+      "return_by": "10:00",
+      "slot_code": "MKB-C-F-03",
+      "state": "parked",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F"
+    },
+    "slot": {
+      "accessible": false,
+      "charger_kw": 0,
+      "charger_type": "",
+      "code": "MKB-C-F-03",
+      "nn": 3,
+      "state": "occupied",
+      "terminal": "MKB",
+      "type": "C",
+      "zone": "F"
+    }
+  },
+  "error": null,
+  "ok": true
+}

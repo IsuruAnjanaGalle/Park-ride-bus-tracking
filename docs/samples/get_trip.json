@@ -1,0 +1,148 @@
+{
+  "data": {
+    "alert": false,
+    "alert_message": "",
+    "booking": {
+      "bus_id": "MB-102",
+      "created_at": "",
+      "drop": {
+        "code": "BOR",
+        "name": "Borella"
+      },
+      "id": "BK-0001",
+      "pickup": {
+        "code": "KOT",
+        "name": "Kottawa"
+      },
+      "route": "R1",
+      "state": "Pending",
+      "walk_in": false
+    },
+    "bus": {
+      "alert": false,
+      "capacity": 40,
+      "color": "blue",
+      "direction": "forward",
+      "eta_min": 3.9,
+      "from_stop": {
+        "code": "MKB",
+        "name": "Makumbura"
+      },
+      "heading": 282.2,
+      "id": "MB-102",
+      "lat": 6.83806,
+      "lng": 79.97872,
+      "next_stop": {
+        "code": "KOT",
+        "name": "Kottawa"
+      },
+      "on_board": 0,
+      "plate": "NB-4102",
+      "reroute_reason": "",
+      "rerouted": false,
+      "route": "R1",
+      "route_name": "Makumbura - Pettah",
+      "seats_left": 40,
+      "segment_seats": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "state": "moving",
+      "stops": [
+        {
+          "code": "MKB",
+          "eta_min": null,
+          "name": "Makumbura",
+          "passed": true
+        },
+        {
+          "code": "KOT",
+          "eta_min": 3.9,
+          "name": "Kottawa",
+          "passed": false
+        },
+        {
+          "code": "BAT",
+          "eta_min": 24.8,
+          "name": "Battaramulla",
+          "passed": false
+        },
+        {
+          "code": "BOR",
+          "eta_min": 36.6,
+          "name": "Borella",
+          "passed": false
+        },
+        {
+          "code": "TWH",
+          "eta_min": 40.8,
+          "name": "Town Hall",
+          "passed": false
+        },
+        {
+          "code": "PET",
+          "eta_min": 47.1,
+          "name": "Pettah",
+          "passed": false
+        }
+      ]
+    },
+    "delay": null,
+    "stops": [
+      {
+        "code": "MKB",
+        "eta_min": null,
+        "is_drop": false,
+        "is_pickup": false,
+        "name": "Makumbura",
+        "status": "passed"
+      },
+      {
+        "code": "KOT",
+        "eta_min": 3.9,
+        "is_drop": false,
+        "is_pickup": true,
+        "name": "Kottawa",
+        "status": "next"
+      },
+      {
+        "code": "BAT",
+        "eta_min": 24.8,
+        "is_drop": false,
+        "is_pickup": false,
+        "name": "Battaramulla",
+        "status": "upcoming"
+      },
+      {
+        "code": "BOR",
+        "eta_min": 36.6,
+        "is_drop": true,
+        "is_pickup": false,
+        "name": "Borella",
+        "status": "upcoming"
+      },
+      {
+        "code": "TWH",
+        "eta_min": 40.8,
+        "is_drop": false,
+        "is_pickup": false,
+        "name": "Town Hall",
+        "status": "upcoming"
+      },
+      {
+        "code": "PET",
+        "eta_min": 47.1,
+        "is_drop": false,
+        "is_pickup": false,
+        "name": "Pettah",
+        "status": "upcoming"
+      }
+    ],
+    "stops_remaining": 3
+  },
+  "error": null,
+  "ok": true
+}

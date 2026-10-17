@@ -1,0 +1,139 @@
+/* Motion classes and keyframes Jac cannot express (jac-uiux-craftsman skill, section 4).
+   Animate only transform and opacity. Everything here collapses under reduced motion. */
+
+:root {
+  --ease-spring: cubic-bezier(0.2, 0.9, 0.25, 1.15);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur-mid: 250ms;
+  --dur-pop: 420ms;
+}
+
+/* 3D pop-up (Modal3D) */
+.pop3d-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 10, 20, 0.55);
+  backdrop-filter: blur(6px);
+  animation: fade-in var(--dur-mid) var(--ease-out) both;
+}
+.pop3d-stage {
+  perspective: 1200px;
+}
+.pop3d {
+  transform-origin: 50% 100%;
+  animation: pop-in var(--dur-pop) var(--ease-spring) both;
+}
+.pop3d.is-leaving {
+  animation: pop-out 200ms var(--ease-out) both;
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: rotateX(-14deg) translateY(24px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pop-out {
+  to { opacity: 0; transform: translateY(12px) scale(0.97); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Card tilt: pointer sets --rx / --ry (max 8deg) */
+.tilt {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.tilt .tilt-lift {
+  transform: translateZ(30px);
+}
+
+/* Live pulse */
+.pulse {
+  position: relative;
+}
+.pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid var(--neon);
+  animation: pulse-ring 1.6s var(--ease-out) infinite;
+}
+@keyframes pulse-ring {
+  from { opacity: 0.8; transform: scale(0.8); }
+  to { opacity: 0; transform: scale(1.6); }
+}
+
+/* Scan line over a QR frame */
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+.scanline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--neon);
+  box-shadow: 0 0 12px var(--neon);
+  animation: scan 2s linear infinite;
+}
+@keyframes scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(var(--scan-height, 240px)); }
+}
+
+/* Route draw: set --len to the path length */
+.route-draw {
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+  animation: draw 600ms var(--ease-out) forwards;
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-control);
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* Wall background, tier 1: neon grid floor scrolling toward the viewer */
+.wall-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.35;
+  background:
+    linear-gradient(transparent 0 96%, rgba(34, 211, 238, 0.35) 96%) 0 0 / 100% 48px,
+    linear-gradient(90deg, transparent 0 96%, rgba(34, 211, 238, 0.25) 96%) 0 0 / 48px 100%;
+  transform: perspective(600px) rotateX(60deg) translateY(30%);
+  transform-origin: 50% 100%;
+  animation: grid-scroll 6s linear infinite;
+}
+@keyframes grid-scroll {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 48px, 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+  .pop3d { animation: fade-in var(--dur-fast) linear both !important; }
+  .tilt { transform: none !important; }
+  .scanline::before { display: none; }
+  .wall-grid { animation: none !important; }
+}

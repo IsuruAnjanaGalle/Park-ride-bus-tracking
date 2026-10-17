@@ -1,0 +1,16 @@
+{
+  "data": {
+    "counts": {
+      "buses": 9,
+      "junctions": 34,
+      "roads": 53,
+      "routes": 3,
+      "slots": 850,
+      "terminals": 4,
+      "users": 2
+    },
+    "seconds": 2.43
+  },
+  "error": null,
+  "ok": true
+}
