@@ -8,11 +8,11 @@ Adheres strictly to the in-cab safety guidelines:
 - 2-tap incident reporting flow (type -> severity -> submit)
 """
 
-import from "@jac/runtime" { useEffect, useState }
+cl import from "@jac/runtime" { useEffect, useState }
 import from ..components.shared.api { get_driver_view, report_incident }
 import from ..components.admin.DriverInstructionBar { DriverInstructionBar }
 import from ..components.admin.RerouteBanner { RerouteBanner }
-import "../components/admin/admin_tokens.css";
+cl import "../components/admin/admin_tokens.css";
 
 def:pub DriverApp(busId: str = "MB-101") -> JsxElement {
     has showModal: bool = False,

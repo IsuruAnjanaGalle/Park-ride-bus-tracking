@@ -3,7 +3,7 @@
 Usage: <RoleGuard role="admin" next="/admin"><AdminApp /></RoleGuard>. Owner: Dev A.
 """
 
-import from "@jac/runtime" { Link }
+cl import from "@jac/runtime" { Link }
 import from .api { current_user }
 
 def:pub RoleGuard(role: str, next: str = "/", children: any = None) -> JsxElement {
@@ -21,5 +21,5 @@ def:pub RoleGuard(role: str, next: str = "/", children: any = None) -> JsxElemen
             <Link to={"/login?next=" + next}>Log in as another user</Link>
         </main>;
     }
-    <>{children}</>
+    return <>{children}</>;
 }

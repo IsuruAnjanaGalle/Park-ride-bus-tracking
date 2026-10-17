@@ -3,7 +3,7 @@
 ?next=/admin returns there after logging in.
 """
 
-import from "@jac/runtime" { useNavigate, useLocation }
+cl import from "@jac/runtime" { useNavigate, useLocation }
 import from ..components.shared.api { login }
 
 def:pub LoginPage -> JsxPage {

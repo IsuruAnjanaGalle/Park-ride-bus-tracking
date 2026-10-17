@@ -17,9 +17,9 @@ def:pub AdminApp -> JsxElement {
         }
     }
 
-    <main data-theme="night" className="min-h-dvh p-6 flex flex-col gap-3" style={{"background": "var(--bg)", "color": "var(--text)"}}>
+    return <main data-theme="night" className="min-h-dvh p-6 flex flex-col gap-3" style={{"background": "var(--bg)", "color": "var(--text)"}}>
         <h1 className="text-3xl font-bold">Admin panel</h1>
         <p>Placeholder. Dev C builds Home, Bus account and Demo console here.</p>
         <p role="status">{"Buses from admin_bus_list: " + str(count) if status == "ready" else status}</p>
-    </main>
+    </main>;
 }
