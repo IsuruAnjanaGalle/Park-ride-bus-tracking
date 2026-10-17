@@ -1,0 +1,122 @@
+[
+  {
+    "id": "stop_makumbura",
+    "name": "Makumbura Multimodal Transport Center (MMC)",
+    "code": "MMC",
+    "latitude": 6.8407,
+    "longitude": 79.9984,
+    "is_terminal": true,
+    "zone": "Zone Western South",
+    "city": "Kottawa",
+    "total_slots": 50,
+    "available_slots": 42
+  },
+  {
+    "id": "stop_kadawatha",
+    "name": "Kadawatha Multimodal Transport Hub",
+    "code": "KDH",
+    "latitude": 7.0019,
+    "longitude": 79.9534,
+    "is_terminal": true,
+    "zone": "Zone Western North",
+    "city": "Kadawatha",
+    "total_slots": 40,
+    "available_slots": 35
+  },
+  {
+    "id": "stop_katunayake",
+    "name": "Katunayake Airport Interchange Hub",
+    "code": "KTN",
+    "latitude": 7.1652,
+    "longitude": 79.8887,
+    "is_terminal": true,
+    "zone": "Zone Airport Outer",
+    "city": "Katunayake",
+    "total_slots": 30,
+    "available_slots": 26
+  },
+  {
+    "id": "stop_pettah_fort",
+    "name": "Pettah - Colombo Fort Central Bus Station",
+    "code": "FST",
+    "latitude": 6.9344,
+    "longitude": 79.8507,
+    "is_terminal": false,
+    "zone": "Zone Central CBD",
+    "city": "Colombo 01",
+    "total_slots": 0,
+    "available_slots": 0
+  },
+  {
+    "id": "stop_borella",
+    "name": "Borella Junction Transit Center",
+    "code": "BRL",
+    "latitude": 6.9147,
+    "longitude": 79.8778,
+    "is_terminal": false,
+    "zone": "Zone Colombo Metro",
+    "city": "Colombo 08",
+    "total_slots": 0,
+    "available_slots": 0
+  },
+  {
+    "id": "stop_town_hall",
+    "name": "Town Hall - Cinnamon Gardens",
+    "code": "THL",
+    "latitude": 6.9157,
+    "longitude": 79.8636,
+    "is_terminal": false,
+    "zone": "Zone Central CBD",
+    "city": "Colombo 07",
+    "total_slots": 0,
+    "available_slots": 0
+  },
+  {
+    "id": "stop_maharagama",
+    "name": "Maharagama Clock Tower Transit Stop",
+    "code": "MHG",
+    "latitude": 6.8488,
+    "longitude": 79.9267,
+    "is_terminal": false,
+    "zone": "Zone Western South",
+    "city": "Maharagama",
+    "total_slots": 0,
+    "available_slots": 0
+  },
+  {
+    "id": "stop_kottawa",
+    "name": "Kottawa Junction Interchange",
+    "code": "KTW",
+    "latitude": 6.8422,
+    "longitude": 79.9678,
+    "is_terminal": false,
+    "zone": "Zone Western South",
+    "city": "Kottawa",
+    "total_slots": 0,
+    "available_slots": 0
+  },
+  {
+    "id": "stop_nugegoda",
+    "name": "Nugegoda Supermarket Interchange",
+    "code": "NGD",
+    "latitude": 6.8649,
+    "longitude": 79.8997,
+    "is_terminal": false,
+    "zone": "Zone Colombo Metro",
+    "city": "Nugegoda",
+    "total_slots": 0,
+    "available_slots": 0
+  },
+  {
+    "id": "stop_bambalapitiya",
+    "name": "Bambalapitiya Marine Drive Station",
+    "code": "BPT",
+    "latitude": 6.8920,
+    "longitude": 79.8552,
+    "is_terminal": false,
+    "zone": "Zone Colombo South Coast",
+    "city": "Colombo 04",
+    "total_slots": 0,
+    "available_slots": 0
+  }
+]

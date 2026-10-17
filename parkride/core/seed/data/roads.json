@@ -1,0 +1,192 @@
+[
+  {
+    "from_stop_id": "stop_makumbura",
+    "to_stop_id": "stop_kottawa",
+    "road_name": "High Level Road (A4)",
+    "distance_km": 3.2,
+    "base_travel_time_min": 6.0,
+    "current_travel_time_min": 7.5,
+    "congestion_factor": 1.25,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_kottawa",
+    "to_stop_id": "stop_makumbura",
+    "road_name": "High Level Road (A4)",
+    "distance_km": 3.2,
+    "base_travel_time_min": 6.0,
+    "current_travel_time_min": 7.0,
+    "congestion_factor": 1.15,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_kottawa",
+    "to_stop_id": "stop_maharagama",
+    "road_name": "High Level Road (A4)",
+    "distance_km": 4.5,
+    "base_travel_time_min": 9.0,
+    "current_travel_time_min": 12.0,
+    "congestion_factor": 1.33,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_maharagama",
+    "to_stop_id": "stop_kottawa",
+    "road_name": "High Level Road (A4)",
+    "distance_km": 4.5,
+    "base_travel_time_min": 9.0,
+    "current_travel_time_min": 10.5,
+    "congestion_factor": 1.17,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_maharagama",
+    "to_stop_id": "stop_nugegoda",
+    "road_name": "High Level Road (A4)",
+    "distance_km": 3.8,
+    "base_travel_time_min": 8.0,
+    "current_travel_time_min": 11.5,
+    "congestion_factor": 1.44,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_nugegoda",
+    "to_stop_id": "stop_maharagama",
+    "road_name": "High Level Road (A4)",
+    "distance_km": 3.8,
+    "base_travel_time_min": 8.0,
+    "current_travel_time_min": 9.5,
+    "congestion_factor": 1.19,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_nugegoda",
+    "to_stop_id": "stop_borella",
+    "road_name": "Narahenpita - Baseline Road",
+    "distance_km": 5.4,
+    "base_travel_time_min": 11.0,
+    "current_travel_time_min": 14.0,
+    "congestion_factor": 1.27,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_borella",
+    "to_stop_id": "stop_nugegoda",
+    "road_name": "Baseline Road - Narahenpita",
+    "distance_km": 5.4,
+    "base_travel_time_min": 11.0,
+    "current_travel_time_min": 13.0,
+    "congestion_factor": 1.18,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_borella",
+    "to_stop_id": "stop_town_hall",
+    "road_name": "Ward Place / Cotta Road",
+    "distance_km": 2.1,
+    "base_travel_time_min": 4.5,
+    "current_travel_time_min": 6.0,
+    "congestion_factor": 1.33,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_town_hall",
+    "to_stop_id": "stop_borella",
+    "road_name": "Ward Place",
+    "distance_km": 2.1,
+    "base_travel_time_min": 4.5,
+    "current_travel_time_min": 5.5,
+    "congestion_factor": 1.22,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_town_hall",
+    "to_stop_id": "stop_pettah_fort",
+    "road_name": "T.B. Jayah Mawatha / D.R. Wijewardena",
+    "distance_km": 3.1,
+    "base_travel_time_min": 7.0,
+    "current_travel_time_min": 10.0,
+    "congestion_factor": 1.43,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_pettah_fort",
+    "to_stop_id": "stop_town_hall",
+    "road_name": "Olcott Mawatha / Union Place",
+    "distance_km": 3.1,
+    "base_travel_time_min": 7.0,
+    "current_travel_time_min": 9.0,
+    "congestion_factor": 1.28,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_makumbura",
+    "to_stop_id": "stop_pettah_fort",
+    "road_name": "Direct Expressway P&R Shuttle (E02 / Port Access)",
+    "distance_km": 21.5,
+    "base_travel_time_min": 24.0,
+    "current_travel_time_min": 26.0,
+    "congestion_factor": 1.08,
+    "is_expressway": true
+  },
+  {
+    "from_stop_id": "stop_pettah_fort",
+    "to_stop_id": "stop_makumbura",
+    "road_name": "Direct Expressway P&R Shuttle (Return)",
+    "distance_km": 21.5,
+    "base_travel_time_min": 24.0,
+    "current_travel_time_min": 25.5,
+    "congestion_factor": 1.06,
+    "is_expressway": true
+  },
+  {
+    "from_stop_id": "stop_kadawatha",
+    "to_stop_id": "stop_borella",
+    "road_name": "Baseline Road (A1/Peliyagoda)",
+    "distance_km": 14.2,
+    "base_travel_time_min": 22.0,
+    "current_travel_time_min": 28.0,
+    "congestion_factor": 1.27,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_borella",
+    "to_stop_id": "stop_kadawatha",
+    "road_name": "Baseline Road (Return)",
+    "distance_km": 14.2,
+    "base_travel_time_min": 22.0,
+    "current_travel_time_min": 25.0,
+    "congestion_factor": 1.14,
+    "is_expressway": false
+  },
+  {
+    "from_stop_id": "stop_kadawatha",
+    "to_stop_id": "stop_pettah_fort",
+    "road_name": "Kadawatha - Fort Expressway Link (E02 / Peliyagoda)",
+    "distance_km": 16.0,
+    "base_travel_time_min": 18.0,
+    "current_travel_time_min": 20.0,
+    "congestion_factor": 1.11,
+    "is_expressway": true
+  },
+  {
+    "from_stop_id": "stop_katunayake",
+    "to_stop_id": "stop_pettah_fort",
+    "road_name": "Colombo - Katunayake Expressway (E03)",
+    "distance_km": 28.5,
+    "base_travel_time_min": 25.0,
+    "current_travel_time_min": 27.0,
+    "congestion_factor": 1.08,
+    "is_expressway": true
+  },
+  {
+    "from_stop_id": "stop_bambalapitiya",
+    "to_stop_id": "stop_pettah_fort",
+    "road_name": "Marine Drive / Galle Road",
+    "distance_km": 5.8,
+    "base_travel_time_min": 12.0,
+    "current_travel_time_min": 16.0,
+    "congestion_factor": 1.33,
+    "is_expressway": false
+  }
+]
