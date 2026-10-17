@@ -10,7 +10,7 @@ import from core.walkers.buses { get_map, get_buses, book_seat, get_trip }
 import from core.walkers.scans { process_scan }
 import from core.walkers.admin { admin_bus_list, admin_bus_account, admin_next_stop, admin_feed }
 import from core.walkers.traffic { set_traffic, report_incident, get_driver_view }
-import from core.walkers.demo { demo_control, run_demo, reset_demo }
+import from core.walkers.demo { demo_control, reset_demo }
 
 import "./styles/main.css";
 

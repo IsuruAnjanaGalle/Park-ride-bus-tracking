@@ -8,14 +8,14 @@ import from ..components.shared.api {
     get_profile, get_terminals, get_slots, recommend_slots, book_slot, mark_parked, release_slot,
     get_map, get_buses, book_seat, get_trip, process_scan,
     admin_bus_list, admin_bus_account, admin_next_stop, admin_feed,
-    demo_control, set_traffic, report_incident, get_driver_view, run_demo, reset_demo
+    demo_control, set_traffic, report_incident, get_driver_view, reset_demo
 }
 
 glob WALKERS: list[str] = [
     "get_profile", "get_terminals", "get_slots", "recommend_slots", "book_slot", "mark_parked",
     "release_slot", "get_map", "get_buses", "book_seat", "get_trip", "process_scan",
     "admin_bus_list", "admin_bus_account", "admin_next_stop", "admin_feed", "demo_control",
-    "set_traffic", "report_incident", "get_driver_view", "run_demo", "reset_demo"
+    "set_traffic", "report_incident", "get_driver_view", "reset_demo"
 ];
 
 def:pub CoreConsole -> JsxElement {
@@ -97,8 +97,6 @@ def:pub CoreConsole -> JsxElement {
             env = await report_incident("MB-101", "accident", "closed");
         } elif name == "get_driver_view" {
             env = await get_driver_view("MB-101");
-        } elif name == "run_demo" {
-            env = await run_demo("status");
         } elif name == "reset_demo" {
             env = await reset_demo();
         }

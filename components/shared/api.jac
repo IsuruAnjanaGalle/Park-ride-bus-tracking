@@ -35,7 +35,6 @@ import from core.walkers.traffic {
 }
 import from core.walkers.demo {
     demo_control as w_demo_control,
-    run_demo as w_run_demo,
     reset_demo as w_reset_demo
 }
 import from mock.mocks {
@@ -64,17 +63,16 @@ glob USE_MOCK: dict[str, bool] = {
     "admin_bus_account": True,
     "admin_next_stop": True,
     "admin_feed": True,
-    "demo_control": True,
-    "set_traffic": True,
-    "report_incident": True,
-    "get_driver_view": True,
-    "run_demo": True,
+    "demo_control": False,
+    "set_traffic": False,
+    "report_incident": False,
+    "get_driver_view": False,
     "reset_demo": False
 };
 
 """Turn every mock on or off at once (the MOCK toggle on /dev/core)."""
-def set_all_mocks(on: bool) -> None {
-    for name in Object.keys(USE_MOCK) {
+def set_all_mocks(on: bool) {
+    for name in USE_MOCK.keys() {
         if name != "get_profile" {
             USE_MOCK[name] = on;
         }
@@ -87,15 +85,17 @@ def _err(code: str, message: str) -> dict[str, any] {
 
 """First report of a spawn result, or an error envelope when the call failed."""
 def _first(result: any) -> dict[str, any] {
-    if result and result.reports and len(result.reports) > 0 {
-        return result.reports[0];
+    reports: list[any] = list(getattr(result, "reports", [])) if result else [];
+    if len(reports) > 0 {
+        rep: dict[str, any] = dict(reports[0]);
+        return rep;
     }
     return _err("EMPTY", "The server sent no report.");
 }
 
 """Map a thrown error (e.g. no session) to an envelope."""
 def _thrown(e: any) -> dict[str, any] {
-    text = String(e);
+    text: str = str(e);
     if "UNAUTHORIZED" in text or "401" in text {
         return _err("UNAUTHORIZED", "Please log in first.");
     }
@@ -107,13 +107,13 @@ def _thrown(e: any) -> dict[str, any] {
 """Log in (creating the demo account on first use), bind the profile, remember username and role."""
 async def login(username: str, password: str) -> dict[str, any] {
     ok: bool = False;
-    signup: SignupResult | None = None;
+    signup: any = None;
     result: any = None;
     try {
         ok = await jacLogin(username, password);
         if not ok {
             signup = await jacSignup(username, password);
-            if signup and signup.success {
+            if signup and getattr(signup, "success", False) {
                 ok = await jacLogin(username, password);
             }
         }
@@ -122,9 +122,10 @@ async def login(username: str, password: str) -> dict[str, any] {
         }
         result = root spawn w_get_profile(username=username);
         env = _first(result);
-        if env["ok"] {
-            localStorage.setItem("parkride_user", env["data"]["username"]);
-            localStorage.setItem("parkride_role", env["data"]["role"]);
+        if env.get("ok") {
+            data: dict = dict(env.get("data", {}));
+            localStorage.setItem("parkride_user", str(data.get("username", "")));
+            localStorage.setItem("parkride_role", str(data.get("role", "")));
         }
         return env;
     } except Exception as e {
@@ -132,7 +133,7 @@ async def login(username: str, password: str) -> dict[str, any] {
     }
 }
 
-def logout -> None {
+def logout {
     jacLogout();
     localStorage.removeItem("parkride_user");
     localStorage.removeItem("parkride_role");
@@ -348,16 +349,13 @@ async def admin_feed(limit: int = 50) -> dict[str, any] {
 
 # ---- demo, traffic, driver ----------------------------------------------------
 
-async def demo_control(
-    action: str = "status", speed: float = 0.0, bus_id: str = "", stop: str = "",
-    count: int = 1, drop: str = ""
-) -> dict[str, any] {
+async def demo_control(action: str = "status", speed: float = 0.0) -> dict[str, any] {
     if USE_MOCK["demo_control"] {
         return mock_demo_control();
     }
     try {
         return _first(root spawn w_demo_control(
-            action=action, speed=speed, bus_id=bus_id, stop=stop, count=count, drop=drop
+            action=action, speed=speed
         ));
     } except Exception as e {
         return _thrown(e);
@@ -392,17 +390,6 @@ async def get_driver_view(bus_id: str) -> dict[str, any] {
     }
     try {
         return _first(root spawn w_get_driver_view(bus_id=bus_id));
-    } except Exception as e {
-        return _thrown(e);
-    }
-}
-
-async def run_demo(action: str = "status") -> dict[str, any] {
-    if USE_MOCK["run_demo"] {
-        return mock_run_demo();
-    }
-    try {
-        return _first(root spawn w_run_demo(action=action));
     } except Exception as e {
         return _thrown(e);
     }

@@ -26,11 +26,11 @@ Screens never call walkers directly: they call the function with the same name i
 | admin_bus_account | admin | stub | 2 |
 | admin_next_stop | admin | stub | 2 |
 | admin_feed | admin | stub | 2 |
-| demo_control | admin | real for status / speed / pause / resume; stub for jump / spawn_passenger | 3 |
-| set_traffic | admin | stub | 3 |
-| report_incident | public (driver) | stub | 3 |
-| get_driver_view | public (driver) | stub | 3 |
-| run_demo | admin | stub | 4 |
+| demo_control | admin | real (status / speed / pause / resume) | 3 |
+| set_traffic | admin | real | 3 |
+| report_incident | public (driver) | real | 3 |
+| get_driver_view | public (driver) | real | 3 |
+| run_demo | admin | removed (D-C01) | - |
 | reset_demo | admin | real | 0 |
 
 Auth: **public** = `walker:pub`, no login. **login** = `walker:protect`; call `login()` in `api.jac` first (it also calls `get_profile`). **admin** = `walker:protect` plus the caller's profile role must be `admin`; otherwise `FORBIDDEN`.
@@ -192,8 +192,8 @@ Poll every 2 s. Newest first.
 - Out: `{scans: [ScanRow], alerts: [Alert], decisions: [Decision]}`
 
 ### 3.16 demo_control — admin
-- In: `action: str = "status"`, `speed: float = 0`, `bus_id: str = ""`, `stop: str = ""`, `count: int = 1`, `drop: str = ""`
-  - `status`; `speed` (1, 5, 10 or 30); `pause`; `resume`; `jump` (`bus_id`, `stop`: put the bus at that stop and fire its arrival); `spawn_passenger` (`bus_id`, `stop`, `count`, `drop`: test riders booked from `stop` to `drop`).
+- In: `action: str = "status"`, `speed: float = 0`
+  - `status`; `speed` (1, 5, 10 or 30); `pause`; `resume`.
 - Out: `{clock: Clock, message}`
 - Errors: `INVALID_INPUT`.
 
@@ -215,10 +215,8 @@ Poll every 2 s.
   - `turn` left, right, straight, arrive. `text` e.g. "Turn right toward Nawala". `waiting_at_next` = pending bookings at the next stop. `reroute_reason` e.g. "Rajagiriya – Battaramulla closed · saves 6 min".
 - Errors: `NOT_FOUND`.
 
-### 3.20 run_demo — admin
-- In: `action: str = "status"` (status, play, pause, next, restart)
-- Out: `{step, total, caption, playing, finished, last}` — `caption` for the caption bar; `last` = the result of the step just run.
-- Errors: `INVALID_INPUT`.
+### 3.20 run_demo — admin (removed (D-C01))
+Scripted demo mode is cancelled. Reset demo is kept via `reset_demo`.
 
 ### 3.21 reset_demo — admin
 Rebuilds the world from `docs/data/` (target under 5 s).
