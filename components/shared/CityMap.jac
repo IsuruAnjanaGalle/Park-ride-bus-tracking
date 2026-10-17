@@ -8,16 +8,16 @@ Shared across Passenger App (Dev B) and Admin/Driver views (Dev C).
 import from "react" { useState, useEffect }
 
 def:pub CityMap(
-    mapData: dict,
-    buses: list[dict] = [],
+    mapData: dict[str, any],
+    buses: list[dict[str, any]] = [],
     selectedBusId: str = "",
     highlightBusId: str = "",
     onBusClick: any = None,
     onStopClick: any = None,
     className: str = ""
 ) -> JsxElement {
-    has hoveredBus: dict = {};
-    has hoveredStop: dict = {};
+    has hoveredBus: dict[str, any] = {};
+    has hoveredStop: dict[str, any] = {};
 
     # Extract bounds with safe defaults
     rawBounds = dict(mapData.get("bounds", {}));

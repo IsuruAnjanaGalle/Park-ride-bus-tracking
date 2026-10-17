@@ -30,6 +30,7 @@ Screens never call walkers directly: they call the function with the same name i
 | set_traffic | admin | real | 3 |
 | report_incident | public (driver) | real | 3 |
 | get_driver_view | public (driver) | real | 3 |
+| run_demo | admin | hidden (not used) — demo mode cancelled by the lead; code kept | – |
 | run_demo | admin | real | 4 |
 | reset_demo | admin | real | 0 |
 
@@ -218,7 +219,9 @@ Poll every 2 s.
   - `turn` left, right, straight, arrive. `text` e.g. "Turn right toward Nawala". `waiting_at_next` = pending bookings at the next stop. `reroute_reason` e.g. "Rajagiriya – Battaramulla closed · saves 6 min".
 - Errors: `NOT_FOUND`.
 
-### 3.20 run_demo — admin
+### 3.20 run_demo — admin — hidden (not used)
+Demo mode is cancelled for today. The walker still works but no screen may call it.
+
 - In: `action: str = "status"` (status, play, pause, next, restart)
 - Out: `{step, total, caption, playing, finished, last}` — `step` = steps done (0 before Play); `caption` describes the step just run; `last` = its result. While `playing`, poll `status` every 2 s: each poll runs the next step once 4 s have passed. `restart` resets the world to the seed (`last.reset_seconds`).
 - Errors: `INVALID_INPUT`.
