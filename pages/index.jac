@@ -74,8 +74,6 @@ def:pub PassengerHome -> JsxPage {
     has loading: bool = False;
     has toastMsg: str = "";
 
-    nav = useNavigate();
-
     async def init_data {
         loading = True;
         # Auto-login demo passenger
@@ -241,7 +239,6 @@ def:pub PassengerHome -> JsxPage {
         showBookingModal = False;
         sRes = await book_seat(bus_id=busId, pickup=pickupCode, drop=dropCode);
         if sRes.get("ok", False) {
-            sData: dict = dict(sRes.get("data", {}));
             hasActiveTrip = True;
             await refresh_trip();
             toastMsg = f"Seat reserved on {busId}! Boarding at {pickupCode}.";
@@ -266,11 +263,10 @@ def:pub PassengerHome -> JsxPage {
             }
             await refresh_trip();
             return pData;
-        } else {
-            err: dict = dict(pRes.get("error", {}));
-            toastMsg = str(err.get("message", "Scan rejected"));
-            return {"result": "rejected", "message": toastMsg};
         }
+        err: dict = dict(pRes.get("error", {}));
+        toastMsg = str(err.get("message", "Scan rejected"));
+        return {"result": "rejected", "message": toastMsg};
     }
 
     user = current_user();
