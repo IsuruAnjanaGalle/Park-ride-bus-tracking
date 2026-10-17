@@ -8,8 +8,6 @@ Shared across Passenger App (Dev B) and Admin/Driver views (Dev C).
 def:pub CityMap(
     mapData: dict[str, any],
     buses: list[any] = None,
-    mapData: dict[str, any],
-    buses: list[dict[str, any]] = [],
     selectedBusId: str = "",
     highlightBusId: str = "",
     onBusClick: any = None,
