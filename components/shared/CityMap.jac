@@ -8,6 +8,8 @@ Shared across Passenger App (Dev B) and Admin/Driver views (Dev C).
 def:pub CityMap(
     mapData: dict,
     buses: list = None,
+    mapData: dict[str, any],
+    buses: list[dict[str, any]] = [],
     selectedBusId: str = "",
     highlightBusId: str = "",
     onBusClick: any = None,
@@ -15,6 +17,8 @@ def:pub CityMap(
     className: str = ""
 ) -> JsxElement {
     safeBuses: list[dict] = [dict(b) for b in buses] if buses else [];
+    has hoveredBus: dict[str, any] = {};
+    has hoveredStop: dict[str, any] = {};
 
     rawBounds: dict = dict(mapData.get("bounds", {}));
     minLat = float(str(rawBounds.get("min_lat", "6.796")));

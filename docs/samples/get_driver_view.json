@@ -5,18 +5,18 @@
       "capacity": 40,
       "color": "blue",
       "direction": "reverse",
-      "eta_min": 10.1,
+      "eta_min": 21.9,
       "from_stop": {
-        "code": "BOR",
-        "name": "Borella"
-      },
-      "heading": 109.2,
-      "id": "MB-101",
-      "lat": 6.9119,
-      "lng": 79.883575,
-      "next_stop": {
         "code": "BAT",
         "name": "Battaramulla"
+      },
+      "heading": 141.7,
+      "id": "MB-101",
+      "lat": 6.9,
+      "lng": 79.918,
+      "next_stop": {
+        "code": "KOT",
+        "name": "Kottawa"
       },
       "on_board": 0,
       "plate": "NB-4101",
@@ -32,7 +32,7 @@
         40,
         40
       ],
-      "state": "moving",
+      "state": "dwelling",
       "stops": [
         {
           "code": "PET",
@@ -54,44 +54,44 @@
         },
         {
           "code": "BAT",
-          "eta_min": 10.1,
+          "eta_min": 0.0,
           "name": "Battaramulla",
           "passed": false
         },
         {
           "code": "KOT",
-          "eta_min": 31.0,
+          "eta_min": 21.9,
           "name": "Kottawa",
           "passed": false
         },
         {
           "code": "MKB",
-          "eta_min": 34.9,
+          "eta_min": 26.3,
           "name": "Makumbura",
           "passed": false
         }
       ]
     },
-    "eta_min": 10.1,
+    "eta_min": 21.9,
     "instruction": {
-      "km": 1.0,
-      "text": "Continue toward Battaramulla",
+      "km": 0.0,
+      "text": "At Battaramulla - board and alight",
       "toward": "Battaramulla",
-      "turn": "straight"
+      "turn": "arrive"
     },
     "next_stop": {
-      "code": "BAT",
-      "name": "Battaramulla"
+      "code": "KOT",
+      "name": "Kottawa"
     },
     "path": [
-      "BOR",
-      "BAT"
+      "BAT",
+      "KOT"
     ],
     "reroute_reason": "",
     "rerouted": false,
     "road": {
-      "a": "BOR",
-      "b": "BAT",
+      "a": "BAT",
+      "b": "KOT",
       "level": 0
     },
     "waiting_at_next": 0

@@ -6,6 +6,24 @@ Includes:
 - Milestone 2: Interactive SVG CityMap with 9 live buses polled every 2s,
   fleet cards, seat booking modal with segment seat check, trip view with
   2-stop arrival alert banner, and stop QR camera/demo scanner with dedupe.
+"""/ - passenger app. Placeholder from milestone 0; Dev B owns this page."""
+
+import from "@jac/runtime" { Link }
+
+def:pub PassengerHome -> JsxPage {
+    <main className="mx-auto max-w-md p-4 flex flex-col gap-4">
+        <h1 className="text-3xl font-bold">Park &amp; Ride Sri Lanka</h1>
+        <p>Passenger app placeholder. Dev B builds the landing pop-up here.</p>
+        <nav className="flex flex-wrap gap-3">
+            <Link to="/login">Log in</Link>
+            <Link to="/admin">Admin</Link>
+            <Link to="/driver/MB-101">Driver MB-101</Link>
+            <Link to="/dev/core">Core console</Link>
+        </nav>
+    </main>
+"""/ - Passenger App for Park & Ride Sri Lanka.
+Milestone 1: Landing Modal, Terminal Picker, EV Filtering, Slot Recommendation,
+Interactive 2D Grid, and Gate Pass with 'Mark vehicle as parked'.
 """
 
 import from "react" { useEffect }
@@ -71,6 +89,11 @@ def:pub PassengerHome -> JsxPage {
     has activeTripData: dict = {};
 
     # General UI state
+    # Backend data state
+    has terminals: list[dict[str, any]] = [];
+    has terminalSlots: list[dict[str, any]] = [];
+    has recommendation: dict[str, any] = {};
+    has activeBooking: dict[str, any] = {};
     has loading: bool = False;
     has toastMsg: str = "";
 

@@ -49,31 +49,38 @@ import from mock.mocks {
 """Per-walker mock switch. Set an entry to False once the walker is `real` in contracts.md."""
 glob USE_MOCK: dict[str, bool] = {
     "get_profile": False,
-    "get_terminals": True,
-    "get_slots": True,
-    "recommend_slots": True,
-    "book_slot": True,
-    "mark_parked": True,
-    "release_slot": True,
-    "get_map": True,
-    "get_buses": True,
-    "book_seat": True,
-    "get_trip": True,
-    "process_scan": True,
+    "get_terminals": False,
+    "get_slots": False,
+    "recommend_slots": False,
+    "book_slot": False,
+    "mark_parked": False,
+    "release_slot": False,
+    "get_map": False,
+    "get_buses": False,
+    "book_seat": False,
+    "get_trip": False,
+    "process_scan": False,
     "admin_bus_list": True,
     "admin_bus_account": True,
     "admin_next_stop": True,
     "admin_feed": True,
-    "demo_control": True,
-    "set_traffic": True,
-    "report_incident": True,
-    "get_driver_view": True,
-    "run_demo": True,
+    "demo_control": False,
+    "set_traffic": False,
+    "report_incident": False,
+    "get_driver_view": False,
+    "run_demo": False,
     "reset_demo": False
 };
 
-"""Turn every mock on or off at once (the MOCK toggle on /dev/core)."""
-def set_all_mocks(on: bool) -> None {
+"""Turn every mock on or off at once (the MOCK toggle on /dev/core).
+
+Still mocked (Dev C finishes them): admin_bus_list, admin_bus_account, admin_next_stop, admin_feed.
+"""
+def:pub mock_on(name: str) -> bool {
+    return USE_MOCK[name] if name in USE_MOCK else False;
+}
+
+def:pub set_all_mocks(on: bool) -> None {
     for name in Object.keys(USE_MOCK) {
         if name != "get_profile" {
             USE_MOCK[name] = on;
@@ -104,17 +111,22 @@ def _thrown(e: any) -> dict[str, any] {
 
 # ---- session ------------------------------------------------------------------
 
-"""Log in (creating the demo account on first use), bind the profile, remember username and role."""
-async def login(username: str, password: str) -> dict[str, any] {
+"""Log in (creating the demo account on first use), bind the profile, remember username and role.
+
+The platform account is "parkride-<username>" so app users never collide with platform accounts
+such as the built-in "admin" (docs/decisions.md D-21).
+"""
+async def:pub login(username: str, password: str) -> dict[str, any] {
     ok: bool = False;
     signup: SignupResult | None = None;
     result: any = None;
+    account = "parkride-" + username;
     try {
-        ok = await jacLogin(username, password);
+        ok = await jacLogin(account, password);
         if not ok {
-            signup = await jacSignup(username, password);
+            signup = await jacSignup(account, password);
             if signup and signup.success {
-                ok = await jacLogin(username, password);
+                ok = await jacLogin(account, password);
             }
         }
         if not ok {
@@ -132,14 +144,14 @@ async def login(username: str, password: str) -> dict[str, any] {
     }
 }
 
-def logout -> None {
+def:pub logout -> None {
     jacLogout();
     localStorage.removeItem("parkride_user");
     localStorage.removeItem("parkride_role");
 }
 
 """{username, role} of the current session, or None when logged out."""
-def current_user -> dict[str, any] | None {
+def:pub current_user -> dict[str, any] | None {
     if not jacIsLoggedIn() {
         return None;
     }
@@ -150,12 +162,12 @@ def current_user -> dict[str, any] | None {
     return {"username": name, "role": localStorage.getItem("parkride_role") or "passenger"};
 }
 
-def is_admin -> bool {
+def:pub is_admin -> bool {
     user = current_user();
     return user is not None and user["role"] == "admin";
 }
 
-async def get_profile(username: str) -> dict[str, any] {
+async def:pub get_profile(username: str) -> dict[str, any] {
     if USE_MOCK["get_profile"] {
         return mock_get_profile();
     }
@@ -168,7 +180,7 @@ async def get_profile(username: str) -> dict[str, any] {
 
 # ---- parking ------------------------------------------------------------------
 
-async def get_terminals -> dict[str, any] {
+async def:pub get_terminals -> dict[str, any] {
     if USE_MOCK["get_terminals"] {
         return mock_get_terminals();
     }
@@ -179,7 +191,7 @@ async def get_terminals -> dict[str, any] {
     }
 }
 
-async def get_slots(terminal: str) -> dict[str, any] {
+async def:pub get_slots(terminal: str) -> dict[str, any] {
     if USE_MOCK["get_slots"] {
         return mock_get_slots();
     }
@@ -190,7 +202,7 @@ async def get_slots(terminal: str) -> dict[str, any] {
     }
 }
 
-async def recommend_slots(
+async def:pub recommend_slots(
     terminal: str, vehicle: str, ev: str = "no", accessible: bool = False,
     arrival: str = "08:00", return_by: str = "10:00"
 ) -> dict[str, any] {
@@ -207,7 +219,7 @@ async def recommend_slots(
     }
 }
 
-async def book_slot(terminal: str, slot_code: str, arrival: str, return_by: str) -> dict[str, any] {
+async def:pub book_slot(terminal: str, slot_code: str, arrival: str, return_by: str) -> dict[str, any] {
     if USE_MOCK["book_slot"] {
         return mock_book_slot();
     }
@@ -220,7 +232,7 @@ async def book_slot(terminal: str, slot_code: str, arrival: str, return_by: str)
     }
 }
 
-async def mark_parked(booking_id: str) -> dict[str, any] {
+async def:pub mark_parked(booking_id: str) -> dict[str, any] {
     if USE_MOCK["mark_parked"] {
         return mock_mark_parked();
     }
@@ -231,7 +243,7 @@ async def mark_parked(booking_id: str) -> dict[str, any] {
     }
 }
 
-async def release_slot(booking_id: str = "", qr: str = "") -> dict[str, any] {
+async def:pub release_slot(booking_id: str = "", qr: str = "") -> dict[str, any] {
     if USE_MOCK["release_slot"] {
         return mock_release_slot();
     }
@@ -244,7 +256,7 @@ async def release_slot(booking_id: str = "", qr: str = "") -> dict[str, any] {
 
 # ---- map, buses, seats, scans -------------------------------------------------
 
-async def get_map -> dict[str, any] {
+async def:pub get_map -> dict[str, any] {
     if USE_MOCK["get_map"] {
         return mock_get_map();
     }
@@ -255,7 +267,7 @@ async def get_map -> dict[str, any] {
     }
 }
 
-async def get_buses(route: str = "") -> dict[str, any] {
+async def:pub get_buses(route: str = "") -> dict[str, any] {
     if USE_MOCK["get_buses"] {
         return mock_get_buses();
     }
@@ -266,7 +278,7 @@ async def get_buses(route: str = "") -> dict[str, any] {
     }
 }
 
-async def book_seat(bus_id: str, pickup: str, drop: str) -> dict[str, any] {
+async def:pub book_seat(bus_id: str, pickup: str, drop: str) -> dict[str, any] {
     if USE_MOCK["book_seat"] {
         return mock_book_seat();
     }
@@ -277,7 +289,7 @@ async def book_seat(bus_id: str, pickup: str, drop: str) -> dict[str, any] {
     }
 }
 
-async def get_trip(booking_id: str = "") -> dict[str, any] {
+async def:pub get_trip(booking_id: str = "") -> dict[str, any] {
     if USE_MOCK["get_trip"] {
         return mock_get_trip();
     }
@@ -289,7 +301,7 @@ async def get_trip(booking_id: str = "") -> dict[str, any] {
 }
 
 """Send a scan. Make a fresh scan_id per physical scan (e.g. crypto.randomUUID())."""
-async def process_scan(scan_id: str, qr: str, drop: str = "") -> dict[str, any] {
+async def:pub process_scan(scan_id: str, qr: str, drop: str = "") -> dict[str, any] {
     if USE_MOCK["process_scan"] {
         return mock_process_scan();
     }
@@ -302,7 +314,7 @@ async def process_scan(scan_id: str, qr: str, drop: str = "") -> dict[str, any] 
 
 # ---- admin --------------------------------------------------------------------
 
-async def admin_bus_list -> dict[str, any] {
+async def:pub admin_bus_list -> dict[str, any] {
     if USE_MOCK["admin_bus_list"] {
         return mock_admin_bus_list();
     }
@@ -313,7 +325,7 @@ async def admin_bus_list -> dict[str, any] {
     }
 }
 
-async def admin_bus_account(bus_id: str) -> dict[str, any] {
+async def:pub admin_bus_account(bus_id: str) -> dict[str, any] {
     if USE_MOCK["admin_bus_account"] {
         return mock_admin_bus_account();
     }
@@ -324,7 +336,7 @@ async def admin_bus_account(bus_id: str) -> dict[str, any] {
     }
 }
 
-async def admin_next_stop(bus_id: str) -> dict[str, any] {
+async def:pub admin_next_stop(bus_id: str) -> dict[str, any] {
     if USE_MOCK["admin_next_stop"] {
         return mock_admin_next_stop();
     }
@@ -335,7 +347,7 @@ async def admin_next_stop(bus_id: str) -> dict[str, any] {
     }
 }
 
-async def admin_feed(limit: int = 50) -> dict[str, any] {
+async def:pub admin_feed(limit: int = 50) -> dict[str, any] {
     if USE_MOCK["admin_feed"] {
         return mock_admin_feed();
     }
@@ -348,7 +360,7 @@ async def admin_feed(limit: int = 50) -> dict[str, any] {
 
 # ---- demo, traffic, driver ----------------------------------------------------
 
-async def demo_control(
+async def:pub demo_control(
     action: str = "status", speed: float = 0.0, bus_id: str = "", stop: str = "",
     count: int = 1, drop: str = ""
 ) -> dict[str, any] {
@@ -364,7 +376,7 @@ async def demo_control(
     }
 }
 
-async def set_traffic(preset: str = "", a: str = "", b: str = "", level: int = -1) -> dict[str, any] {
+async def:pub set_traffic(preset: str = "", a: str = "", b: str = "", level: int = -1) -> dict[str, any] {
     if USE_MOCK["set_traffic"] {
         return mock_set_traffic();
     }
@@ -375,7 +387,7 @@ async def set_traffic(preset: str = "", a: str = "", b: str = "", level: int = -
     }
 }
 
-async def report_incident(bus_id: str, kind: str, severity: str) -> dict[str, any] {
+async def:pub report_incident(bus_id: str, kind: str, severity: str) -> dict[str, any] {
     if USE_MOCK["report_incident"] {
         return mock_report_incident();
     }
@@ -386,7 +398,7 @@ async def report_incident(bus_id: str, kind: str, severity: str) -> dict[str, an
     }
 }
 
-async def get_driver_view(bus_id: str) -> dict[str, any] {
+async def:pub get_driver_view(bus_id: str) -> dict[str, any] {
     if USE_MOCK["get_driver_view"] {
         return mock_get_driver_view();
     }
@@ -397,7 +409,7 @@ async def get_driver_view(bus_id: str) -> dict[str, any] {
     }
 }
 
-async def run_demo(action: str = "status") -> dict[str, any] {
+async def:pub run_demo(action: str = "status") -> dict[str, any] {
     if USE_MOCK["run_demo"] {
         return mock_run_demo();
     }
@@ -408,7 +420,7 @@ async def run_demo(action: str = "status") -> dict[str, any] {
     }
 }
 
-async def reset_demo -> dict[str, any] {
+async def:pub reset_demo -> dict[str, any] {
     if USE_MOCK["reset_demo"] {
         return mock_reset_demo();
     }

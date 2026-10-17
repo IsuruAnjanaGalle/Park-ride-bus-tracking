@@ -12,19 +12,20 @@
       "route_name": "Makumbura - Pettah",
       "seats_left": 40
     },
-    "eta_min": 10.1,
+    "eta_min": 8.4,
     "next_stop": {
       "code": "BAT",
       "name": "Battaramulla"
     },
     "path": [
       "BOR",
+      "RAJ",
       "BAT"
     ],
     "position": {
-      "heading": 109.2,
-      "lat": 6.9119,
-      "lng": 79.883575
+      "heading": 107.5,
+      "lat": 6.910312,
+      "lng": 79.8893
     },
     "trips_today": [
       {
