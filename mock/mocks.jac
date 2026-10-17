@@ -7,11 +7,11 @@ Every sample is a real stub response, so mocks and walkers share one shape.
 glob MOCK_MODE: str = "normal";
 
 """Switch every mock to "normal", "empty" or "error"."""
-def set_mock_mode(mode: str) -> None {
+def:pub set_mock_mode(mode: str) -> None {
     MOCK_MODE = mode;
 }
 
-def get_mock_mode -> str {
+def:pub get_mock_mode -> str {
     return MOCK_MODE;
 }
 
@@ -37,7 +37,7 @@ def _pick(name: str, normal: dict[str, any]) -> dict[str, any] {
     return _emptied(normal) if MOCK_MODE == "empty" else normal;
 }
 
-def mock_admin_bus_account -> dict[str, any] {
+def:pub mock_admin_bus_account -> dict[str, any] {
     return _pick(
         "admin_bus_account",
         {
@@ -63,7 +63,7 @@ def mock_admin_bus_account -> dict[str, any] {
     );
 }
 
-def mock_admin_bus_list -> dict[str, any] {
+def:pub mock_admin_bus_list -> dict[str, any] {
     return _pick(
         "admin_bus_list",
         {
@@ -351,7 +351,7 @@ def mock_admin_bus_list -> dict[str, any] {
     );
 }
 
-def mock_admin_feed -> dict[str, any] {
+def:pub mock_admin_feed -> dict[str, any] {
     return _pick(
         "admin_feed",
         {
@@ -375,7 +375,7 @@ def mock_admin_feed -> dict[str, any] {
     );
 }
 
-def mock_admin_next_stop -> dict[str, any] {
+def:pub mock_admin_next_stop -> dict[str, any] {
     return _pick(
         "admin_next_stop",
         {
@@ -398,7 +398,7 @@ def mock_admin_next_stop -> dict[str, any] {
     );
 }
 
-def mock_book_seat -> dict[str, any] {
+def:pub mock_book_seat -> dict[str, any] {
     return _pick(
         "book_seat",
         {
@@ -421,7 +421,7 @@ def mock_book_seat -> dict[str, any] {
     );
 }
 
-def mock_book_slot -> dict[str, any] {
+def:pub mock_book_slot -> dict[str, any] {
     return _pick(
         "book_slot",
         {
@@ -434,7 +434,7 @@ def mock_book_slot -> dict[str, any] {
     );
 }
 
-def mock_demo_control -> dict[str, any] {
+def:pub mock_demo_control -> dict[str, any] {
     return _pick(
         "demo_control",
         {
@@ -448,7 +448,7 @@ def mock_demo_control -> dict[str, any] {
     );
 }
 
-def mock_get_buses -> dict[str, any] {
+def:pub mock_get_buses -> dict[str, any] {
     return _pick(
         "get_buses",
         {
@@ -736,7 +736,7 @@ def mock_get_buses -> dict[str, any] {
     );
 }
 
-def mock_get_driver_view -> dict[str, any] {
+def:pub mock_get_driver_view -> dict[str, any] {
     return _pick(
         "get_driver_view",
         {
@@ -786,7 +786,7 @@ def mock_get_driver_view -> dict[str, any] {
     );
 }
 
-def mock_get_map -> dict[str, any] {
+def:pub mock_get_map -> dict[str, any] {
     return _pick(
         "get_map",
         {
@@ -910,7 +910,7 @@ def mock_get_map -> dict[str, any] {
     );
 }
 
-def mock_get_profile -> dict[str, any] {
+def:pub mock_get_profile -> dict[str, any] {
     return _pick(
         "get_profile",
         {
@@ -921,7 +921,7 @@ def mock_get_profile -> dict[str, any] {
     );
 }
 
-def mock_get_slots -> dict[str, any] {
+def:pub mock_get_slots -> dict[str, any] {
     return _pick(
         "get_slots",
         {
@@ -1246,7 +1246,7 @@ def mock_get_slots -> dict[str, any] {
     );
 }
 
-def mock_get_terminals -> dict[str, any] {
+def:pub mock_get_terminals -> dict[str, any] {
     return _pick(
         "get_terminals",
         {
@@ -1329,7 +1329,7 @@ def mock_get_terminals -> dict[str, any] {
     );
 }
 
-def mock_get_trip -> dict[str, any] {
+def:pub mock_get_trip -> dict[str, any] {
     return _pick(
         "get_trip",
         {
@@ -1393,7 +1393,7 @@ def mock_get_trip -> dict[str, any] {
     );
 }
 
-def mock_mark_parked -> dict[str, any] {
+def:pub mock_mark_parked -> dict[str, any] {
     return _pick(
         "mark_parked",
         {
@@ -1407,7 +1407,7 @@ def mock_mark_parked -> dict[str, any] {
     );
 }
 
-def mock_process_scan -> dict[str, any] {
+def:pub mock_process_scan -> dict[str, any] {
     return _pick(
         "process_scan",
         {
@@ -1425,7 +1425,7 @@ def mock_process_scan -> dict[str, any] {
     );
 }
 
-def mock_recommend_slots -> dict[str, any] {
+def:pub mock_recommend_slots -> dict[str, any] {
     return _pick(
         "recommend_slots",
         {
@@ -1465,7 +1465,7 @@ def mock_recommend_slots -> dict[str, any] {
     );
 }
 
-def mock_release_slot -> dict[str, any] {
+def:pub mock_release_slot -> dict[str, any] {
     return _pick(
         "release_slot",
         {
@@ -1479,7 +1479,7 @@ def mock_release_slot -> dict[str, any] {
     );
 }
 
-def mock_report_incident -> dict[str, any] {
+def:pub mock_report_incident -> dict[str, any] {
     return _pick(
         "report_incident",
         {
@@ -1500,7 +1500,7 @@ def mock_report_incident -> dict[str, any] {
     );
 }
 
-def mock_reset_demo -> dict[str, any] {
+def:pub mock_reset_demo -> dict[str, any] {
     return _pick(
         "reset_demo",
         {
@@ -1514,7 +1514,7 @@ def mock_reset_demo -> dict[str, any] {
     );
 }
 
-def mock_run_demo -> dict[str, any] {
+def:pub mock_run_demo -> dict[str, any] {
     return _pick(
         "run_demo",
         {
@@ -1525,7 +1525,7 @@ def mock_run_demo -> dict[str, any] {
     );
 }
 
-def mock_set_traffic -> dict[str, any] {
+def:pub mock_set_traffic -> dict[str, any] {
     return _pick(
         "set_traffic",
         {

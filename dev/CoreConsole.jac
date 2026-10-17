@@ -4,7 +4,7 @@ Plain on purpose (no design system): it is a test bench, not a product screen.
 """
 
 import from ..components.shared.api {
-    USE_MOCK, set_all_mocks, login, logout, current_user,
+    mock_on, set_all_mocks, login, logout, current_user,
     get_profile, get_terminals, get_slots, recommend_slots, book_slot, mark_parked, release_slot,
     get_map, get_buses, book_seat, get_trip, process_scan,
     admin_bus_list, admin_bus_account, admin_next_stop, admin_feed,
@@ -38,7 +38,7 @@ def:pub CoreConsole -> JsxElement {
     }
 
     def show(name: str, env: dict[str, any]) {
-        title = name + (" (mock)" if USE_MOCK[name] else " (real)") if name in USE_MOCK else name;
+        title = name + (" (mock)" if mock_on(name) else " (real)");
         output = JSON.stringify(env, None, 2);
         if env and env["ok"] and env["data"] {
             data = env["data"];
