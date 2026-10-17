@@ -16,7 +16,8 @@ node PublicNode {
 node World(PublicNode) {
     has seeded_at: str = "",
         seed_source: str = "",
-        next_id: int = 1;
+        next_id: int = 1,
+        road_levels: dict[str, int] = {};
 }
 
 """Simulated clock. Every walker reads time through now() on this node."""

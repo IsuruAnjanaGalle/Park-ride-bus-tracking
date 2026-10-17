@@ -7,6 +7,7 @@ import from core.models.edges { Road }
 import from core.lib.geo { haversine_km }
 import from core.lib.world { get_junctions, terminal_slots, current_trip, find_route }
 import from core.lib.sim { stop_etas }
+import from core.lib.static { static_coords, road_key }
 import from core.lib.routing { build_adj }
 
 glob SPEED_KMH: dict[str, float] = {"A": 30.0, "B": 22.0, "E": 60.0};
@@ -168,7 +169,7 @@ def eta_to(bus: Bus, trip: Trip, code: str, coords: dict[str, list[float]]) -> f
 
 """Junction code -> [lat, lng]."""
 def junction_coords(world: World) -> dict[str, list[float]] {
-    return {j.code: [j.lat, j.lng] for j in get_junctions(world)};
+    return static_coords();
 }
 
 """BusSummary (contracts.md 2.6)."""
@@ -222,28 +223,16 @@ def bus_dict(world: World, bus: Bus, names: dict[str, str], coords: dict[str, li
     };
 }
 
-"""Undirected roads for the map: one entry per road, the worse of its two directions."""
+"""Undirected roads for the map: one entry per two-way road with its current level."""
 def map_roads(world: World) -> list[dict[str, any]] {
-    seen: dict[str, dict[str, any]] = {};
-    for j in get_junctions(world) {
-        for e in [edge j ->:Road:->] {
-            key = "|".join(sorted([e.a, e.b]));
-            if key in seen {
-                if e.level > seen[key]["level"] {
-                    seen[key]["level"] = e.level;
-                    seen[key]["minutes"] = road_minutes(e.km, e.cls, e.level);
-                }
-            } else {
-                seen[key] = {
-                    "a": e.a,
-                    "b": e.b,
-                    "km": e.km,
-                    "cls": e.cls,
-                    "level": e.level,
-                    "minutes": road_minutes(e.km, e.cls, e.level)
-                };
+    adj = build_adj(world);
+    out: list[dict[str, any]] = [];
+    for (a, outs) in adj.items() {
+        for (b, info) in outs.items() {
+            if a < b {
+                out.append({"a": a, "b": b, "km": info[0], "cls": info[1], "level": info[2], "minutes": road_minutes(info[0], info[1], info[2])});
             }
         }
     }
-    return list(seen.values());
+    return out;
 }

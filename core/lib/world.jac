@@ -6,6 +6,7 @@ import from core.models.nodes {
     World, DemoClock, Terminal, Slot, Junction, Stop, Route, Bus, Trip, Passenger
 }
 import from core.seed.seed { seed_world }
+import from core.lib.static { static_names }
 
 glob _seed_lock: any = threading.Lock();
 
@@ -54,18 +55,34 @@ def world_nodes(world: World) -> list[any] {
     return found;
 }
 
-"""Delete the world and build it again from the seed files. Returns timing and counts."""
+"""Replace the world with a fresh one from the seed files, keeping who is logged in as whom.
+
+The old world is detached from root.shared (not deleted node by node) so a reset stays fast;
+its nodes are unreachable afterwards. Returns timing and counts.
+"""
 def reset_world() -> dict[str, any] {
     started = time.time();
     with _seed_lock {
+        bindings: dict[str, list[str]] = {};
         for old in [root.shared -->[?:World]] {
-            for n in reversed(world_nodes(old)) {
-                del n;
+            for p in [old -->[?:Passenger]] {
+                if p.root_id {
+                    bindings[p.username] = [p.role, p.root_id];
+                }
             }
+            root.shared del --> old;
         }
         world = World();
         root.shared ++> world;
         counts = seed_world(world);
+        for (name, info) in bindings.items() {
+            found = [world -->[?:Passenger, username == name]];
+            if found {
+                found[0].root_id = info[1];
+            } else {
+                world ++> Passenger(username=name, role=info[0], root_id=info[1]);
+            }
+        }
     }
     return {"seconds": round(time.time() - started, 2), "counts": counts};
 }
@@ -123,7 +140,7 @@ def get_junctions(world: World) -> list[Junction] {
 
 """Map of junction code -> name for every junction, stop and terminal."""
 def junction_names(world: World) -> dict[str, str] {
-    return {j.code: j.name for j in get_junctions(world)};
+    return static_names();
 }
 
 def find_passenger(world: World, name: str) -> Passenger | None {

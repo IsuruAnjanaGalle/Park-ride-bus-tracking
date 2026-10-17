@@ -111,17 +111,22 @@ def _thrown(e: any) -> dict[str, any] {
 
 # ---- session ------------------------------------------------------------------
 
-"""Log in (creating the demo account on first use), bind the profile, remember username and role."""
+"""Log in (creating the demo account on first use), bind the profile, remember username and role.
+
+The platform account is "parkride-<username>" so app users never collide with platform accounts
+such as the built-in "admin" (docs/decisions.md D-21).
+"""
 async def:pub login(username: str, password: str) -> dict[str, any] {
     ok: bool = False;
     signup: SignupResult | None = None;
     result: any = None;
+    account = "parkride-" + username;
     try {
-        ok = await jacLogin(username, password);
+        ok = await jacLogin(account, password);
         if not ok {
-            signup = await jacSignup(username, password);
+            signup = await jacSignup(account, password);
             if signup and signup.success {
-                ok = await jacLogin(username, password);
+                ok = await jacLogin(account, password);
             }
         }
         if not ok {

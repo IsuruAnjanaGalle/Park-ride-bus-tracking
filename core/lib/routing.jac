@@ -9,6 +9,7 @@ import heapq;
 import from core.models.nodes { World, Junction }
 import from core.models.edges { Road }
 import from core.lib.world { get_junctions }
+import from core.lib.static { static_roads, road_key }
 
 glob SPEED: dict[str, float] = {"A": 30.0, "B": 22.0, "E": 60.0};
 glob FACTOR: list[float] = [1.0, 0.55, 0.25, 0.0];
@@ -31,13 +32,10 @@ def cost_minutes(km: float, cls: str, level: int) -> float {
 
 """Adjacency of the road graph with current levels."""
 def build_adj(world: World) -> dict[str, dict[str, list[any]]] {
+    levels = world.road_levels;
     adj: dict[str, dict[str, list[any]]] = {};
-    for j in get_junctions(world) {
-        out: dict[str, list[any]] = {};
-        for e in [edge j ->:Road:->] {
-            out[e.b] = [e.km, e.cls, e.level];
-        }
-        adj[j.code] = out;
+    for (a, outs) in static_roads().items() {
+        adj[a] = {b: [v[0], v[1], levels.get(road_key(a, b), 0)] for (b, v) in outs.items()};
     }
     return adj;
 }
@@ -100,6 +98,16 @@ def path_cost(adj: dict[str, dict[str, list[any]]], path: list[str]) -> float {
 
 """Set a road's level in both directions. Returns False if there is no such road."""
 def set_road_level(world: World, a: str, b: str, level: int) -> bool {
+    if b not in static_roads().get(a, {}) {
+        return False;
+    }
+    levels = dict(world.road_levels);
+    if level == 0 {
+        levels.pop(road_key(a, b), None);
+    } else {
+        levels[road_key(a, b)] = level;
+    }
+    world.road_levels = levels;
     found = False;
     for j in get_junctions(world) {
         if j.code != a and j.code != b {
@@ -117,6 +125,7 @@ def set_road_level(world: World, a: str, b: str, level: int) -> bool {
 
 """Every road back to level 0 (free)."""
 def clear_roads(world: World) -> None {
+    world.road_levels = {};
     for j in get_junctions(world) {
         for e in [edge j ->:Road:->] {
             e.level = 0;

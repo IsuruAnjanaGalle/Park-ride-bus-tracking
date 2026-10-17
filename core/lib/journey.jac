@@ -11,6 +11,7 @@ import from core.lib.clock { now_hms, sim_seconds }
 import from core.lib.qr { sign_token, verify_token }
 import from core.lib.locks { WORLD_LOCK }
 import from core.lib.geo { bearing }
+import from core.lib.static { static_coords }
 import from core.lib.rules { STOP_QR_TTL_S }
 
 """Seats free on each segment s (stop s -> s+1) of the trip."""
@@ -102,11 +103,11 @@ def arrive_stop(world: World, bus: Bus, trip: Trip, code: str) -> StopVisit {
     );
     sv.qr_token = visit_token(world, sv);
     trip ++> sv;
-    coords = {j.code: j for j in get_junctions(world)};
+    coords = static_coords();
     i = trip.stop_codes.index(code);
     here_j = coords[code];
-    bus.lat = here_j.lat;
-    bus.lng = here_j.lng;
+    bus.lat = here_j[0];
+    bus.lng = here_j[1];
     bus.from_stop = code;
     bus.road_from = code;
     bus.progress = 0.0;
@@ -116,7 +117,7 @@ def arrive_stop(world: World, bus: Bus, trip: Trip, code: str) -> StopVisit {
         bus.next_stop = nxt;
         bus.road_to = nxt;
         bus.path = [code, nxt];
-        bus.heading = bearing(here_j.lat, here_j.lng, coords[nxt].lat, coords[nxt].lng);
+        bus.heading = bearing(here_j[0], here_j[1], coords[nxt][0], coords[nxt][1]);
     } else {
         bus.next_stop = code;
         bus.road_to = code;
