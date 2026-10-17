@@ -5,6 +5,8 @@ scan needs a real token: copy it from the admin Next-stop panel (/admin) or from
 (admin_next_stop) and paste it below.
 """
 
+import time;
+
 def:pub QRScannerModal(
     isOpen: bool = False,
     onClose: any = None,
@@ -27,7 +29,7 @@ def:pub QRScannerModal(
         isProcessing = True;
 
         # A fresh scan ID per physical scan; the same ID again tests duplicate handling
-        currentScanId = lastScanId if reuseScanId and len(lastScanId) > 0 else f"scan-{globalThis.Date.now()}-{globalThis.Math.random().toString(36).slice(2, 10)}";
+        currentScanId = lastScanId if reuseScanId and len(lastScanId) > 0 else f"scan-{int(time.time() * 1000)}";
         lastScanId = currentScanId;
 
         if onProcessScan {
@@ -43,8 +45,7 @@ def:pub QRScannerModal(
     resStatus = str(resDict.get("result", ""));
     resMsg = str(resDict.get("message", ""));
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+    return <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
             <div className="w-full max-w-md bg-[#0F1B2D] border border-white/15 rounded-3xl shadow-2xl p-6 space-y-6">
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
                     <div className="flex items-center gap-2.5">
@@ -143,6 +144,5 @@ def:pub QRScannerModal(
                     </button>
                 </div>
             </div>
-        </div>
-    );
+        </div>;
 }
