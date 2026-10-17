@@ -1,29 +1,22 @@
 """DemoCaptionBar Component.
 
 Docked interactive caption bar across the bottom of the Admin Control Room screen.
-Displays:
-- Current simulation step & total count
-- Step hypothesis & proof narrative ("What this step proves")
-- Play / Pause, Next, and Restart controls
-- Connects to run_demo simulation walker
 """
 
-obj DemoStepInfo {
-    has step_index: int = 1,
-        total_steps: int = 6,
-        title: str = "System Boot & Graph Topology Initialization",
-        proves: str = "Demonstrates Object-Spatial graph loading 10 multimodal hubs, road edges, and expressway shuttle fleet.";
-}
-
 def:pub DemoCaptionBar(
-    step: DemoStepInfo,
+    step: dict[str, object],
     isPlaying: bool = False,
     onPlayPause: Callable[[], None] = None,
     onNext: Callable[[], None] = None,
     onRestart: Callable[[], None] = None
 ) -> JsxElement {
+    step_index = int(step["step_index"]);
+    total_steps = int(step["total_steps"]);
+    title = str(step["title"]);
+    proves = str(step["proves"]);
+
     play_label = "⏸ PAUSE" if isPlaying else "▶ PLAY DEMO";
-    step_indicator = "STEP " + str(step.step_index) + " OF " + str(step.total_steps);
+    step_indicator = "STEP " + str(step_index) + " OF " + str(total_steps);
 
     return
         <div
@@ -41,11 +34,11 @@ def:pub DemoCaptionBar(
 
                 <div style={{"display": "flex", "flexDirection": "column", "gap": "2px"}}>
                     <span style={{"fontSize": "18px", "fontWeight": "800", "color": "#ffffff"}}>
-                        {step.title}
+                        {title}
                     </span>
                     <span style={{"fontSize": "14px", "color": "#94a3b8"}}>
                         <span style={{"color": "#38bdf8", "fontWeight": "700"}}>{"WHAT IT PROVES: "}</span>
-                        {step.proves}
+                        {proves}
                     </span>
                 </div>
             </div>

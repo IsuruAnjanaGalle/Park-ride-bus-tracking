@@ -1,31 +1,24 @@
 """AlertFeed Component.
 
 Live stream of operational system alerts.
-Categories:
-- mismatch: Passenger booking route/vehicle discrepancy
-- auto-cancel: Unclaimed parking bay or expired reservation
-- reroute: Dynamic traffic diversion along transit corridor
-- incident: Road closure, vehicle breakdown, or bottleneck report
 """
 
 import from .LocalUI { LocalBadge }
 
-obj AlertEvent {
-    has id: str,
-        time: str,
-        category: str,
-        title: str,
-        details: str,
-        severity: str = "warning";
-}
+def render_alert_item(alt: dict[str, object]) -> JsxElement {
+    category = str(alt["category"]);
+    severity = str(alt.get("severity", "warning"));
+    alert_id = str(alt["id"]);
+    time_str = str(alt["time"]);
+    title = str(alt["title"]);
+    details = str(alt["details"]);
 
-def render_alert_item(alt: AlertEvent) -> JsxElement {
     badge_var = "warning";
-    if alt.severity == "danger" or alt.category == "incident" {
+    if severity == "danger" or category == "incident" {
         badge_var = "danger";
-    } elif alt.category == "reroute" {
+    } elif category == "reroute" {
         badge_var = "warning";
-    } elif alt.category == "mismatch" {
+    } elif category == "mismatch" {
         badge_var = "purple";
     }
 
@@ -33,29 +26,29 @@ def render_alert_item(alt: AlertEvent) -> JsxElement {
 
     return
         <div
-            key={alt.id}
+            key={alert_id}
             className="feed-item"
             style={{"borderLeft": "4px solid " + border_color, "flexDirection": "column", "gap": "6px"}}
         >
             <div style={{"display": "flex", "alignItems": "center", "justifyContent": "space-between", "width": "100%"}}>
                 <div style={{"display": "flex", "alignItems": "center", "gap": "10px"}}>
-                    <LocalBadge label={alt.category} variant={badge_var}/>
+                    <LocalBadge label={category} variant={badge_var}/>
                     <span style={{"fontSize": "15px", "fontWeight": "700", "color": "#f8fafc"}}>
-                        {alt.title}
+                        {title}
                     </span>
                 </div>
                 <span style={{"fontSize": "13px", "fontFamily": "var(--mono-font)", "color": "#94a3b8"}}>
-                    {alt.time}
+                    {time_str}
                 </span>
             </div>
 
             <div style={{"fontSize": "13px", "color": "#cbd5e1", "paddingLeft": "4px"}}>
-                {alt.details}
+                {details}
             </div>
         </div>;
 }
 
-def:pub AlertFeed(alerts: list[AlertEvent]) -> JsxElement {
+def:pub AlertFeed(alerts: list[dict[str, object]]) -> JsxElement {
     return
         <div
             className="feed-box"
