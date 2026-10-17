@@ -3,7 +3,7 @@ Renders an interactive parking bay grid with Zone grouping, status filtering, an
 """
 
 def:pub SlotGrid(
-    slots: list[dict],
+    slots: list[dict[str, any]],
     selectedSlotCode: str,
     recommendedSlotCode: str = "",
     onSelectSlot: Callable[[str], None] = lambda (_code: str) {}

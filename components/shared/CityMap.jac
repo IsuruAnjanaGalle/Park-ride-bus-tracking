@@ -5,16 +5,19 @@ and live buses moving and rotating with heading from get_buses.
 Shared across Passenger App (Dev B) and Admin/Driver views (Dev C).
 """
 
+import from "react" { useState, useEffect }
+
 def:pub CityMap(
-    mapData: dict,
-    buses: list = None,
+    mapData: dict[str, any],
+    buses: list[dict[str, any]] = [],
     selectedBusId: str = "",
     highlightBusId: str = "",
     onBusClick: any = None,
     onStopClick: any = None,
     className: str = ""
 ) -> JsxElement {
-    safeBuses: list[dict] = [dict(b) for b in buses] if buses else [];
+    has hoveredBus: dict[str, any] = {};
+    has hoveredStop: dict[str, any] = {};
 
     rawBounds: dict = dict(mapData.get("bounds", {}));
     minLat = float(str(rawBounds.get("min_lat", "6.796")));
@@ -22,6 +25,7 @@ def:pub CityMap(
     minLng = float(str(rawBounds.get("min_lng", "79.8495")));
     maxLng = float(str(rawBounds.get("max_lng", "79.989")));
 
+    # Dimensions and padding for viewBox
     vbW = 900.0;
     vbH = 750.0;
     pad = 55.0;
@@ -29,6 +33,7 @@ def:pub CityMap(
     dLat = maxLat - minLat if maxLat > minLat else 0.205;
     dLng = maxLng - minLng if maxLng > minLng else 0.1395;
 
+    # Project GPS coordinates to SVG coordinate system
     def to_svg_x(lng: float) -> float {
         ratio = (lng - minLng) / dLng;
         return pad + ratio * (vbW - 2.0 * pad);
@@ -50,15 +55,16 @@ def:pub CityMap(
 
     rawRoads: list[dict] = [dict(r) for r in list(mapData.get("roads", []))];
 
+    # Helper for road level stroke color and style
     def road_color(level: int) -> str {
         if level == 1 {
-            return "#F59E0B";
+            return "#F59E0B";  # Slow / Amber
         } elif level == 2 {
-            return "#EF4444";
+            return "#EF4444";  # Jammed / Red
         } elif level == 3 {
-            return "#991B1B";
+            return "#991B1B";  # Closed / Dark Red
         }
-        return "#334155";
+        return "#334155";      # Normal / Slate
     }
 
     def road_width(level: int, cls: str) -> str {
@@ -78,13 +84,14 @@ def:pub CityMap(
         } elif c == "teal" {
             return "#14B8A6";
         }
-        return "#3B82F6";
+        return "#3B82F6";  # Default blue
     }
 
     viewBoxStr = f"0 0 {vbW} {vbH}";
 
     return (
         <div className={f"relative w-full h-full bg-[#0B1220] rounded-3xl overflow-hidden border border-white/10 shadow-2xl select-none {className}"}>
+            {/* Map Top Bar Controls & Legend */}
             <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-none">
                 <div className="px-3 py-1.5 rounded-full bg-[#0F1B2D]/90 backdrop-blur-md border border-white/10 text-[11px] font-bold text-white flex items-center gap-2 shadow-lg">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -97,6 +104,7 @@ def:pub CityMap(
                 </div>
             </div>
 
+            {/* Traffic Status Legend */}
             <div className="absolute top-4 right-4 z-10 flex items-center gap-2 pointer-events-none">
                 <div className="px-2.5 py-1.5 rounded-full bg-[#0F1B2D]/80 backdrop-blur-md border border-white/5 text-[10px] text-gray-300 flex items-center gap-2 shadow-sm">
                     <span className="flex items-center gap-1"><span className="w-2.5 h-1 bg-[#334155] rounded-full" /> Free</span>
@@ -105,11 +113,14 @@ def:pub CityMap(
                 </div>
             </div>
 
+            {/* SVG Canvas */}
             <svg
-                viewBox={viewBoxStr}
-                className="w-full h-full min-h-[440px] bg-[#090F1B]"
+                viewBox={`0 0 ${vbW} ${vbH}`}
+                className="w-full h-full min-h-[440px]"
+                style={{"backgroundColor": "#090F1B"}}
             >
                 <defs>
+                    {/* SVG Filters & Glows */}
                     <filter id="glow-bus" x="-50%" y="-50%" width="200%" height="200%">
                         <feGaussianBlur stdDeviation="3" result="blur" />
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -118,19 +129,23 @@ def:pub CityMap(
                         <feGaussianBlur stdDeviation="4" result="blur" />
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
                     </filter>
+                    {/* Road patterns */}
                     <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
                         <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
                     </pattern>
                 </defs>
 
+                {/* Background Grid */}
                 <rect width={vbW} height={vbH} fill="url(#grid-pattern)" />
 
+                {/* 1. Road Segments */}
                 <g id="roads" className="transition-all duration-500">
-                    {for r in rawRoads {
-                        aCode = str(r.get("a", ""));
-                        bCode = str(r.get("b", ""));
-                        level = int(str(r.get("level", "0")));
-                        cls = str(r.get("cls", "A"));
+                    {rawRoads.map(lambda (r: any) {
+                        rDict = dict(r);
+                        aCode = str(rDict.get("a", ""));
+                        bCode = str(rDict.get("b", ""));
+                        level = int(rDict.get("level", 0));
+                        cls = str(rDict.get("cls", "A"));
 
                         aJunc = dict(juncLookup.get(aCode, {}));
                         bJunc = dict(juncLookup.get(bCode, {}));
@@ -141,9 +156,9 @@ def:pub CityMap(
                             x2 = to_svg_x(float(str(bJunc.get("lng", "0.0"))));
                             y2 = to_svg_y(float(str(bJunc.get("lat", "0.0"))));
 
-                            strokeColor = road_color(level);
-                            strokeW = road_width(level, cls);
-                            isDashed = (level == 3);
+                        strokeColor = road_color(level);
+                        strokeW = road_width(level, cls);
+                        isDashed = (level == 3);
 
                             <line
                                 key={f"road-{aCode}-{bCode}"}

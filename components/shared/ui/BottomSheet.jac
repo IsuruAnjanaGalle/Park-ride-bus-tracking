@@ -17,7 +17,7 @@ def:pub BottomSheet(
     >
         <div
             className="w-full sm:max-w-md bg-[#0F1B2D] border-t sm:border border-white/20 rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl shadow-black/80 transition-transform duration-300 ease-out max-h-[85vh] flex flex-col"
-            onClick={lambda e: MouseEvent { e.stopPropagation(); }}
+            onClick={lambda (e: MouseEvent) { e.stopPropagation(); }}
             style={{"minHeight": peekHeight if peekHeight != "auto" else "240px"}}
         >
             <div className="w-12 h-1.5 bg-white/25 rounded-full mx-auto mb-4 cursor-grab active:cursor-grabbing"/>

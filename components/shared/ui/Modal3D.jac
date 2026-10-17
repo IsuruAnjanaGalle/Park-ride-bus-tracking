@@ -18,7 +18,7 @@ def:pub Modal3D(
     >
         <div
             className="relative w-full max-w-lg bg-[#0F1B2D]/95 border border-white/20 rounded-3xl p-6 shadow-2xl shadow-black/70 transform transition-all duration-300 ease-out [transform:rotateX(2deg)_translateZ(20px)]"
-            onClick={lambda e: MouseEvent { e.stopPropagation(); }}
+            onClick={lambda (e: MouseEvent) { e.stopPropagation(); }}
         >
             <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <h3 className="text-xl font-bold text-white tracking-wide">{title}</h3>

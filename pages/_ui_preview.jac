@@ -191,7 +191,7 @@ def:pub UiPreviewPage -> JsxElement {
                             <SegmentedControl
                                 options={terminalOptions}
                                 selectedKey={selectedTerminal}
-                                onChange={lambda k: str { selectedTerminal = k; }}
+                                onChange={lambda (k: str) { selectedTerminal = k; }}
                             />
                         </div>
 
@@ -200,7 +200,7 @@ def:pub UiPreviewPage -> JsxElement {
                             <SegmentedControl
                                 options={vehicleOptions}
                                 selectedKey={selectedVehicle}
-                                onChange={lambda v: str { selectedVehicle = v; }}
+                                onChange={lambda (v: str) { selectedVehicle = v; }}
                                 size="sm"
                             />
                         </div>

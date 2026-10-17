@@ -6,7 +6,7 @@ import from components.shared.ui.QRPanel { QRPanel }
 import from components.shared.ui.Button { Button }
 
 def:pub ParkingPass(
-    booking: dict,
+    booking: dict[str, any],
     onMarkParked: Callable[[], None] = lambda {},
     onReleaseSlot: Callable[[], None] = lambda {},
     onProceedToBus: Callable[[], None] = lambda {}

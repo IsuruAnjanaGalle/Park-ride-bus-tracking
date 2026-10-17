@@ -55,9 +55,9 @@ def:pub PassengerHome -> JsxPage {
     has selectedSlotCode: str = "MKB-E-F-01";
 
     # Parking backend data
-    has terminals: list[dict] = [];
-    has terminalSlots: list[dict] = [];
-    has recommendation: dict = {};
+    has terminals: list[dict[str, any]] = [];
+    has terminalSlots: list[dict[str, any]] = [];
+    has recommendation: dict[str, any] = {};
     has activeParkingBooking: dict = {};
 
     # Bus tracking & journey state (Milestone 2)
@@ -68,7 +68,7 @@ def:pub PassengerHome -> JsxPage {
     has showBookingModal: bool = False;
     has showScannerModal: bool = False;
     has hasActiveTrip: bool = False;
-    has activeTripData: dict = {};
+    has activeTripData: dict[str, any] = {};
 
     # General UI state
     has loading: bool = False;

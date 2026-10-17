@@ -3,12 +3,12 @@ Renders top 3 algorithmic slot recommendations with reasons and selection button
 """
 
 def:pub SlotRecommendation(
-    recommendation: dict,
+    recommendation: dict[str, any],
     selectedSlotCode: str,
     onSelectSlot: Callable[[str], None] = lambda (_code: str) {}
 ) -> JsxElement {
     rawOpts = recommendation.get("options", []);
-    options: list[dict] = [dict(o) for o in rawOpts] if rawOpts else [];
+    options: list[dict[str, any]] = [dict(o) for o in rawOpts] if rawOpts else [];
     fallbackMsg = recommendation.get("fallback");
     zone = str(recommendation.get("zone", "F"));
     stayHours = str(recommendation.get("stay_hours", "2"));

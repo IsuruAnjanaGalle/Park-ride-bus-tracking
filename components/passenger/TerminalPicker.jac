@@ -3,7 +3,7 @@ Allows passenger to choose between MKB, KDW, KSB, PTH with live slot counts.
 """
 
 def:pub TerminalPicker(
-    terminals: list[dict],
+    terminals: list[dict[str, any]],
     selectedTerminal: str,
     selectedVehicle: str = "C",
     onSelect: Callable[[str], None] = lambda (_c: str) {}
