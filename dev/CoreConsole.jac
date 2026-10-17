@@ -123,7 +123,7 @@ def:pub CoreConsole -> JsxElement {
         output = "Mocks " + ("ON" if mocks_on else "OFF") + " for every walker except get_profile and reset_demo.";
     }
 
-    <main className="p-4 flex flex-col gap-4" style={{"fontFamily": "var(--font-mono)"}}>
+    return <main className="p-4 flex flex-col gap-4" style={{"fontFamily": "var(--font-mono)"}}>
         <h1 className="text-2xl font-bold">/dev/core - walker console</h1>
         <section className="flex flex-wrap items-center gap-2" aria-label="Session and mode">
             <span>{"Session: " + user_label}</span>
@@ -141,5 +141,5 @@ def:pub CoreConsole -> JsxElement {
         <p className="text-sm">{"booking_id: " + (booking_id or "-") + "  |  stop QR: " + ("set" if stop_qr else "- (run admin_next_stop first)")}</p>
         <h2 className="text-lg font-bold">{title}</h2>
         <pre className="text-xs overflow-auto rounded border p-3" style={{"maxHeight": "70dvh"}} aria-live="polite">{output}</pre>
-    </main>
+    </main>;
 }
