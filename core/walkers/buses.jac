@@ -1,6 +1,5 @@
-"""Map, bus and seat walkers (contracts.md 3.7-3.10). Status: stub - shaped responses from seed data."""
+"""Map, bus and seat walkers (contracts.md 3.7-3.10). Status: real (positions move from milestone 3)."""
 
-import from core.models.nodes { Booking }
 import from core.lib.envelope { ok, fail }
 import from core.lib.world {
     get_world, get_clock, list_buses, find_bus, current_trip, get_routes, get_junctions, junction_names
@@ -8,6 +7,8 @@ import from core.lib.world {
 import from core.lib.clock { clock_dict, now_hms }
 import from core.lib.shapes { bus_dict, booking_dict, junction_coords, map_roads, stop_ref }
 import from core.lib.profiles { caller_profile, profile_error }
+import from core.lib.journey { book_seat_rule, seats_between, find_trip_booking }
+import from core.lib.sim { tick, delay_to }
 
 walker:pub get_map {
     has reports: list[dict[str, any]] = [];
@@ -38,6 +39,7 @@ walker:pub get_buses {
 
     can run with Root entry {
         world = get_world();
+        tick(world);
         names = junction_names(world);
         coords = junction_coords(world);
         buses = [b for b in list_buses(world) if not self.route or b.route == self.route];
@@ -61,24 +63,34 @@ walker:protect book_seat {
             report err;
             return;
         }
+        tick(world);
         bus = find_bus(world, self.bus_id);
         if bus is None {
             report fail("NOT_FOUND", f"No bus {self.bus_id}.");
             return;
         }
-        trip = current_trip(bus);
-        if trip is None or self.pickup not in trip.stop_codes or self.drop not in trip.stop_codes {
-            report fail("INVALID_INPUT", "pickup and drop must be stops on this bus's trip.");
+        prof = caller_profile(world);
+        if prof is None {
+            report fail("NO_PROFILE", "Call get_profile after logging in.");
             return;
         }
-        prof = caller_profile(world);
-        names = junction_names(world);
-        b = Booking(
-            id="BK-0001", username=prof.username if prof else "", bus_id=bus.id, trip_id=trip.id,
-            route=bus.route, pickup=self.pickup, drop=self.drop, state="Pending",
-            created_at=now_hms(get_clock(world))
-        );
-        report ok({"booking": booking_dict(b, names), "seats_left_on_segment": bus.capacity - 1});
+        (code, b) = book_seat_rule(world, prof, bus, self.pickup, self.drop);
+        if code == "INVALID_INPUT" {
+            report fail(code, "pickup and drop must be stops on this bus's trip, drop after pickup.");
+        } elif code == "PASSED_STOP" {
+            report fail(code, f"The bus has already left {self.pickup}.");
+        } elif code == "NO_SEAT" {
+            report fail(code, "No free seat on part of that journey.");
+        } elif code == "ALREADY_BOOKED" {
+            report fail(code, f"You already have booking {b.id} on this bus.");
+        } else {
+            trip = current_trip(bus);
+            left = 0;
+            if trip {
+                left = seats_between(bus, trip, trip.stop_codes.index(self.pickup), trip.stop_codes.index(self.drop));
+            }
+            report ok({"booking": booking_dict(b, junction_names(world)), "seats_left_on_segment": left});
+        }
     }
 }
 
@@ -93,40 +105,42 @@ walker:protect get_trip {
             report err;
             return;
         }
-        bus = find_bus(world, "MB-102");
-        trip = current_trip(bus) if bus else None;
-        if bus is None or trip is None {
+        tick(world);
+        prof = caller_profile(world);
+        if prof is None {
+            report fail("NO_PROFILE", "Call get_profile after logging in.");
+            return;
+        }
+        found = find_trip_booking(world, prof.username, self.booking_id);
+        if found is None {
             report fail("NOT_FOUND", "No active booking.");
             return;
         }
+        (b, bus, trip) = found;
         names = junction_names(world);
         coords = junction_coords(world);
-        b = Booking(
-            id=self.booking_id or "BK-0001", username="passenger", bus_id=bus.id, trip_id=trip.id,
-            route=bus.route, pickup="KOT", drop="BOR", state="Pending"
-        );
         summary = bus_dict(world, bus, names, coords);
         stops: list[dict[str, any]] = [];
         for st in summary["stops"] {
             stops.append({
                 "code": st["code"],
                 "name": st["name"],
-                "status": "passed" if st["passed"] else ("next" if st["code"] == bus.next_stop else "upcoming"),
+                "status": "passed" if st["passed"] else ("next" if st["code"] == bus.next_stop or st["code"] == bus.from_stop and bus.state == "dwelling" else "upcoming"),
                 "eta_min": st["eta_min"],
                 "is_pickup": st["code"] == b.pickup,
                 "is_drop": st["code"] == b.drop
             });
         }
-        drop_i = trip.stop_codes.index(b.drop);
-        remaining = max(drop_i - trip.last_departed, 0);
+        remaining = max(trip.stop_codes.index(b.drop) - trip.last_departed, 0) if b.drop in trip.stop_codes else 0;
+        alert = b.state == "OnBoard" and remaining <= 2;
         report ok({
             "booking": booking_dict(b, names),
             "bus": summary,
             "stops": stops,
             "stops_remaining": remaining,
-            "alert": remaining <= 2,
-            "alert_message": "Your stop is 2 stops away" if remaining <= 2 else "",
-            "delay": None
+            "alert": alert,
+            "alert_message": f"Your stop is {remaining} stop{'s' if remaining != 1 else ''} away" if alert else "",
+            "delay": delay_to(world, bus, trip, b.drop) if b.state in ["Pending", "OnBoard"] else None
         });
     }
 }

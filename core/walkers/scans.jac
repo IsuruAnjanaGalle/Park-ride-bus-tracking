@@ -1,12 +1,11 @@
-"""QR scan walker (contracts.md 3.11). Status: stub - verifies the stop QR, then a shaped result."""
+"""QR scan walker (contracts.md 3.11). Status: real - rules in core/lib/journey.jac (SOW 9.4)."""
 
-import from core.models.nodes { Booking }
 import from core.lib.envelope { ok, fail }
-import from core.lib.world { get_world, find_bus, current_trip, junction_names, get_clock }
-import from core.lib.clock { now_hms }
-import from core.lib.qr { verify_token }
+import from core.lib.world { get_world, junction_names }
 import from core.lib.shapes { booking_dict, stop_ref }
 import from core.lib.profiles { caller_profile, profile_error }
+import from core.lib.journey { scan_rule }
+import from core.lib.sim { tick }
 
 walker:protect process_scan {
     has scan_id: str,
@@ -21,43 +20,25 @@ walker:protect process_scan {
             report err;
             return;
         }
-        if not self.scan_id {
-            report fail("INVALID_INPUT", "scan_id is required.");
+        if not self.scan_id or not self.qr {
+            report fail("INVALID_INPUT", "scan_id and qr are required.");
             return;
         }
-        names = junction_names(world);
-        check = verify_token(self.qr);
-        payload = check["payload"];
-        if not check["valid"] or payload.get("t") != "stop" {
-            report ok({
-                "result": "rejected", "message": "This is not a valid stop QR.", "scan_id": self.scan_id,
-                "booking": None, "stop": None, "bus_id": ""
-            });
-            return;
-        }
-        bus = find_bus(world, payload.get("bus", ""));
-        trip = current_trip(bus) if bus else None;
-        if bus is None or trip is None {
-            report ok({
-                "result": "rejected", "message": "Unknown bus.", "scan_id": self.scan_id,
-                "booking": None, "stop": None, "bus_id": ""
-            });
-            return;
-        }
+        tick(world);
         prof = caller_profile(world);
-        stop_code = payload.get("stop", "");
-        b = Booking(
-            id="BK-0001", username=prof.username if prof else "", bus_id=bus.id, trip_id=trip.id,
-            route=bus.route, pickup=stop_code, drop=trip.stop_codes[-1], state="OnBoard",
-            created_at=now_hms(get_clock(world))
-        );
+        if prof is None {
+            report fail("NO_PROFILE", "Call get_profile after logging in.");
+            return;
+        }
+        out = scan_rule(world, prof, self.scan_id, self.qr, self.drop);
+        names = junction_names(world);
         report ok({
-            "result": "boarded",
-            "message": "Confirmed, you are on board.",
+            "result": out["result"],
+            "message": out["message"],
             "scan_id": self.scan_id,
-            "booking": booking_dict(b, names),
-            "stop": stop_ref(stop_code, names),
-            "bus_id": bus.id
+            "booking": booking_dict(out["booking"], names) if out["booking"] else None,
+            "stop": stop_ref(out["stop"], names) if out["stop"] else None,
+            "bus_id": out["bus_id"]
         });
     }
 }

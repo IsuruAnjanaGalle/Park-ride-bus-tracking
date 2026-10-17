@@ -130,3 +130,28 @@ def find_passenger(world: World, name: str) -> Passenger | None {
     found = [world -->[?:Passenger, username == name]];
     return found[0] if found else None;
 }
+
+"""Lookups for seed data that must exist (raise if missing): used by the demo engine."""
+def must_bus(world: World, bus_id: str) -> Bus {
+    found = [world -->[?:Bus, id == bus_id]];
+    if not found {
+        raise ValueError(f"No bus {bus_id}");
+    }
+    return found[0];
+}
+
+def must_terminal(world: World, terminal_code: str) -> Terminal {
+    found = [world -->[?:Terminal, code == terminal_code]];
+    if not found {
+        raise ValueError(f"No terminal {terminal_code}");
+    }
+    return found[0];
+}
+
+def must_trip(bus: Bus) -> Trip {
+    trips = [bus -->[?:Trip, status == "running"]];
+    if not trips {
+        raise ValueError(f"No running trip for {bus.id}");
+    }
+    return trips[0];
+}
