@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 THRESHOLD = 85.0
 CODE_EXT = {".jac": "jac", ".ts": "ts", ".tsx": "ts", ".js": "js", ".jsx": "js", ".py": "py", ".css": "css"}
 SKIP_DIRS = {".git", ".jac", "node_modules", "dist", "build", "docs", "__pycache__", ".github", "legacy"}
+SKIP_DIRS = {".git", ".jac", "node_modules", "dist", "build", "docs", "__pycache__", ".github"}
 GENERATED = {"mock/mocks.jac"}
 
 

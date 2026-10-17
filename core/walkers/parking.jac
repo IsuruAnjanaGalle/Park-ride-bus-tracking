@@ -56,6 +56,22 @@ walker:pub recommend_slots {
             return;
         }
         report ok(recommend(term, self.vehicle, self.ev, self.accessible, stay_hours(self.arrival, self.return_by)));
+        hours = stay_hours(self.arrival, self.return_by);
+        zone = zone_for_stay(hours);
+        kind = "E" if self.vehicle == "C" and self.ev == "needs_charging" else self.vehicle;
+        free = [s for s in terminal_slots(term) if s.kind == kind and s.state == "free"];
+        free = sorted(free, key=lambda (s: Slot) { (0 if s.zone == zone else 1, s.nn); });
+        options: list[dict[str, any]] = [];
+        for (i, s) in enumerate(free[:3]) {
+            options.append({
+                "rank": i + 1,
+                "slot": slot_dict(s),
+                "zone": s.zone,
+                "score": 100 - 5 * s.nn,
+                "reason": f"Zone {s.zone}, slot {s.nn} from the exit."
+            });
+        }
+        report ok({"terminal": term.code, "zone": zone, "stay_hours": hours, "slot_type": kind, "options": options, "fallback": None});
     }
 }
 
@@ -92,6 +108,20 @@ walker:protect book_slot {
         } else {
             report ok({"booking": parking_booking_dict(pb, slot_by_code(world, pb.terminal, pb.slot_code))});
         }
+        matches = [s for s in terminal_slots(term) if s.code == self.slot_code];
+        if not matches {
+            report fail("NOT_FOUND", f"No slot {self.slot_code}.");
+            return;
+        }
+        slot = matches[0];
+        prof = caller_profile(world);
+        pb = ParkingBooking(
+            id="PB-0001", username=prof.username if prof else "", slot_code=slot.code,
+            terminal=term.code, arrival=self.arrival, return_by=self.return_by, state="booked",
+            created_at=now_hms(get_clock(world))
+        );
+        pb.qr_token = sign_token({"t": "parking", "id": pb.id, "slot": slot.code, "terminal": term.code, "return_by": pb.return_by});
+        report ok({"booking": parking_booking_dict(pb, slot)});
     }
 }
 
@@ -116,6 +146,12 @@ walker:protect mark_parked {
             return;
         }
         slot = slot_by_code(world, pb.terminal, pb.slot_code);
+        term = find_terminal(world, "MKB");
+        slot = [s for s in terminal_slots(term) if s.code == "MKB-C-F-03"][0] if term else None;
+        pb = ParkingBooking(
+            id=self.booking_id, username="passenger", slot_code="MKB-C-F-03", terminal="MKB",
+            arrival="08:00", return_by="10:00", state="parked"
+        );
         report ok({"booking": parking_booking_dict(pb, slot), "slot": slot_dict(slot) if slot else None});
     }
 }
@@ -147,6 +183,16 @@ walker:protect release_slot {
             return;
         }
         slot = slot_by_code(world, pb.terminal, pb.slot_code);
+        if not self.booking_id and not self.qr {
+            report fail("INVALID_INPUT", "Give booking_id or qr.");
+            return;
+        }
+        term = find_terminal(world, "MKB");
+        slot = [s for s in terminal_slots(term) if s.code == "MKB-C-F-03"][0] if term else None;
+        pb = ParkingBooking(
+            id=self.booking_id or "PB-0001", username="passenger", slot_code="MKB-C-F-03",
+            terminal="MKB", arrival="08:00", return_by="10:00", state="released"
+        );
         report ok({"booking": parking_booking_dict(pb, slot), "slot": slot_dict(slot) if slot else None});
     }
 }
