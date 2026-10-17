@@ -38,6 +38,7 @@ watchdog = ">=3.0.0"
 
 [serve]
 port = 8000
+base_route_app = "app"
 
 [check]
 # Dev C's pre-0.37 screens wait in legacy/ until ported (docs/decisions.md D-15).
