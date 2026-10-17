@@ -38,6 +38,7 @@ watchdog = ">=3.0.0"
 
 [serve]
 port = 8000
+base_route_app = "app"
 
 [check]
 # Dev B's preview page has a parse error until fixed (docs/decisions.md D-23).

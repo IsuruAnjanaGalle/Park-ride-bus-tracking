@@ -4,7 +4,7 @@ import from ...components.shared.RoleGuard { RoleGuard }
 import from ...admin.AdminApp { AdminApp }
 
 def:pub AdminPage -> JsxPage {
-    <RoleGuard role="admin" next="/admin">
+    return <RoleGuard role="admin" next="/admin">
         <AdminApp />
-    </RoleGuard>
+    </RoleGuard>;
 }

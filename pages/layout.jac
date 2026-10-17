@@ -3,7 +3,7 @@
 import from "@jac/runtime" { Outlet }
 
 def:pub RootLayout -> JsxLayout {
-    <div className="min-h-dvh">
+    return <div className="min-h-dvh">
         <Outlet />
-    </div>
+    </div>;
 }
