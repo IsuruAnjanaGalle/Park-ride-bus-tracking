@@ -1,28 +1,21 @@
 """NextStopPanel Component.
 
-Displays comprehensive station stop breakdown and 1-meter scannable QR pass:
-- Target stop name and transit hub code
-- Real-time arrival ETA countdown
-- Passenger flow: Getting off, Bookings to board, Walk-in commuters
-- Residual seating capacity remaining after stop exchange
-- Large-format QRPanel (high-contrast, scannable from 1m distance)
+Displays comprehensive station stop breakdown and 1-meter scannable QR pass.
 """
 
-obj StopExchangeInfo {
-    has stop_name: str,
-        stop_code: str,
-        eta_minutes: float,
-        getting_off: int,
-        bookings_to_board: int,
-        walk_ins: int,
-        seats_left: int,
-        capacity: int,
-        qr_token: str = "PKR.MMC.EX1.VALID_2026";
-}
+def:pub NextStopPanel(info: dict[str, object]) -> JsxElement {
+    stop_name = str(info["stop_name"]);
+    stop_code = str(info["stop_code"]);
+    eta_minutes = float(info["eta_minutes"]);
+    getting_off = int(info["getting_off"]);
+    bookings_to_board = int(info["bookings_to_board"]);
+    walk_ins = int(info["walk_ins"]);
+    seats_left = int(info["seats_left"]);
+    capacity = int(info["capacity"]);
+    qr_token = str(info.get("qr_token", "PKR.MMC.EX1.VALID_2026"));
 
-def:pub NextStopPanel(info: StopExchangeInfo) -> JsxElement {
-    eta_display = str(int(info.eta_minutes)) + " min";
-    seats_display = str(info.seats_left) + " / " + str(info.capacity);
+    eta_display = str(int(eta_minutes)) + " min";
+    seats_display = str(seats_left) + " / " + str(capacity);
 
     return
         <div className="next-stop-card">
@@ -32,7 +25,7 @@ def:pub NextStopPanel(info: StopExchangeInfo) -> JsxElement {
                         {"NEXT SCHEDULED STOP"}
                     </span>
                     <div style={{"fontSize": "26px", "fontWeight": "800", "color": "#ffffff", "marginTop": "4px"}}>
-                        {info.stop_name}
+                        {stop_name}
                     </div>
                 </div>
 
@@ -49,21 +42,21 @@ def:pub NextStopPanel(info: StopExchangeInfo) -> JsxElement {
             <div style={{"display": "grid", "gridTemplateColumns": "repeat(4, 1fr)", "gap": "16px", "marginBottom": "24px"}}>
                 <div className="stat-metric-box">
                     <div className="stat-metric-val" style={{"color": "#f87171"}}>
-                        {str(info.getting_off)}
+                        {str(getting_off)}
                     </div>
                     <div className="stat-metric-lbl">{"Getting Off"}</div>
                 </div>
 
                 <div className="stat-metric-box">
                     <div className="stat-metric-val" style={{"color": "#34d399"}}>
-                        {str(info.bookings_to_board)}
+                        {str(bookings_to_board)}
                     </div>
                     <div className="stat-metric-lbl">{"Bookings Boarding"}</div>
                 </div>
 
                 <div className="stat-metric-box">
                     <div className="stat-metric-val" style={{"color": "#c084fc"}}>
-                        {str(info.walk_ins)}
+                        {str(walk_ins)}
                     </div>
                     <div className="stat-metric-lbl">{"Walk-Ins"}</div>
                 </div>
@@ -90,13 +83,13 @@ def:pub NextStopPanel(info: StopExchangeInfo) -> JsxElement {
 
                     <div style={{"width": "90px", "height": "90px", "backgroundColor": "#ffffff", "display": "flex", "alignItems": "center", "justifyContent": "center", "borderRadius": "4px"}}>
                         <span style={{"fontSize": "16px", "fontWeight": "900", "color": "#000000", "fontFamily": "var(--mono-font)"}}>
-                            {info.stop_code}
+                            {stop_code}
                         </span>
                     </div>
                 </div>
 
                 <div style={{"marginTop": "12px", "fontSize": "12px", "fontFamily": "var(--mono-font)", "color": "#475569", "textAlign": "center"}}>
-                    {info.qr_token}
+                    {qr_token}
                 </div>
             </div>
         </div>;

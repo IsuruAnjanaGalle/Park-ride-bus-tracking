@@ -2,20 +2,15 @@
 
 The primary administrative interface for ParkRide dispatchers and operators.
 Optimized for 1440px+ projector displays in high-contrast Night Theme.
-Includes:
-- Milestone 1 Operations: Fleet list, NextStopPanel with 1m QR pass, Scan & Alert feeds
-- Milestone 2 Live Map: Shared CityMap placeholder with fleet pins & click-to-inspect
-- Milestone 3 Traffic & Driver: Speed controls, pause/resume, 5 traffic presets
-- Milestone 4 Demo Mode: Docked DemoCaptionBar with step narrative & controls
 """
 
 import from ..components.admin.LocalUI { LocalBadge, LocalButton, CityMapPlaceholder }
 import from ..components.admin.AdminShell { AdminShell }
-import from ..components.admin.BusRow { BusRow, BusInfo }
-import from ..components.admin.NextStopPanel { NextStopPanel, StopExchangeInfo }
-import from ..components.admin.ScanFeed { ScanFeed, ScanEvent }
-import from ..components.admin.AlertFeed { AlertFeed, AlertEvent }
-import from ..components.admin.DemoCaptionBar { DemoCaptionBar, DemoStepInfo }
+import from ..components.admin.BusRow { BusRow }
+import from ..components.admin.NextStopPanel { NextStopPanel }
+import from ..components.admin.ScanFeed { ScanFeed }
+import from ..components.admin.AlertFeed { AlertFeed }
+import from ..components.admin.DemoCaptionBar { DemoCaptionBar }
 import from ..components.admin.SampleData {
     get_sample_fleet,
     get_sample_stop_exchange,
@@ -25,55 +20,56 @@ import from ..components.admin.SampleData {
 import "../components/admin/admin_tokens.css";
 
 def render_fleet_row(
-    b: BusInfo,
+    b: dict[str, object],
     selectedId: str,
     onSelect: Callable[[str], None]
 ) -> JsxElement {
+    b_id = str(b["id"]);
     return BusRow(
         bus=b,
-        isSelected=(b.id == selectedId),
+        isSelected=(b_id == selectedId),
         onClick=onSelect
     );
 }
 
-def get_demo_steps -> list[DemoStepInfo] {
+def get_demo_steps -> list[dict[str, object]] {
     return [
-        DemoStepInfo(
-            step_index=1,
-            total_steps=6,
-            title="System Boot & Graph Topology Initialization",
-            proves="Object-Spatial graph loads 10 multimodal stops, 17 road links, parking bays, and active shuttle fleet."
-        ),
-        DemoStepInfo(
-            step_index=2,
-            total_steps=6,
-            title="Commuter Checks Parking & Allocates EV Bay",
-            proves="Smart allocation evaluates walking distance to terminal entrance, reserving optimal Bay EV-01 at Makumbura MMC."
-        ),
-        DemoStepInfo(
-            step_index=3,
-            total_steps=6,
-            title="Cryptographic QR Pass Minting (HMAC-SHA256)",
-            proves="Mints tamper-proof combo pass encoding booking ID, vehicle plate, terminal, and epoch expiration."
-        ),
-        DemoStepInfo(
-            step_index=4,
-            total_steps=6,
-            title="Automated Barrier Validation & Slot Transition",
-            proves="Sub-second cryptographic validation opens barrier gate and transitions bay status from RESERVED to OCCUPIED."
-        ),
-        DemoStepInfo(
-            step_index=5,
-            total_steps=6,
-            title="Expressway Shuttle Boarding & Real-Time Telemetry",
-            proves="Live bus telemetry updates GPS coordinates (68.5 km/h, 315° NW), passenger load, and dynamic arrival ETA."
-        ),
-        DemoStepInfo(
-            step_index=6,
-            total_steps=6,
-            title="Dynamic Congestion Rerouting (Dijkstra Optimization)",
-            proves="Arterial congestion factor re-weights edges, automatically routing commuters onto E02 Expressway shuttle saving 35m."
-        )
+        {
+            "step_index": 1,
+            "total_steps": 6,
+            "title": "System Boot & Graph Topology Initialization",
+            "proves": "Object-Spatial graph loads 10 multimodal stops, 17 road links, parking bays, and active shuttle fleet."
+        },
+        {
+            "step_index": 2,
+            "total_steps": 6,
+            "title": "Commuter Checks Parking & Allocates EV Bay",
+            "proves": "Smart allocation evaluates walking distance to terminal entrance, reserving optimal Bay EV-01 at Makumbura MMC."
+        },
+        {
+            "step_index": 3,
+            "total_steps": 6,
+            "title": "Cryptographic QR Pass Minting (HMAC-SHA256)",
+            "proves": "Mints tamper-proof combo pass encoding booking ID, vehicle plate, terminal, and epoch expiration."
+        },
+        {
+            "step_index": 4,
+            "total_steps": 6,
+            "title": "Automated Barrier Validation & Slot Transition",
+            "proves": "Sub-second cryptographic validation opens barrier gate and transitions bay status from RESERVED to OCCUPIED."
+        },
+        {
+            "step_index": 5,
+            "total_steps": 6,
+            "title": "Expressway Shuttle Boarding & Real-Time Telemetry",
+            "proves": "Live bus telemetry updates GPS coordinates (68.5 km/h, 315° NW), passenger load, and dynamic arrival ETA."
+        },
+        {
+            "step_index": 6,
+            "total_steps": 6,
+            "title": "Dynamic Congestion Rerouting (Dijkstra Optimization)",
+            "proves": "Arterial congestion factor re-weights edges, automatically routing commuters onto E02 Expressway shuttle saving 35m."
+        }
     ];
 }
 
@@ -83,11 +79,11 @@ def:pub AdminView -> JsxElement {
         simSpeed: str = "1x",
         simPaused: bool = False,
         trafficPreset: str = "Clear",
-        fleet: list[BusInfo] = get_sample_fleet(),
-        stopInfo: StopExchangeInfo = get_sample_stop_exchange(),
-        scans: list[ScanEvent] = get_sample_scans(),
-        alerts: list[AlertEvent] = get_sample_alerts(),
-        demoSteps: list[DemoStepInfo] = get_demo_steps(),
+        fleet: list[dict[str, object]] = get_sample_fleet(),
+        stopInfo: dict[str, object] = get_sample_stop_exchange(),
+        scans: list[dict[str, object]] = get_sample_scans(),
+        alerts: list[dict[str, object]] = get_sample_alerts(),
+        demoSteps: list[dict[str, object]] = get_demo_steps(),
         demoStepIdx: int = 0,
         demoPlaying: bool = False;
 
@@ -130,7 +126,7 @@ def:pub AdminView -> JsxElement {
     # Find selected bus or default to first
     active_bus = fleet[0];
     for b in fleet {
-        if b.id == selectedBusId {
+        if str(b["id"]) == selectedBusId {
             active_bus = b;
         }
     }
@@ -210,17 +206,23 @@ def:pub AdminView -> JsxElement {
         </div>
     );
 
+    active_route = str(active_bus["route"]);
+    active_plate = str(active_bus["plate"]);
+    active_color = str(active_bus.get("color", "#0284c7"));
+    active_passengers = int(active_bus["passengers"]);
+    active_capacity = int(active_bus["capacity"]);
+
     account_content = (
         <div style={{"display": "flex", "flexDirection": "column", "gap": "24px"}}>
             <div className="glass-panel">
                 <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
                     <div>
                         <div style={{"display": "flex", "alignItems": "center", "gap": "14px"}}>
-                            <span className="bus-route-badge" style={{"backgroundColor": active_bus.color, "fontSize": "20px", "padding": "8px 18px"}}>
-                                {active_bus.route}
+                            <span className="bus-route-badge" style={{"backgroundColor": active_color, "fontSize": "20px", "padding": "8px 18px"}}>
+                                {active_route}
                             </span>
                             <span style={{"fontSize": "28px", "fontWeight": "800", "fontFamily": "var(--mono-font)"}}>
-                                {active_bus.plate}
+                                {active_plate}
                             </span>
                             <LocalBadge label="IN-TRANSIT" variant="success" pulse={True}/>
                         </div>
@@ -283,7 +285,7 @@ def:pub AdminView -> JsxElement {
                             {"ON BOARD / CAPACITY"}
                         </span>
                         <div style={{"fontSize": "22px", "fontWeight": "800", "color": "#38bdf8", "fontFamily": "var(--mono-font)", "marginTop": "2px"}}>
-                            {str(active_bus.passengers) + " / " + str(active_bus.capacity)}
+                            {str(active_passengers) + " / " + str(active_capacity)}
                         </div>
                     </div>
 

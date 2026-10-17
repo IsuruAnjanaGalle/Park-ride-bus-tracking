@@ -11,7 +11,7 @@ Adheres strictly to the in-cab safety guidelines:
 import from ..components.admin.LocalUI { LocalBadge, LocalButton, CityMapPlaceholder }
 import from ..components.admin.DriverInstructionBar { DriverInstructionBar }
 import from ..components.admin.RerouteBanner { RerouteBanner }
-import from ..components.admin.NextStopPanel { NextStopPanel, StopExchangeInfo }
+import from ..components.admin.NextStopPanel { NextStopPanel }
 import "../components/admin/admin_tokens.css";
 
 def:pub DriverView(busId: str = "MB-101") -> JsxElement {
@@ -25,17 +25,17 @@ def:pub DriverView(busId: str = "MB-101") -> JsxElement {
         distanceKm: float = 1.3,
         maneuver: str = "right",
         incidentSubmitted: bool = False,
-        stopInfo: StopExchangeInfo = StopExchangeInfo(
-            stop_name="Makumbura Multimodal Transport Center (MMC)",
-            stop_code="MMC",
-            eta_minutes=6.0,
-            getting_off=8,
-            bookings_to_board=14,
-            walk_ins=2,
-            seats_left=20,
-            capacity=54,
-            qr_token="DRV-PASS-MMC-2026"
-        );
+        stopInfo: dict[str, object] = {
+            "stop_name": "Makumbura Multimodal Transport Center (MMC)",
+            "stop_code": "MMC",
+            "eta_minutes": 6.0,
+            "getting_off": 8,
+            "bookings_to_board": 14,
+            "walk_ins": 2,
+            "seats_left": 20,
+            "capacity": 54,
+            "qr_token": "DRV-PASS-MMC-2026"
+        };
 
     active_bus_id = busId if busId else "MB-101";
 
