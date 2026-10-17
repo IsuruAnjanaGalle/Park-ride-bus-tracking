@@ -1,0 +1,77 @@
+/* Park & Ride Admin & Driver Styling Tokens */
+
+:root {
+  --admin-font: 'Schibsted Grotesk', system-ui, -apple-system, sans-serif;
+  --mono-font: 'IBM Plex Mono', monospace;
+
+  --bg-deep: #060913;
+  --bg-surface: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-card-hover: rgba(51, 65, 85, 0.8);
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-focus: #38bdf8;
+
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+
+  --accent-cyan: #38bdf8;
+  --accent-blue: #3b82f6;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+
+  /* Solid Driver in-cab colors (non-glass for sunlight/night readability) */
+  --driver-green: #065f46;
+  --driver-green-border: #10b981;
+  --driver-amber: #78350f;
+  --driver-amber-border: #f59e0b;
+}
+
+.driver-shell {
+  min-height: 100vh;
+  background-color: var(--bg-deep);
+  color: #ffffff;
+  font-family: var(--admin-font);
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-bar-solid {
+  background-color: var(--driver-green);
+  border-bottom: 4px solid var(--driver-green-border);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.driver-instruction-text {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.driver-dist-badge {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 24px;
+  font-family: var(--mono-font);
+  font-weight: 800;
+  color: #34d399;
+}
+
+.reroute-banner-solid {
+  background-color: var(--driver-amber);
+  border: 3px solid var(--driver-amber-border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 24px 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.4);
+}

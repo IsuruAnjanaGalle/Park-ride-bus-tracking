@@ -3,11 +3,9 @@
 import from "@jac/runtime" { useParams }
 import from ...driver.DriverApp { DriverApp }
 
-def:pub DriverPage -> JsxPage {
-    params = useParams();
-    bus_id = params["busId"];
-    if not bus_id {
-        return <p>No bus id.</p>;
-    }
-    <DriverApp busId={bus_id} />
+def:pub DriverPage -> JsxElement {
+    params: any = useParams();
+    p_dict: dict = dict(params) if params else {};
+    bus_id = str(p_dict.get("busId", "MB-101"));
+    return <DriverApp busId={bus_id} />;
 }
