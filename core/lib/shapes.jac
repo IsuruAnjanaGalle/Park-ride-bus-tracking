@@ -6,6 +6,8 @@ import from core.models.nodes {
 import from core.models.edges { Road }
 import from core.lib.geo { haversine_km }
 import from core.lib.world { get_junctions, terminal_slots, current_trip, find_route }
+import from core.lib.sim { stop_etas }
+import from core.lib.routing { build_adj }
 
 glob SPEED_KMH: dict[str, float] = {"A": 30.0, "B": 22.0, "E": 60.0};
 glob LEVEL_FACTOR: list[float] = [1.0, 0.55, 0.25, 0.0];
@@ -179,13 +181,14 @@ def bus_dict(world: World, bus: Bus, names: dict[str, str], coords: dict[str, li
     if trip {
         on_board = len([b for b in trip_bookings(trip) if b.state == "OnBoard"]);
         seats = segment_seats(bus, trip);
+        etas = stop_etas(world, build_adj(world), bus, trip);
         for (i, code) in enumerate(trip.stop_codes) {
             passed = i <= trip.last_departed;
             stops.append({
                 "code": code,
                 "name": names.get(code, code),
                 "passed": passed,
-                "eta_min": None if passed else eta_to(bus, trip, code, coords)
+                "eta_min": None if passed else etas.get(code)
             });
         }
     }
@@ -207,7 +210,7 @@ def bus_dict(world: World, bus: Bus, names: dict[str, str], coords: dict[str, li
         "state": bus.state,
         "from_stop": stop_ref(bus.from_stop, names),
         "next_stop": stop_ref(bus.next_stop, names),
-        "eta_min": eta_to(bus, trip, bus.next_stop, coords) if trip else None,
+        "eta_min": ([s["eta_min"] for s in stops if s["code"] == bus.next_stop and not s["passed"]] + [None])[0],
         "on_board": on_board,
         "capacity": bus.capacity,
         "seats_left": seats[seg_now] if seats else bus.capacity - on_board,

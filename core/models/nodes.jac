@@ -25,7 +25,8 @@ node DemoClock(PublicNode) {
         speed: float = 30.0,
         offset: float = 0.0,
         paused: bool = False,
-        anchor_real: float = 0.0;
+        anchor_real: float = 0.0,
+        last_tick: float = 0.0;
 }
 
 """Park-and-ride hub. `junction` is its code on the road map."""
@@ -112,7 +113,9 @@ node Bus(PublicNode) {
         path: list[str] = [],
         state: str = "moving",
         rerouted: bool = False,
-        reroute_reason: str = "";
+        reroute_reason: str = "",
+        dwell_until: float = 0.0,
+        hold: bool = False;
 }
 
 """One run of a bus along its route in one direction."""
@@ -148,7 +151,10 @@ node Booking(PublicNode) {
         drop: str,
         state: str = "Pending",
         walk_in: bool = False,
-        created_at: str = "";
+        created_at: str = "",
+        alight_stop: str = "",
+        alight_visit: int = 0,
+        flagged: bool = False;
 }
 
 """One processed QR scan; scan_id is unique and makes scans idempotent."""
@@ -191,4 +197,20 @@ node Incident(PublicNode) {
         bus_id: str = "",
         at: str = "",
         confirmed: bool = False;
+}
+
+"""A routing decision for the admin log: Rerouted, Kept route, Waiting or Moving again."""
+node Decision(PublicNode) {
+    has bus_id: str,
+        decision: str,
+        reason: str = "",
+        at: str = "";
+}
+
+"""Where the one-click demo is in the judge story."""
+node DemoRun(PublicNode) {
+    has step: int = 0,
+        playing: bool = False,
+        last_at: float = 0.0,
+        last: dict[str, any] = {};
 }
