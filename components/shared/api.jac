@@ -5,39 +5,9 @@ it returns the sample from mock/mocks.jac; with False it spawns the real walker.
 Dev A flips a walker to False when contracts.md marks it `real`. Owner: Dev A.
 """
 
-import from "@jac/runtime" { jacLogin, jacSignup, jacLogout, jacIsLoggedIn, SignupResult }
-import from core.walkers.profile { get_profile as w_get_profile }
-import from core.walkers.parking {
-    get_terminals as w_get_terminals,
-    get_slots as w_get_slots,
-    recommend_slots as w_recommend_slots,
-    book_slot as w_book_slot,
-    mark_parked as w_mark_parked,
-    release_slot as w_release_slot
-}
-import from core.walkers.buses {
-    get_map as w_get_map,
-    get_buses as w_get_buses,
-    book_seat as w_book_seat,
-    get_trip as w_get_trip
-}
-import from core.walkers.scans { process_scan as w_process_scan }
-import from core.walkers.admin {
-    admin_bus_list as w_admin_bus_list,
-    admin_bus_account as w_admin_bus_account,
-    admin_next_stop as w_admin_next_stop,
-    admin_feed as w_admin_feed
-}
-import from core.walkers.traffic {
-    set_traffic as w_set_traffic,
-    report_incident as w_report_incident,
-    get_driver_view as w_get_driver_view
-}
-import from core.walkers.demo {
-    demo_control as w_demo_control,
-    run_demo as w_run_demo,
-    reset_demo as w_reset_demo
-}
+# Walkers are called by name: importing them would compile each into a class named like
+# the function below and clash (see docs/decisions.md D-24).
+import from "@jac/runtime" { jacLogin, jacSignup, jacLogout, jacIsLoggedIn, jacSpawn, SignupResult }
 import from mock.mocks {
     mock_get_profile, mock_get_terminals, mock_get_slots, mock_recommend_slots, mock_book_slot,
     mock_mark_parked, mock_release_slot, mock_get_map, mock_get_buses, mock_book_seat,
@@ -62,7 +32,7 @@ glob USE_MOCK: dict[str, bool] = {
     "process_scan": False,
     "admin_bus_list": True,
     "admin_bus_account": True,
-    "admin_next_stop": True,
+    "admin_next_stop": False,  # qr, stop and visit_no are real (docs/contracts.md); the rest is seed data
     "admin_feed": True,
     "demo_control": False,
     "set_traffic": False,
@@ -100,6 +70,25 @@ def _first(result: any) -> dict[str, any] {
     return _err("EMPTY", "The server sent no report.");
 }
 
+"""Spawn a walker by name; first report as the envelope. A write conflict (409 WRITE_CONFLICT, or
+a 500 carrying Postgres serialization failure 40001) means another request saved the same nodes
+first and nothing of this one was saved, so it is retried up to 3 times."""
+async def _call(name: str, fields: dict[str, any]) -> dict[str, any] {
+    tries = 0;
+    while True {
+        try {
+            return _first(await jacSpawn(name, "", fields));
+        } except Exception as e {
+            tries += 1;
+            text = String(e);
+            if tries < 3 and ("WRITE_CONFLICT" in text or "409" in text or "40001" in text or "serialize" in text) {
+                continue;
+            }
+            return _thrown(e);
+        }
+    }
+}
+
 """Map a thrown error (e.g. no session) to an envelope."""
 def _thrown(e: any) -> dict[str, any] {
     text = String(e);
@@ -132,7 +121,7 @@ async def:pub login(username: str, password: str) -> dict[str, any] {
         if not ok {
             return _err("BAD_LOGIN", "Wrong username or password.");
         }
-        result = root spawn w_get_profile(username=username);
+        result = await jacSpawn("get_profile", "", {"username": username});
         env = _first(result);
         if env["ok"] {
             localStorage.setItem("parkride_user", env["data"]["username"]);
@@ -172,7 +161,7 @@ async def:pub get_profile(username: str) -> dict[str, any] {
         return mock_get_profile();
     }
     try {
-        return _first(root spawn w_get_profile(username=username));
+        return await _call("get_profile", {"username": username});
     } except Exception as e {
         return _thrown(e);
     }
@@ -185,7 +174,7 @@ async def:pub get_terminals -> dict[str, any] {
         return mock_get_terminals();
     }
     try {
-        return _first(root spawn w_get_terminals());
+        return await _call("get_terminals", {});
     } except Exception as e {
         return _thrown(e);
     }
@@ -196,7 +185,7 @@ async def:pub get_slots(terminal: str) -> dict[str, any] {
         return mock_get_slots();
     }
     try {
-        return _first(root spawn w_get_slots(terminal=terminal));
+        return await _call("get_slots", {"terminal": terminal});
     } except Exception as e {
         return _thrown(e);
     }
@@ -210,10 +199,7 @@ async def:pub recommend_slots(
         return mock_recommend_slots();
     }
     try {
-        return _first(root spawn w_recommend_slots(
-            terminal=terminal, vehicle=vehicle, ev=ev, accessible=accessible,
-            arrival=arrival, return_by=return_by
-        ));
+        return await _call("recommend_slots", {"terminal": terminal, "vehicle": vehicle, "ev": ev, "accessible": accessible, "arrival": arrival, "return_by": return_by});
     } except Exception as e {
         return _thrown(e);
     }
@@ -224,9 +210,7 @@ async def:pub book_slot(terminal: str, slot_code: str, arrival: str, return_by: 
         return mock_book_slot();
     }
     try {
-        return _first(root spawn w_book_slot(
-            terminal=terminal, slot_code=slot_code, arrival=arrival, return_by=return_by
-        ));
+        return await _call("book_slot", {"terminal": terminal, "slot_code": slot_code, "arrival": arrival, "return_by": return_by});
     } except Exception as e {
         return _thrown(e);
     }
@@ -237,7 +221,7 @@ async def:pub mark_parked(booking_id: str) -> dict[str, any] {
         return mock_mark_parked();
     }
     try {
-        return _first(root spawn w_mark_parked(booking_id=booking_id));
+        return await _call("mark_parked", {"booking_id": booking_id});
     } except Exception as e {
         return _thrown(e);
     }
@@ -248,7 +232,7 @@ async def:pub release_slot(booking_id: str = "", qr: str = "") -> dict[str, any]
         return mock_release_slot();
     }
     try {
-        return _first(root spawn w_release_slot(booking_id=booking_id, qr=qr));
+        return await _call("release_slot", {"booking_id": booking_id, "qr": qr});
     } except Exception as e {
         return _thrown(e);
     }
@@ -261,7 +245,7 @@ async def:pub get_map -> dict[str, any] {
         return mock_get_map();
     }
     try {
-        return _first(root spawn w_get_map());
+        return await _call("get_map", {});
     } except Exception as e {
         return _thrown(e);
     }
@@ -272,7 +256,7 @@ async def:pub get_buses(route: str = "") -> dict[str, any] {
         return mock_get_buses();
     }
     try {
-        return _first(root spawn w_get_buses(route=route));
+        return await _call("get_buses", {"route": route});
     } except Exception as e {
         return _thrown(e);
     }
@@ -283,7 +267,7 @@ async def:pub book_seat(bus_id: str, pickup: str, drop: str) -> dict[str, any] {
         return mock_book_seat();
     }
     try {
-        return _first(root spawn w_book_seat(bus_id=bus_id, pickup=pickup, drop=drop));
+        return await _call("book_seat", {"bus_id": bus_id, "pickup": pickup, "drop": drop});
     } except Exception as e {
         return _thrown(e);
     }
@@ -294,7 +278,7 @@ async def:pub get_trip(booking_id: str = "") -> dict[str, any] {
         return mock_get_trip();
     }
     try {
-        return _first(root spawn w_get_trip(booking_id=booking_id));
+        return await _call("get_trip", {"booking_id": booking_id});
     } except Exception as e {
         return _thrown(e);
     }
@@ -306,7 +290,7 @@ async def:pub process_scan(scan_id: str, qr: str, drop: str = "") -> dict[str, a
         return mock_process_scan();
     }
     try {
-        return _first(root spawn w_process_scan(scan_id=scan_id, qr=qr, drop=drop));
+        return await _call("process_scan", {"scan_id": scan_id, "qr": qr, "drop": drop});
     } except Exception as e {
         return _thrown(e);
     }
@@ -319,7 +303,7 @@ async def:pub admin_bus_list -> dict[str, any] {
         return mock_admin_bus_list();
     }
     try {
-        return _first(root spawn w_admin_bus_list());
+        return await _call("admin_bus_list", {});
     } except Exception as e {
         return _thrown(e);
     }
@@ -330,7 +314,7 @@ async def:pub admin_bus_account(bus_id: str) -> dict[str, any] {
         return mock_admin_bus_account();
     }
     try {
-        return _first(root spawn w_admin_bus_account(bus_id=bus_id));
+        return await _call("admin_bus_account", {"bus_id": bus_id});
     } except Exception as e {
         return _thrown(e);
     }
@@ -341,7 +325,7 @@ async def:pub admin_next_stop(bus_id: str) -> dict[str, any] {
         return mock_admin_next_stop();
     }
     try {
-        return _first(root spawn w_admin_next_stop(bus_id=bus_id));
+        return await _call("admin_next_stop", {"bus_id": bus_id});
     } except Exception as e {
         return _thrown(e);
     }
@@ -352,7 +336,7 @@ async def:pub admin_feed(limit: int = 50) -> dict[str, any] {
         return mock_admin_feed();
     }
     try {
-        return _first(root spawn w_admin_feed(limit=limit));
+        return await _call("admin_feed", {"limit": limit});
     } except Exception as e {
         return _thrown(e);
     }
@@ -368,9 +352,7 @@ async def:pub demo_control(
         return mock_demo_control();
     }
     try {
-        return _first(root spawn w_demo_control(
-            action=action, speed=speed, bus_id=bus_id, stop=stop, count=count, drop=drop
-        ));
+        return await _call("demo_control", {"action": action, "speed": speed, "bus_id": bus_id, "stop": stop, "count": count, "drop": drop});
     } except Exception as e {
         return _thrown(e);
     }
@@ -381,7 +363,7 @@ async def:pub set_traffic(preset: str = "", a: str = "", b: str = "", level: int
         return mock_set_traffic();
     }
     try {
-        return _first(root spawn w_set_traffic(preset=preset, a=a, b=b, level=level));
+        return await _call("set_traffic", {"preset": preset, "a": a, "b": b, "level": level});
     } except Exception as e {
         return _thrown(e);
     }
@@ -392,7 +374,7 @@ async def:pub report_incident(bus_id: str, kind: str, severity: str) -> dict[str
         return mock_report_incident();
     }
     try {
-        return _first(root spawn w_report_incident(bus_id=bus_id, kind=kind, severity=severity));
+        return await _call("report_incident", {"bus_id": bus_id, "kind": kind, "severity": severity});
     } except Exception as e {
         return _thrown(e);
     }
@@ -403,7 +385,7 @@ async def:pub get_driver_view(bus_id: str) -> dict[str, any] {
         return mock_get_driver_view();
     }
     try {
-        return _first(root spawn w_get_driver_view(bus_id=bus_id));
+        return await _call("get_driver_view", {"bus_id": bus_id});
     } except Exception as e {
         return _thrown(e);
     }
@@ -414,7 +396,7 @@ async def:pub run_demo(action: str = "status") -> dict[str, any] {
         return mock_run_demo();
     }
     try {
-        return _first(root spawn w_run_demo(action=action));
+        return await _call("run_demo", {"action": action});
     } except Exception as e {
         return _thrown(e);
     }
@@ -425,7 +407,7 @@ async def:pub reset_demo -> dict[str, any] {
         return mock_reset_demo();
     }
     try {
-        return _first(root spawn w_reset_demo());
+        return await _call("reset_demo", {});
     } except Exception as e {
         return _thrown(e);
     }

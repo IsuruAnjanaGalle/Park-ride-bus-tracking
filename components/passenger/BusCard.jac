@@ -32,7 +32,6 @@ def:pub BusCard(
             onClick={lambda (_e: MouseEvent) { if onSelect { onSelect(bDict); } }}
             className={f"p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden {cardBorder}"}
         >
-            # Top row: Route badge, ID, plate, and seats
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                     <span
@@ -53,12 +52,10 @@ def:pub BusCard(
                 </div>
             </div>
 
-            # Route Name
             <div className="mt-2 text-xs font-medium text-gray-300 truncate">
                 {routeName}
             </div>
 
-            # Next Stop & ETA bar
             <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-1.5 text-gray-300">
                     <span className="text-cyan-400">📍</span>
@@ -71,7 +68,6 @@ def:pub BusCard(
                 </div>
             </div>
 
-            # Reroute alert banner if active
             {if alert {
                 <div className="mt-2.5 px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 text-[10px] text-amber-300 font-bold flex items-center gap-1.5">
                     <span>⚠️</span>

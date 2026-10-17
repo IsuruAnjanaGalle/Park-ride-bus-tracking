@@ -28,7 +28,6 @@ def:pub TripView(
 
     return (
         <div className="space-y-6">
-            # 1. High Priority Arrival Alert Banner (2 stops away)
             {if alert {
                 <div className="p-4 rounded-3xl bg-amber-500/20 border-2 border-amber-400 text-amber-200 shadow-2xl shadow-amber-500/20 animate-pulse flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -44,7 +43,6 @@ def:pub TripView(
                 </div>;
             }}
 
-            # 2. Traffic Delay Alert if present
             {if delayDict {
                 dInfo: dict[str, any] = dict(delayDict);
                 dMins = int(str(dInfo.get("minutes", "5")));
@@ -55,9 +53,7 @@ def:pub TripView(
                 </div>;
             }}
 
-            # 3. Main Trip Card
             <div className="p-6 rounded-3xl bg-[#0F1B2D] border border-white/15 shadow-2xl space-y-6">
-                # Trip Top Bar
                 <div className="flex items-center justify-between pb-4 border-b border-white/10">
                     <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-2xl bg-[#FFC21A] text-[#0F1B2D] flex items-center justify-center font-black text-xl shadow-lg">
@@ -80,7 +76,6 @@ def:pub TripView(
                     </div>
                 </div>
 
-                # 4. Stop-by-Stop Stepper
                 <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">
                         Trip Progression
@@ -124,7 +119,6 @@ def:pub TripView(
                     </div>
                 </div>
 
-                # 5. Primary QR Scanner Button (Boarding or Alighting)
                 <div className="pt-2 space-y-3">
                     <button
                         type="button"

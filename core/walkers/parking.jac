@@ -1,7 +1,8 @@
 """Parking walkers (contracts.md 3.1-3.6). Status: real."""
 
 import from core.lib.envelope { ok, fail }
-import from core.lib.world { get_world, list_terminals, find_terminal, terminal_slots }
+import from core.lib.world { get_world, list_terminals, find_terminal }
+import from core.lib.slots { slot_views, slot_row }
 import from core.lib.shapes { terminal_dict, slot_dict, parking_booking_dict }
 import from core.lib.profiles { caller_profile, profile_error }
 import from core.lib.rules { VEHICLES, EV_CHOICES, stay_hours, valid_hhmm }
@@ -27,7 +28,7 @@ walker:pub get_slots {
             report fail("NOT_FOUND", f"No terminal {self.terminal}.");
             return;
         }
-        report ok({"terminal": term.code, "slots": [slot_dict(s) for s in terminal_slots(term)]});
+        report ok({"terminal": term.code, "slots": [slot_row(v) for v in slot_views(term)]});
     }
 }
 

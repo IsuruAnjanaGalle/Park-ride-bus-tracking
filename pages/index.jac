@@ -71,11 +71,6 @@ def:pub PassengerHome -> JsxPage {
     has activeTripData: dict[str, any] = {};
 
     # General UI state
-    # Backend data state
-    has terminals: list[dict[str, any]] = [];
-    has terminalSlots: list[dict[str, any]] = [];
-    has recommendation: dict[str, any] = {};
-    has activeBooking: dict[str, any] = {};
     has loading: bool = False;
     has toastMsg: str = "";
 
@@ -84,7 +79,7 @@ def:pub PassengerHome -> JsxPage {
         # Auto-login demo passenger
         u = current_user();
         if not u {
-            _ = await login("passenger", "pass123");
+            _ = await login("passenger", "demo-passenger");
         }
 
         # 1. Fetch parking terminals
@@ -126,6 +121,7 @@ def:pub PassengerHome -> JsxPage {
             if len(opts) > 0 {
                 opt0: dict[str, any] = dict(opts[0]);
                 firstSlot: dict[str, any] = dict(opt0.get("slot", {}));
+                firstSlot: dict[str, any] = dict(opts[0].get("slot", {}));
                 selectedSlotCode = str(firstSlot.get("code", "MKB-C-F-01"));
             }
         }
@@ -158,7 +154,7 @@ def:pub PassengerHome -> JsxPage {
 
     # Initial load
     useEffect(lambda {
-        init_data();
+        _started = init_data();  # not returned: React effects must not return a Promise
     }, []);
 
     # Live polling every 2s for buses and active trip telemetry
@@ -283,7 +279,6 @@ def:pub PassengerHome -> JsxPage {
     selBusId = str(selectedBus.get("id", ""));
 
     return <div className="min-h-screen bg-[#0B1220] text-white flex flex-col font-sans selection:bg-[#FFC21A] selection:text-[#0F1B2D]">
-        # Landing Pop-up Modal
         <LandingModal
             isOpen={showLandingModal}
             onSelectParkAndRide={handle_select_park_and_ride}
@@ -291,7 +286,6 @@ def:pub PassengerHome -> JsxPage {
             onClose={lambda { showLandingModal = False; }}
         />
 
-        # Seat Booking Drawer Modal
         <SeatBookingModal
             bus={selectedBus}
             isOpen={showBookingModal}
@@ -300,14 +294,12 @@ def:pub PassengerHome -> JsxPage {
             onConfirmBooking={handle_confirm_seat_booking}
         />
 
-        # Stop QR Camera Scanner Modal
         <QRScannerModal
             isOpen={showScannerModal}
             onClose={lambda { showScannerModal = False; }}
             onProcessScan={handle_process_scan}
         />
 
-        # Top Navigation Bar
         <header className="sticky top-0 z-40 bg-[#0F1B2D]/90 border-b border-white/10 backdrop-blur-xl px-4 py-3.5 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <button
@@ -343,12 +335,9 @@ def:pub PassengerHome -> JsxPage {
             </div>
         </header>
 
-        # Main Page Container
         <main className="flex-1 w-full max-w-4xl mx-auto p-4 sm:p-6 flex flex-col gap-6">
-            # APP MODE 1: PARK & RIDE PARKING FLOW
             {if appMode == "park_and_ride" {
                 <div className="flex flex-col gap-6 max-w-xl mx-auto w-full">
-                    # Step Progress Stepper
                     <div className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/10 text-xs">
                         <button
                             type="button"
@@ -374,7 +363,6 @@ def:pub PassengerHome -> JsxPage {
                         </div>
                     </div>
 
-                    # Step 1: Terminal & Vehicle Setup
                     {if step == 1 {
                         <div className="flex flex-col gap-6">
                             <TerminalPicker
@@ -406,7 +394,6 @@ def:pub PassengerHome -> JsxPage {
                         </div>;
                     }}
 
-                    # Step 2: Slot Recommendation & Interactive Grid
                     {if step == 2 {
                         <div className="flex flex-col gap-6">
                             <SlotRecommendation
@@ -416,7 +403,7 @@ def:pub PassengerHome -> JsxPage {
                             />
 
                             <SlotGrid
-                                slots={terminalSlots}
+                                slots={[s for s in terminalSlots if str(s.get("type", "")) == ("E" if selectedVehicle == "C" and evChoice == "needs_charging" else selectedVehicle)]}
                                 selectedSlotCode={selectedSlotCode}
                                 recommendedSlotCode={str(dict(recommendation.get("options", [{}])[0].get("slot", {})).get("code", ""))}
                                 onSelectSlot={lambda (code: str) { selectedSlotCode = code; }}
@@ -442,7 +429,6 @@ def:pub PassengerHome -> JsxPage {
                         </div>;
                     }}
 
-                    # Step 3: Digital Gate Pass & Proceed to Bus
                     {if step == 3 {
                         <div className="flex flex-col gap-6">
                             <ParkingPass
@@ -456,10 +442,8 @@ def:pub PassengerHome -> JsxPage {
                 </div>;
             }}
 
-            # APP MODE 2: BUS JOURNEY & LIVE TRACKING (Milestone 2)
             {if appMode == "get_into_bus" {
                 <div className="flex flex-col gap-6">
-                    # Mode Switcher / Banner
                     <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#0F1B2D] border border-white/10 text-xs">
                         <div className="flex items-center gap-2.5">
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -475,7 +459,6 @@ def:pub PassengerHome -> JsxPage {
                         </button>
                     </div>
 
-                    # If passenger has an active trip, show TripView
                     {if hasActiveTrip and len(activeTripData) > 0 {
                         <TripView
                             tripData={activeTripData}
@@ -485,7 +468,6 @@ def:pub PassengerHome -> JsxPage {
                     } else {
                         # Main Bus Tracking & Map View
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            # Left Column: Interactive SVG CityMap (7 cols)
                             <div className="lg:col-span-7 flex flex-col gap-3">
                                 <CityMap
                                     mapData={mapData}
@@ -496,9 +478,7 @@ def:pub PassengerHome -> JsxPage {
                                 />
                             </div>
 
-                            # Right Column: Route Filters & Bus Fleet List (5 cols)
                             <div className="lg:col-span-5 flex flex-col gap-4">
-                                # Route Selection Tabs
                                 <div className="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-[#0F1B2D] border border-white/10 text-xs">
                                     <button
                                         type="button"
@@ -530,7 +510,6 @@ def:pub PassengerHome -> JsxPage {
                                     </button>
                                 </div>
 
-                                # Bus Cards List
                                 <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
                                     {for b in filteredBuses {
                                         bid = str(b.get("id", ""));
@@ -544,7 +523,6 @@ def:pub PassengerHome -> JsxPage {
                                     }}
                                 </div>
 
-                                # Scanner Trigger Floating Bar
                                 <button
                                     type="button"
                                     onClick={lambda (_e: MouseEvent) { showScannerModal = True; }}
@@ -560,7 +538,6 @@ def:pub PassengerHome -> JsxPage {
             }}
         </main>
 
-        # Toast notification
         {if toastMsg {
             <div className="fixed bottom-6 right-6 z-50">
                 <Toast
@@ -571,7 +548,6 @@ def:pub PassengerHome -> JsxPage {
             </div>;
         }}
 
-        # Bottom Footer Bar
         <footer className="mt-auto border-t border-white/10 bg-[#0F1B2D]/50 p-4 text-center text-xs text-gray-500">
             <span>Park &amp; Ride Sri Lanka · Jac 0.37 Full-stack System</span>
         </footer>
