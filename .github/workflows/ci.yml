@@ -12,9 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Install jac 0.37.25
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Jaclang & Dependencies jac 0.37.25
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify Jac Version
+        run: |
+          jac --version
+
+      - name: Type Check Core Graph Models & Walkers
+        working-directory: ./parkride
         run: |
           curl -fsSL https://raw.githubusercontent.com/jaseci-labs/jaseci/main/scripts/install.sh | bash -s -- --version 0.37.25
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
