@@ -66,11 +66,11 @@ def main():
         'glob MOCK_MODE: str = "normal";',
         "",
         '"""Switch every mock to "normal", "empty" or "error"."""',
-        "def set_mock_mode(mode: str) -> None {",
+        "def:pub set_mock_mode(mode: str) -> None {",
         "    MOCK_MODE = mode;",
         "}",
         "",
-        "def get_mock_mode -> str {",
+        "def:pub get_mock_mode -> str {",
         "    return MOCK_MODE;",
         "}",
         "",
@@ -101,7 +101,7 @@ def main():
         name = path.stem
         env = json.loads(path.read_text(encoding="utf-8"))
         out += [
-            f"def mock_{name} -> dict[str, any] {{",
+            f"def:pub mock_{name} -> dict[str, any] {{",
             f"    return _pick(\n        {json.dumps(name)},",
             f"        {jac_literal(env, 3)}",
             "    );",

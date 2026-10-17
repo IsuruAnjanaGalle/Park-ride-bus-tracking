@@ -50,6 +50,16 @@ directory = "tests"
 # Tests share the persisted shared world, so run them one at a time.
 test_jobs = "0"
 
+[scale.admin]
+# The platform admin portal would take /admin and the "admin" username from the app.
+enabled = false
+username = "platform-admin"
+
+[placement.pins]
+# Pure client helpers: keep them in the browser bundle (never server endpoints).
+"mock.mocks" = "client"
+"components.shared.api" = "client"
+
 [client]
 
 [client.vite]

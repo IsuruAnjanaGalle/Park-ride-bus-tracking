@@ -7,11 +7,11 @@ Every sample is a real stub response, so mocks and walkers share one shape.
 glob MOCK_MODE: str = "normal";
 
 """Switch every mock to "normal", "empty" or "error"."""
-def set_mock_mode(mode: str) -> None {
+def:pub set_mock_mode(mode: str) -> None {
     MOCK_MODE = mode;
 }
 
-def get_mock_mode -> str {
+def:pub get_mock_mode -> str {
     return MOCK_MODE;
 }
 
@@ -37,16 +37,16 @@ def _pick(name: str, normal: dict[str, any]) -> dict[str, any] {
     return _emptied(normal) if MOCK_MODE == "empty" else normal;
 }
 
-def mock_admin_bus_account -> dict[str, any] {
+def:pub mock_admin_bus_account -> dict[str, any] {
     return _pick(
         "admin_bus_account",
         {
             "data": {
                 "bus": {"capacity": 40, "color": "blue", "conductor": "Kasun Fernando", "driver": "Sunil Perera", "id": "MB-101", "on_board": 0, "plate": "NB-4101", "route": "R1", "route_name": "Makumbura - Pettah", "seats_left": 40},
-                "eta_min": 10.1,
+                "eta_min": 8.4,
                 "next_stop": {"code": "BAT", "name": "Battaramulla"},
-                "path": ["BOR", "BAT"],
-                "position": {"heading": 109.2, "lat": 6.9119, "lng": 79.883575},
+                "path": ["BOR", "RAJ", "BAT"],
+                "position": {"heading": 107.5, "lat": 6.910312, "lng": 79.8893},
                 "trips_today": [
                     {
                         "direction": "reverse",
@@ -63,7 +63,7 @@ def mock_admin_bus_account -> dict[str, any] {
     );
 }
 
-def mock_admin_bus_list -> dict[str, any] {
+def:pub mock_admin_bus_list -> dict[str, any] {
     return _pick(
         "admin_bus_list",
         {
@@ -74,12 +74,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "blue",
                         "direction": "reverse",
-                        "eta_min": 10.1,
+                        "eta_min": 9.0,
                         "from_stop": {"code": "BOR", "name": "Borella"},
-                        "heading": 109.2,
+                        "heading": 107.5,
                         "id": "MB-101",
-                        "lat": 6.9119,
-                        "lng": 79.883575,
+                        "lat": 6.910925,
+                        "lng": 79.887341,
                         "next_stop": {"code": "BAT", "name": "Battaramulla"},
                         "on_board": 0,
                         "plate": "NB-4101",
@@ -94,9 +94,9 @@ def mock_admin_bus_list -> dict[str, any] {
                             {"code": "PET", "eta_min": None, "name": "Pettah", "passed": True},
                             {"code": "TWH", "eta_min": None, "name": "Town Hall", "passed": True},
                             {"code": "BOR", "eta_min": None, "name": "Borella", "passed": True},
-                            {"code": "BAT", "eta_min": 10.1, "name": "Battaramulla", "passed": False},
-                            {"code": "KOT", "eta_min": 31.0, "name": "Kottawa", "passed": False},
-                            {"code": "MKB", "eta_min": 34.9, "name": "Makumbura", "passed": False}
+                            {"code": "BAT", "eta_min": 9.0, "name": "Battaramulla", "passed": False},
+                            {"code": "KOT", "eta_min": 31.4, "name": "Kottawa", "passed": False},
+                            {"code": "MKB", "eta_min": 35.8, "name": "Makumbura", "passed": False}
                         ]
                     },
                     {
@@ -104,12 +104,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "blue",
                         "direction": "forward",
-                        "eta_min": 3.9,
+                        "eta_min": 1.0,
                         "from_stop": {"code": "MKB", "name": "Makumbura"},
                         "heading": 282.2,
                         "id": "MB-102",
-                        "lat": 6.83806,
-                        "lng": 79.97872,
+                        "lat": 6.840213,
+                        "lng": 79.968674,
                         "next_stop": {"code": "KOT", "name": "Kottawa"},
                         "on_board": 0,
                         "plate": "NB-4102",
@@ -118,15 +118,15 @@ def mock_admin_bus_list -> dict[str, any] {
                         "route": "R1",
                         "route_name": "Makumbura - Pettah",
                         "seats_left": 40,
-                        "segment_seats": [40, 40, 40, 40, 40],
+                        "segment_seats": [40, 39, 39, 40, 40],
                         "state": "moving",
                         "stops": [
                             {"code": "MKB", "eta_min": None, "name": "Makumbura", "passed": True},
-                            {"code": "KOT", "eta_min": 3.9, "name": "Kottawa", "passed": False},
-                            {"code": "BAT", "eta_min": 24.8, "name": "Battaramulla", "passed": False},
-                            {"code": "BOR", "eta_min": 36.6, "name": "Borella", "passed": False},
-                            {"code": "TWH", "eta_min": 40.8, "name": "Town Hall", "passed": False},
-                            {"code": "PET", "eta_min": 47.1, "name": "Pettah", "passed": False}
+                            {"code": "KOT", "eta_min": 1.0, "name": "Kottawa", "passed": False},
+                            {"code": "BAT", "eta_min": 23.4, "name": "Battaramulla", "passed": False},
+                            {"code": "BOR", "eta_min": 35.7, "name": "Borella", "passed": False},
+                            {"code": "TWH", "eta_min": 40.4, "name": "Town Hall", "passed": False},
+                            {"code": "PET", "eta_min": 47.2, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -134,12 +134,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "blue",
                         "direction": "forward",
-                        "eta_min": 12.5,
+                        "eta_min": 19.0,
                         "from_stop": {"code": "KOT", "name": "Kottawa"},
-                        "heading": 321.7,
+                        "heading": 289.6,
                         "id": "MB-103",
-                        "lat": 6.8646,
-                        "lng": 79.9462,
+                        "lat": 6.844424,
+                        "lng": 79.9553,
                         "next_stop": {"code": "BAT", "name": "Battaramulla"},
                         "on_board": 0,
                         "plate": "NB-4103",
@@ -153,10 +153,10 @@ def mock_admin_bus_list -> dict[str, any] {
                         "stops": [
                             {"code": "MKB", "eta_min": None, "name": "Makumbura", "passed": True},
                             {"code": "KOT", "eta_min": None, "name": "Kottawa", "passed": True},
-                            {"code": "BAT", "eta_min": 12.5, "name": "Battaramulla", "passed": False},
-                            {"code": "BOR", "eta_min": 24.4, "name": "Borella", "passed": False},
-                            {"code": "TWH", "eta_min": 28.6, "name": "Town Hall", "passed": False},
-                            {"code": "PET", "eta_min": 34.8, "name": "Pettah", "passed": False}
+                            {"code": "BAT", "eta_min": 19.0, "name": "Battaramulla", "passed": False},
+                            {"code": "BOR", "eta_min": 31.4, "name": "Borella", "passed": False},
+                            {"code": "TWH", "eta_min": 36.0, "name": "Town Hall", "passed": False},
+                            {"code": "PET", "eta_min": 42.8, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -164,12 +164,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "violet",
                         "direction": "forward",
-                        "eta_min": 17.3,
+                        "eta_min": 27.0,
                         "from_stop": {"code": "NAR", "name": "Narahenpita"},
-                        "heading": 25.4,
+                        "heading": 0.0,
                         "id": "MB-201",
-                        "lat": 6.91715,
-                        "lng": 79.88905,
+                        "lat": 6.903218,
+                        "lng": 79.8775,
                         "next_stop": {"code": "KLN", "name": "Kelaniya Campus"},
                         "on_board": 0,
                         "plate": "NB-4201",
@@ -185,8 +185,8 @@ def mock_admin_bus_list -> dict[str, any] {
                             {"code": "APK", "eta_min": None, "name": "Apeksha Hospital", "passed": True},
                             {"code": "NAW", "eta_min": None, "name": "Nawinna", "passed": True},
                             {"code": "NAR", "eta_min": None, "name": "Narahenpita", "passed": True},
-                            {"code": "KLN", "eta_min": 17.3, "name": "Kelaniya Campus", "passed": False},
-                            {"code": "KDW", "eta_min": 29.9, "name": "Kadawatha", "passed": False}
+                            {"code": "KLN", "eta_min": 27.0, "name": "Kelaniya Campus", "passed": False},
+                            {"code": "KDW", "eta_min": 40.2, "name": "Kadawatha", "passed": False}
                         ]
                     },
                     {
@@ -194,13 +194,13 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "violet",
                         "direction": "reverse",
-                        "eta_min": 2.1,
-                        "from_stop": {"code": "NAW", "name": "Nawinna"},
-                        "heading": 117.6,
+                        "eta_min": 14.6,
+                        "from_stop": {"code": "APK", "name": "Apeksha Hospital"},
+                        "heading": 100.5,
                         "id": "MB-202",
-                        "lat": 6.851,
-                        "lng": 79.92075,
-                        "next_stop": {"code": "APK", "name": "Apeksha Hospital"},
+                        "lat": 6.8475,
+                        "lng": 79.9275,
+                        "next_stop": {"code": "MKB", "name": "Makumbura"},
                         "on_board": 0,
                         "plate": "NB-4202",
                         "reroute_reason": "",
@@ -209,14 +209,14 @@ def mock_admin_bus_list -> dict[str, any] {
                         "route_name": "Makumbura - Kadawatha",
                         "seats_left": 40,
                         "segment_seats": [40, 40, 40, 40, 40],
-                        "state": "moving",
+                        "state": "dwelling",
                         "stops": [
                             {"code": "KDW", "eta_min": None, "name": "Kadawatha", "passed": True},
                             {"code": "KLN", "eta_min": None, "name": "Kelaniya Campus", "passed": True},
                             {"code": "NAR", "eta_min": None, "name": "Narahenpita", "passed": True},
                             {"code": "NAW", "eta_min": None, "name": "Nawinna", "passed": True},
-                            {"code": "APK", "eta_min": 2.1, "name": "Apeksha Hospital", "passed": False},
-                            {"code": "MKB", "eta_min": 16.6, "name": "Makumbura", "passed": False}
+                            {"code": "APK", "eta_min": 0.0, "name": "Apeksha Hospital", "passed": False},
+                            {"code": "MKB", "eta_min": 14.6, "name": "Makumbura", "passed": False}
                         ]
                     },
                     {
@@ -224,12 +224,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "violet",
                         "direction": "forward",
-                        "eta_min": 5.0,
+                        "eta_min": 9.9,
                         "from_stop": {"code": "KLN", "name": "Kelaniya Campus"},
-                        "heading": 52.4,
+                        "heading": 66.9,
                         "id": "MB-203",
-                        "lat": 6.99,
-                        "lng": 79.9376,
+                        "lat": 6.977507,
+                        "lng": 79.925472,
                         "next_stop": {"code": "KDW", "name": "Kadawatha"},
                         "on_board": 0,
                         "plate": "NB-4203",
@@ -246,7 +246,7 @@ def mock_admin_bus_list -> dict[str, any] {
                             {"code": "NAW", "eta_min": None, "name": "Nawinna", "passed": True},
                             {"code": "NAR", "eta_min": None, "name": "Narahenpita", "passed": True},
                             {"code": "KLN", "eta_min": None, "name": "Kelaniya Campus", "passed": True},
-                            {"code": "KDW", "eta_min": 5.0, "name": "Kadawatha", "passed": False}
+                            {"code": "KDW", "eta_min": 9.9, "name": "Kadawatha", "passed": False}
                         ]
                     },
                     {
@@ -254,12 +254,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "teal",
                         "direction": "forward",
-                        "eta_min": 5.4,
+                        "eta_min": 7.8,
                         "from_stop": {"code": "BRG", "name": "Boralesgamuwa"},
-                        "heading": 329.7,
+                        "heading": 328.9,
                         "id": "MB-301",
-                        "lat": 6.8512,
-                        "lng": 79.8944,
+                        "lat": 6.848763,
+                        "lng": 79.89568,
                         "next_stop": {"code": "KOH", "name": "Kohuwala"},
                         "on_board": 0,
                         "plate": "NB-4301",
@@ -275,9 +275,9 @@ def mock_admin_bus_list -> dict[str, any] {
                             {"code": "PLD", "eta_min": None, "name": "Piliyandala", "passed": True},
                             {"code": "WER", "eta_min": None, "name": "Werahera", "passed": True},
                             {"code": "BRG", "eta_min": None, "name": "Boralesgamuwa", "passed": True},
-                            {"code": "KOH", "eta_min": 5.4, "name": "Kohuwala", "passed": False},
-                            {"code": "HAV", "eta_min": 12.1, "name": "Havelock", "passed": False},
-                            {"code": "PET", "eta_min": 27.4, "name": "Pettah", "passed": False}
+                            {"code": "KOH", "eta_min": 7.8, "name": "Kohuwala", "passed": False},
+                            {"code": "HAV", "eta_min": 15.4, "name": "Havelock", "passed": False},
+                            {"code": "PET", "eta_min": 31.5, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -285,12 +285,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "teal",
                         "direction": "forward",
-                        "eta_min": 2.7,
+                        "eta_min": 4.2,
                         "from_stop": {"code": "KOH", "name": "Kohuwala"},
-                        "heading": 306.8,
+                        "heading": 324.7,
                         "id": "MB-302",
-                        "lat": 6.8767,
-                        "lng": 79.8728,
+                        "lat": 6.876334,
+                        "lng": 79.878547,
                         "next_stop": {"code": "HAV", "name": "Havelock"},
                         "on_board": 0,
                         "plate": "NB-4302",
@@ -307,8 +307,8 @@ def mock_admin_bus_list -> dict[str, any] {
                             {"code": "WER", "eta_min": None, "name": "Werahera", "passed": True},
                             {"code": "BRG", "eta_min": None, "name": "Boralesgamuwa", "passed": True},
                             {"code": "KOH", "eta_min": None, "name": "Kohuwala", "passed": True},
-                            {"code": "HAV", "eta_min": 2.7, "name": "Havelock", "passed": False},
-                            {"code": "PET", "eta_min": 17.9, "name": "Pettah", "passed": False}
+                            {"code": "HAV", "eta_min": 4.2, "name": "Havelock", "passed": False},
+                            {"code": "PET", "eta_min": 20.4, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -316,12 +316,12 @@ def mock_admin_bus_list -> dict[str, any] {
                         "capacity": 40,
                         "color": "teal",
                         "direction": "reverse",
-                        "eta_min": 4.7,
+                        "eta_min": 1.8,
                         "from_stop": {"code": "BRG", "name": "Boralesgamuwa"},
                         "heading": 175.3,
                         "id": "MB-303",
-                        "lat": 6.8328,
-                        "lng": 79.9016,
+                        "lat": 6.822621,
+                        "lng": 79.902448,
                         "next_stop": {"code": "WER", "name": "Werahera"},
                         "on_board": 0,
                         "plate": "NB-4303",
@@ -337,13 +337,13 @@ def mock_admin_bus_list -> dict[str, any] {
                             {"code": "HAV", "eta_min": None, "name": "Havelock", "passed": True},
                             {"code": "KOH", "eta_min": None, "name": "Kohuwala", "passed": True},
                             {"code": "BRG", "eta_min": None, "name": "Boralesgamuwa", "passed": True},
-                            {"code": "WER", "eta_min": 4.7, "name": "Werahera", "passed": False},
-                            {"code": "PLD", "eta_min": 11.4, "name": "Piliyandala", "passed": False},
-                            {"code": "KSB", "eta_min": 16.6, "name": "Kesbewa", "passed": False}
+                            {"code": "WER", "eta_min": 1.8, "name": "Werahera", "passed": False},
+                            {"code": "PLD", "eta_min": 9.1, "name": "Piliyandala", "passed": False},
+                            {"code": "KSB", "eta_min": 14.8, "name": "Kesbewa", "passed": False}
                         ]
                     }
                 ],
-                "clock": {"paused": False, "sim_seconds": 144.8, "speed": 30.0, "time": "08:02:24"}
+                "clock": {"paused": False, "sim_seconds": 174.8, "speed": 30.0, "time": "08:02:54"}
             },
             "error": None,
             "ok": True
@@ -351,28 +351,41 @@ def mock_admin_bus_list -> dict[str, any] {
     );
 }
 
-def mock_admin_feed -> dict[str, any] {
+def:pub mock_admin_feed -> dict[str, any] {
     return _pick(
         "admin_feed",
         {
-            "data": {"alerts": [], "decisions": [], "scans": []},
+            "data": {
+                "alerts": [],
+                "decisions": [],
+                "scans": [
+                    {
+                        "at": "08:04:02",
+                        "bus_id": "MB-101",
+                        "passenger": "ad*in",
+                        "scan_id": "scan-0001",
+                        "stop": {"code": "BAT", "name": "Battaramulla"},
+                        "type": "rejected"
+                    }
+                ]
+            },
             "error": None,
             "ok": True
         }
     );
 }
 
-def mock_admin_next_stop -> dict[str, any] {
+def:pub mock_admin_next_stop -> dict[str, any] {
     return _pick(
         "admin_next_stop",
         {
             "data": {
                 "bookings_to_board": 0,
                 "bus_id": "MB-101",
-                "eta_min": 10.1,
+                "eta_min": 20.9,
                 "getting_off": 0,
                 "getting_off_names": [],
-                "qr": "eyJidXMiOiJNQi0xMDEiLCJleHAiOjc2Mywic3RvcCI6IkJBVCIsInQiOiJzdG9wIiwidmlzaXQiOjF9.5721c9b7501bc93881680a9acb4b59ee27ffbe8c31121f7e439ab2cd2537f1ff",
+                "qr": "eyJidXMiOiJNQi0xMDEiLCJleHAiOjgzMSwic3RvcCI6IkJBVCIsInQiOiJzdG9wIiwidmlzaXQiOjF9.2c6ee14120aee9518396b6bfa871be4263ba715002d01e5ae03067428a113a26",
                 "qr_expires_in_s": 600,
                 "seats_left_after": 40,
                 "stop": {"code": "BAT", "name": "Battaramulla"},
@@ -385,16 +398,16 @@ def mock_admin_next_stop -> dict[str, any] {
     );
 }
 
-def mock_book_seat -> dict[str, any] {
+def:pub mock_book_seat -> dict[str, any] {
     return _pick(
         "book_seat",
         {
             "data": {
                 "booking": {
                     "bus_id": "MB-102",
-                    "created_at": "08:02:12",
+                    "created_at": "08:02:30",
                     "drop": {"code": "BOR", "name": "Borella"},
-                    "id": "BK-0001",
+                    "id": "BK-0002",
                     "pickup": {"code": "KOT", "name": "Kottawa"},
                     "route": "R1",
                     "state": "Pending",
@@ -408,12 +421,12 @@ def mock_book_seat -> dict[str, any] {
     );
 }
 
-def mock_book_slot -> dict[str, any] {
+def:pub mock_book_slot -> dict[str, any] {
     return _pick(
         "book_slot",
         {
             "data": {
-                "booking": {"arrival": "08:00", "id": "PB-0001", "qr": "eyJpZCI6IlBCLTAwMDEiLCJyZXR1cm5fYnkiOiIxMDowMCIsInNsb3QiOiJNS0ItQy1GLTAxIiwidCI6InBhcmtpbmciLCJ0ZXJtaW5hbCI6Ik1LQiJ9.300e7e60abe1680e3c3b99da4dd0cb7b820efef9687a3a478d7a3b8fbab12845", "return_by": "10:00", "slot_code": "MKB-C-F-01", "state": "booked", "terminal": "MKB", "type": "C", "zone": "F"}
+                "booking": {"arrival": "08:00", "id": "PB-0001", "qr": "eyJpZCI6IlBCLTAwMDEiLCJyZXR1cm5fYnkiOiIxMDowMCIsInNsb3QiOiJNS0ItQy1GLTA1IiwidCI6InBhcmtpbmciLCJ0ZXJtaW5hbCI6Ik1LQiJ9.051a075f3fd690cd995b5a43bd756aa143d3ee49e354b285866d4ddabaf62260", "return_by": "10:00", "slot_code": "MKB-C-F-05", "state": "booked", "terminal": "MKB", "type": "C", "zone": "F"}
             },
             "error": None,
             "ok": True
@@ -421,12 +434,12 @@ def mock_book_slot -> dict[str, any] {
     );
 }
 
-def mock_demo_control -> dict[str, any] {
+def:pub mock_demo_control -> dict[str, any] {
     return _pick(
         "demo_control",
         {
             "data": {
-                "clock": {"paused": False, "sim_seconds": 183.8, "speed": 30.0, "time": "08:03:03"},
+                "clock": {"paused": False, "sim_seconds": 255.2, "speed": 30.0, "time": "08:04:15"},
                 "message": "Clock status."
             },
             "error": None,
@@ -435,7 +448,7 @@ def mock_demo_control -> dict[str, any] {
     );
 }
 
-def mock_get_buses -> dict[str, any] {
+def:pub mock_get_buses -> dict[str, any] {
     return _pick(
         "get_buses",
         {
@@ -446,12 +459,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "blue",
                         "direction": "reverse",
-                        "eta_min": 10.1,
+                        "eta_min": 10.0,
                         "from_stop": {"code": "BOR", "name": "Borella"},
-                        "heading": 109.2,
+                        "heading": 107.5,
                         "id": "MB-101",
-                        "lat": 6.9119,
-                        "lng": 79.883575,
+                        "lat": 6.911999,
+                        "lng": 79.883902,
                         "next_stop": {"code": "BAT", "name": "Battaramulla"},
                         "on_board": 0,
                         "plate": "NB-4101",
@@ -466,9 +479,9 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "PET", "eta_min": None, "name": "Pettah", "passed": True},
                             {"code": "TWH", "eta_min": None, "name": "Town Hall", "passed": True},
                             {"code": "BOR", "eta_min": None, "name": "Borella", "passed": True},
-                            {"code": "BAT", "eta_min": 10.1, "name": "Battaramulla", "passed": False},
-                            {"code": "KOT", "eta_min": 31.0, "name": "Kottawa", "passed": False},
-                            {"code": "MKB", "eta_min": 34.9, "name": "Makumbura", "passed": False}
+                            {"code": "BAT", "eta_min": 10.0, "name": "Battaramulla", "passed": False},
+                            {"code": "KOT", "eta_min": 32.4, "name": "Kottawa", "passed": False},
+                            {"code": "MKB", "eta_min": 36.8, "name": "Makumbura", "passed": False}
                         ]
                     },
                     {
@@ -476,12 +489,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "blue",
                         "direction": "forward",
-                        "eta_min": 3.9,
+                        "eta_min": 2.0,
                         "from_stop": {"code": "MKB", "name": "Makumbura"},
                         "heading": 282.2,
                         "id": "MB-102",
-                        "lat": 6.83806,
-                        "lng": 79.97872,
+                        "lat": 6.83946,
+                        "lng": 79.972185,
                         "next_stop": {"code": "KOT", "name": "Kottawa"},
                         "on_board": 0,
                         "plate": "NB-4102",
@@ -494,11 +507,11 @@ def mock_get_buses -> dict[str, any] {
                         "state": "moving",
                         "stops": [
                             {"code": "MKB", "eta_min": None, "name": "Makumbura", "passed": True},
-                            {"code": "KOT", "eta_min": 3.9, "name": "Kottawa", "passed": False},
-                            {"code": "BAT", "eta_min": 24.8, "name": "Battaramulla", "passed": False},
-                            {"code": "BOR", "eta_min": 36.6, "name": "Borella", "passed": False},
-                            {"code": "TWH", "eta_min": 40.8, "name": "Town Hall", "passed": False},
-                            {"code": "PET", "eta_min": 47.1, "name": "Pettah", "passed": False}
+                            {"code": "KOT", "eta_min": 2.0, "name": "Kottawa", "passed": False},
+                            {"code": "BAT", "eta_min": 24.4, "name": "Battaramulla", "passed": False},
+                            {"code": "BOR", "eta_min": 36.7, "name": "Borella", "passed": False},
+                            {"code": "TWH", "eta_min": 41.4, "name": "Town Hall", "passed": False},
+                            {"code": "PET", "eta_min": 48.2, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -506,12 +519,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "blue",
                         "direction": "forward",
-                        "eta_min": 12.5,
+                        "eta_min": 20.0,
                         "from_stop": {"code": "KOT", "name": "Kottawa"},
-                        "heading": 321.7,
+                        "heading": 289.6,
                         "id": "MB-103",
-                        "lat": 6.8646,
-                        "lng": 79.9462,
+                        "lat": 6.843227,
+                        "lng": 79.95869,
                         "next_stop": {"code": "BAT", "name": "Battaramulla"},
                         "on_board": 0,
                         "plate": "NB-4103",
@@ -525,10 +538,10 @@ def mock_get_buses -> dict[str, any] {
                         "stops": [
                             {"code": "MKB", "eta_min": None, "name": "Makumbura", "passed": True},
                             {"code": "KOT", "eta_min": None, "name": "Kottawa", "passed": True},
-                            {"code": "BAT", "eta_min": 12.5, "name": "Battaramulla", "passed": False},
-                            {"code": "BOR", "eta_min": 24.4, "name": "Borella", "passed": False},
-                            {"code": "TWH", "eta_min": 28.6, "name": "Town Hall", "passed": False},
-                            {"code": "PET", "eta_min": 34.8, "name": "Pettah", "passed": False}
+                            {"code": "BAT", "eta_min": 20.0, "name": "Battaramulla", "passed": False},
+                            {"code": "BOR", "eta_min": 32.4, "name": "Borella", "passed": False},
+                            {"code": "TWH", "eta_min": 37.0, "name": "Town Hall", "passed": False},
+                            {"code": "PET", "eta_min": 43.8, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -536,12 +549,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "violet",
                         "direction": "forward",
-                        "eta_min": 17.3,
+                        "eta_min": 28.0,
                         "from_stop": {"code": "NAR", "name": "Narahenpita"},
-                        "heading": 25.4,
+                        "heading": 0.0,
                         "id": "MB-201",
-                        "lat": 6.91715,
-                        "lng": 79.88905,
+                        "lat": 6.899647,
+                        "lng": 79.8775,
                         "next_stop": {"code": "KLN", "name": "Kelaniya Campus"},
                         "on_board": 0,
                         "plate": "NB-4201",
@@ -557,8 +570,8 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "APK", "eta_min": None, "name": "Apeksha Hospital", "passed": True},
                             {"code": "NAW", "eta_min": None, "name": "Nawinna", "passed": True},
                             {"code": "NAR", "eta_min": None, "name": "Narahenpita", "passed": True},
-                            {"code": "KLN", "eta_min": 17.3, "name": "Kelaniya Campus", "passed": False},
-                            {"code": "KDW", "eta_min": 29.9, "name": "Kadawatha", "passed": False}
+                            {"code": "KLN", "eta_min": 28.0, "name": "Kelaniya Campus", "passed": False},
+                            {"code": "KDW", "eta_min": 41.2, "name": "Kadawatha", "passed": False}
                         ]
                     },
                     {
@@ -566,12 +579,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "violet",
                         "direction": "reverse",
-                        "eta_min": 2.1,
+                        "eta_min": 0.3,
                         "from_stop": {"code": "NAW", "name": "Nawinna"},
                         "heading": 117.6,
                         "id": "MB-202",
-                        "lat": 6.851,
-                        "lng": 79.92075,
+                        "lat": 6.847919,
+                        "lng": 79.926692,
                         "next_stop": {"code": "APK", "name": "Apeksha Hospital"},
                         "on_board": 0,
                         "plate": "NB-4202",
@@ -587,8 +600,8 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "KLN", "eta_min": None, "name": "Kelaniya Campus", "passed": True},
                             {"code": "NAR", "eta_min": None, "name": "Narahenpita", "passed": True},
                             {"code": "NAW", "eta_min": None, "name": "Nawinna", "passed": True},
-                            {"code": "APK", "eta_min": 2.1, "name": "Apeksha Hospital", "passed": False},
-                            {"code": "MKB", "eta_min": 16.6, "name": "Makumbura", "passed": False}
+                            {"code": "APK", "eta_min": 0.3, "name": "Apeksha Hospital", "passed": False},
+                            {"code": "MKB", "eta_min": 15.4, "name": "Makumbura", "passed": False}
                         ]
                     },
                     {
@@ -596,12 +609,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "violet",
                         "direction": "forward",
-                        "eta_min": 5.0,
+                        "eta_min": 10.9,
                         "from_stop": {"code": "KLN", "name": "Kelaniya Campus"},
-                        "heading": 52.4,
+                        "heading": 66.9,
                         "id": "MB-203",
-                        "lat": 6.99,
-                        "lng": 79.9376,
+                        "lat": 6.976107,
+                        "lng": 79.922162,
                         "next_stop": {"code": "KDW", "name": "Kadawatha"},
                         "on_board": 0,
                         "plate": "NB-4203",
@@ -618,7 +631,7 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "NAW", "eta_min": None, "name": "Nawinna", "passed": True},
                             {"code": "NAR", "eta_min": None, "name": "Narahenpita", "passed": True},
                             {"code": "KLN", "eta_min": None, "name": "Kelaniya Campus", "passed": True},
-                            {"code": "KDW", "eta_min": 5.0, "name": "Kadawatha", "passed": False}
+                            {"code": "KDW", "eta_min": 10.9, "name": "Kadawatha", "passed": False}
                         ]
                     },
                     {
@@ -626,12 +639,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "teal",
                         "direction": "forward",
-                        "eta_min": 5.4,
+                        "eta_min": 8.8,
                         "from_stop": {"code": "BRG", "name": "Boralesgamuwa"},
-                        "heading": 329.7,
+                        "heading": 328.9,
                         "id": "MB-301",
-                        "lat": 6.8512,
-                        "lng": 79.8944,
+                        "lat": 6.8457,
+                        "lng": 79.897539,
                         "next_stop": {"code": "KOH", "name": "Kohuwala"},
                         "on_board": 0,
                         "plate": "NB-4301",
@@ -647,9 +660,9 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "PLD", "eta_min": None, "name": "Piliyandala", "passed": True},
                             {"code": "WER", "eta_min": None, "name": "Werahera", "passed": True},
                             {"code": "BRG", "eta_min": None, "name": "Boralesgamuwa", "passed": True},
-                            {"code": "KOH", "eta_min": 5.4, "name": "Kohuwala", "passed": False},
-                            {"code": "HAV", "eta_min": 12.1, "name": "Havelock", "passed": False},
-                            {"code": "PET", "eta_min": 27.4, "name": "Pettah", "passed": False}
+                            {"code": "KOH", "eta_min": 8.8, "name": "Kohuwala", "passed": False},
+                            {"code": "HAV", "eta_min": 16.4, "name": "Havelock", "passed": False},
+                            {"code": "PET", "eta_min": 32.5, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -657,12 +670,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "teal",
                         "direction": "forward",
-                        "eta_min": 2.7,
+                        "eta_min": 5.2,
                         "from_stop": {"code": "KOH", "name": "Kohuwala"},
-                        "heading": 306.8,
+                        "heading": 324.7,
                         "id": "MB-302",
-                        "lat": 6.8767,
-                        "lng": 79.8728,
+                        "lat": 6.873422,
+                        "lng": 79.880627,
                         "next_stop": {"code": "HAV", "name": "Havelock"},
                         "on_board": 0,
                         "plate": "NB-4302",
@@ -679,8 +692,8 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "WER", "eta_min": None, "name": "Werahera", "passed": True},
                             {"code": "BRG", "eta_min": None, "name": "Boralesgamuwa", "passed": True},
                             {"code": "KOH", "eta_min": None, "name": "Kohuwala", "passed": True},
-                            {"code": "HAV", "eta_min": 2.7, "name": "Havelock", "passed": False},
-                            {"code": "PET", "eta_min": 17.9, "name": "Pettah", "passed": False}
+                            {"code": "HAV", "eta_min": 5.2, "name": "Havelock", "passed": False},
+                            {"code": "PET", "eta_min": 21.4, "name": "Pettah", "passed": False}
                         ]
                     },
                     {
@@ -688,12 +701,12 @@ def mock_get_buses -> dict[str, any] {
                         "capacity": 40,
                         "color": "teal",
                         "direction": "reverse",
-                        "eta_min": 4.7,
+                        "eta_min": 2.8,
                         "from_stop": {"code": "BRG", "name": "Boralesgamuwa"},
                         "heading": 175.3,
                         "id": "MB-303",
-                        "lat": 6.8328,
-                        "lng": 79.9016,
+                        "lat": 6.826178,
+                        "lng": 79.902152,
                         "next_stop": {"code": "WER", "name": "Werahera"},
                         "on_board": 0,
                         "plate": "NB-4303",
@@ -709,13 +722,13 @@ def mock_get_buses -> dict[str, any] {
                             {"code": "HAV", "eta_min": None, "name": "Havelock", "passed": True},
                             {"code": "KOH", "eta_min": None, "name": "Kohuwala", "passed": True},
                             {"code": "BRG", "eta_min": None, "name": "Boralesgamuwa", "passed": True},
-                            {"code": "WER", "eta_min": 4.7, "name": "Werahera", "passed": False},
-                            {"code": "PLD", "eta_min": 11.4, "name": "Piliyandala", "passed": False},
-                            {"code": "KSB", "eta_min": 16.6, "name": "Kesbewa", "passed": False}
+                            {"code": "WER", "eta_min": 2.8, "name": "Werahera", "passed": False},
+                            {"code": "PLD", "eta_min": 10.1, "name": "Piliyandala", "passed": False},
+                            {"code": "KSB", "eta_min": 15.8, "name": "Kesbewa", "passed": False}
                         ]
                     }
                 ],
-                "clock": {"paused": False, "sim_seconds": 123.4, "speed": 30.0, "time": "08:02:03"}
+                "clock": {"paused": False, "sim_seconds": 115.7, "speed": 30.0, "time": "08:01:55"}
             },
             "error": None,
             "ok": True
@@ -723,7 +736,7 @@ def mock_get_buses -> dict[str, any] {
     );
 }
 
-def mock_get_driver_view -> dict[str, any] {
+def:pub mock_get_driver_view -> dict[str, any] {
     return _pick(
         "get_driver_view",
         {
@@ -733,13 +746,13 @@ def mock_get_driver_view -> dict[str, any] {
                     "capacity": 40,
                     "color": "blue",
                     "direction": "reverse",
-                    "eta_min": 10.1,
-                    "from_stop": {"code": "BOR", "name": "Borella"},
-                    "heading": 109.2,
+                    "eta_min": 21.9,
+                    "from_stop": {"code": "BAT", "name": "Battaramulla"},
+                    "heading": 141.7,
                     "id": "MB-101",
-                    "lat": 6.9119,
-                    "lng": 79.883575,
-                    "next_stop": {"code": "BAT", "name": "Battaramulla"},
+                    "lat": 6.9,
+                    "lng": 79.918,
+                    "next_stop": {"code": "KOT", "name": "Kottawa"},
                     "on_board": 0,
                     "plate": "NB-4101",
                     "reroute_reason": "",
@@ -748,23 +761,23 @@ def mock_get_driver_view -> dict[str, any] {
                     "route_name": "Makumbura - Pettah",
                     "seats_left": 40,
                     "segment_seats": [40, 40, 40, 40, 40],
-                    "state": "moving",
+                    "state": "dwelling",
                     "stops": [
                         {"code": "PET", "eta_min": None, "name": "Pettah", "passed": True},
                         {"code": "TWH", "eta_min": None, "name": "Town Hall", "passed": True},
                         {"code": "BOR", "eta_min": None, "name": "Borella", "passed": True},
-                        {"code": "BAT", "eta_min": 10.1, "name": "Battaramulla", "passed": False},
-                        {"code": "KOT", "eta_min": 31.0, "name": "Kottawa", "passed": False},
-                        {"code": "MKB", "eta_min": 34.9, "name": "Makumbura", "passed": False}
+                        {"code": "BAT", "eta_min": 0.0, "name": "Battaramulla", "passed": False},
+                        {"code": "KOT", "eta_min": 21.9, "name": "Kottawa", "passed": False},
+                        {"code": "MKB", "eta_min": 26.3, "name": "Makumbura", "passed": False}
                     ]
                 },
-                "eta_min": 10.1,
-                "instruction": {"km": 1.0, "text": "Continue toward Battaramulla", "toward": "Battaramulla", "turn": "straight"},
-                "next_stop": {"code": "BAT", "name": "Battaramulla"},
-                "path": ["BOR", "BAT"],
+                "eta_min": 21.9,
+                "instruction": {"km": 0.0, "text": "At Battaramulla - board and alight", "toward": "Battaramulla", "turn": "arrive"},
+                "next_stop": {"code": "KOT", "name": "Kottawa"},
+                "path": ["BAT", "KOT"],
                 "reroute_reason": "",
                 "rerouted": False,
-                "road": {"a": "BOR", "b": "BAT", "level": 0},
+                "road": {"a": "BAT", "b": "KOT", "level": 0},
                 "waiting_at_next": 0
             },
             "error": None,
@@ -773,7 +786,7 @@ def mock_get_driver_view -> dict[str, any] {
     );
 }
 
-def mock_get_map -> dict[str, any] {
+def:pub mock_get_map -> dict[str, any] {
     return _pick(
         "get_map",
         {
@@ -897,7 +910,7 @@ def mock_get_map -> dict[str, any] {
     );
 }
 
-def mock_get_profile -> dict[str, any] {
+def:pub mock_get_profile -> dict[str, any] {
     return _pick(
         "get_profile",
         {
@@ -908,7 +921,7 @@ def mock_get_profile -> dict[str, any] {
     );
 }
 
-def mock_get_slots -> dict[str, any] {
+def:pub mock_get_slots -> dict[str, any] {
     return _pick(
         "get_slots",
         {
@@ -1233,7 +1246,7 @@ def mock_get_slots -> dict[str, any] {
     );
 }
 
-def mock_get_terminals -> dict[str, any] {
+def:pub mock_get_terminals -> dict[str, any] {
     return _pick(
         "get_terminals",
         {
@@ -1316,7 +1329,7 @@ def mock_get_terminals -> dict[str, any] {
     );
 }
 
-def mock_get_trip -> dict[str, any] {
+def:pub mock_get_trip -> dict[str, any] {
     return _pick(
         "get_trip",
         {
@@ -1325,9 +1338,9 @@ def mock_get_trip -> dict[str, any] {
                 "alert_message": "",
                 "booking": {
                     "bus_id": "MB-102",
-                    "created_at": "",
+                    "created_at": "08:02:30",
                     "drop": {"code": "BOR", "name": "Borella"},
-                    "id": "BK-0001",
+                    "id": "BK-0002",
                     "pickup": {"code": "KOT", "name": "Kottawa"},
                     "route": "R1",
                     "state": "Pending",
@@ -1338,12 +1351,12 @@ def mock_get_trip -> dict[str, any] {
                     "capacity": 40,
                     "color": "blue",
                     "direction": "forward",
-                    "eta_min": 3.9,
+                    "eta_min": 1.3,
                     "from_stop": {"code": "MKB", "name": "Makumbura"},
                     "heading": 282.2,
                     "id": "MB-102",
-                    "lat": 6.83806,
-                    "lng": 79.97872,
+                    "lat": 6.840024,
+                    "lng": 79.969556,
                     "next_stop": {"code": "KOT", "name": "Kottawa"},
                     "on_board": 0,
                     "plate": "NB-4102",
@@ -1352,25 +1365,25 @@ def mock_get_trip -> dict[str, any] {
                     "route": "R1",
                     "route_name": "Makumbura - Pettah",
                     "seats_left": 40,
-                    "segment_seats": [40, 40, 40, 40, 40],
+                    "segment_seats": [40, 39, 39, 40, 40],
                     "state": "moving",
                     "stops": [
                         {"code": "MKB", "eta_min": None, "name": "Makumbura", "passed": True},
-                        {"code": "KOT", "eta_min": 3.9, "name": "Kottawa", "passed": False},
-                        {"code": "BAT", "eta_min": 24.8, "name": "Battaramulla", "passed": False},
-                        {"code": "BOR", "eta_min": 36.6, "name": "Borella", "passed": False},
-                        {"code": "TWH", "eta_min": 40.8, "name": "Town Hall", "passed": False},
-                        {"code": "PET", "eta_min": 47.1, "name": "Pettah", "passed": False}
+                        {"code": "KOT", "eta_min": 1.3, "name": "Kottawa", "passed": False},
+                        {"code": "BAT", "eta_min": 23.7, "name": "Battaramulla", "passed": False},
+                        {"code": "BOR", "eta_min": 36.0, "name": "Borella", "passed": False},
+                        {"code": "TWH", "eta_min": 40.7, "name": "Town Hall", "passed": False},
+                        {"code": "PET", "eta_min": 47.4, "name": "Pettah", "passed": False}
                     ]
                 },
                 "delay": None,
                 "stops": [
                     {"code": "MKB", "eta_min": None, "is_drop": False, "is_pickup": False, "name": "Makumbura", "status": "passed"},
-                    {"code": "KOT", "eta_min": 3.9, "is_drop": False, "is_pickup": True, "name": "Kottawa", "status": "next"},
-                    {"code": "BAT", "eta_min": 24.8, "is_drop": False, "is_pickup": False, "name": "Battaramulla", "status": "upcoming"},
-                    {"code": "BOR", "eta_min": 36.6, "is_drop": True, "is_pickup": False, "name": "Borella", "status": "upcoming"},
-                    {"code": "TWH", "eta_min": 40.8, "is_drop": False, "is_pickup": False, "name": "Town Hall", "status": "upcoming"},
-                    {"code": "PET", "eta_min": 47.1, "is_drop": False, "is_pickup": False, "name": "Pettah", "status": "upcoming"}
+                    {"code": "KOT", "eta_min": 1.3, "is_drop": False, "is_pickup": True, "name": "Kottawa", "status": "next"},
+                    {"code": "BAT", "eta_min": 23.7, "is_drop": False, "is_pickup": False, "name": "Battaramulla", "status": "upcoming"},
+                    {"code": "BOR", "eta_min": 36.0, "is_drop": True, "is_pickup": False, "name": "Borella", "status": "upcoming"},
+                    {"code": "TWH", "eta_min": 40.7, "is_drop": False, "is_pickup": False, "name": "Town Hall", "status": "upcoming"},
+                    {"code": "PET", "eta_min": 47.4, "is_drop": False, "is_pickup": False, "name": "Pettah", "status": "upcoming"}
                 ],
                 "stops_remaining": 3
             },
@@ -1380,13 +1393,13 @@ def mock_get_trip -> dict[str, any] {
     );
 }
 
-def mock_mark_parked -> dict[str, any] {
+def:pub mock_mark_parked -> dict[str, any] {
     return _pick(
         "mark_parked",
         {
             "data": {
-                "booking": {"arrival": "08:00", "id": "PB-0001", "qr": "", "return_by": "10:00", "slot_code": "MKB-C-F-03", "state": "parked", "terminal": "MKB", "type": "C", "zone": "F"},
-                "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-03", "nn": 3, "state": "occupied", "terminal": "MKB", "type": "C", "zone": "F"}
+                "booking": {"arrival": "08:00", "id": "PB-0001", "qr": "eyJpZCI6IlBCLTAwMDEiLCJyZXR1cm5fYnkiOiIxMDowMCIsInNsb3QiOiJNS0ItQy1GLTA1IiwidCI6InBhcmtpbmciLCJ0ZXJtaW5hbCI6Ik1LQiJ9.051a075f3fd690cd995b5a43bd756aa143d3ee49e354b285866d4ddabaf62260", "return_by": "10:00", "slot_code": "MKB-C-F-05", "state": "parked", "terminal": "MKB", "type": "C", "zone": "F"},
+                "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-05", "nn": 5, "state": "occupied", "terminal": "MKB", "type": "C", "zone": "F"}
             },
             "error": None,
             "ok": True
@@ -1394,24 +1407,15 @@ def mock_mark_parked -> dict[str, any] {
     );
 }
 
-def mock_process_scan -> dict[str, any] {
+def:pub mock_process_scan -> dict[str, any] {
     return _pick(
         "process_scan",
         {
             "data": {
-                "booking": {
-                    "bus_id": "MB-101",
-                    "created_at": "08:02:51",
-                    "drop": {"code": "MKB", "name": "Makumbura"},
-                    "id": "BK-0001",
-                    "pickup": {"code": "BAT", "name": "Battaramulla"},
-                    "route": "R1",
-                    "state": "OnBoard",
-                    "walk_in": False
-                },
+                "booking": None,
                 "bus_id": "MB-101",
-                "message": "Confirmed, you are on board.",
-                "result": "boarded",
+                "message": "Your booking is for another bus.",
+                "result": "rejected",
                 "scan_id": "scan-0001",
                 "stop": {"code": "BAT", "name": "Battaramulla"}
             },
@@ -1421,7 +1425,7 @@ def mock_process_scan -> dict[str, any] {
     );
 }
 
-def mock_recommend_slots -> dict[str, any] {
+def:pub mock_recommend_slots -> dict[str, any] {
     return _pick(
         "recommend_slots",
         {
@@ -1430,24 +1434,24 @@ def mock_recommend_slots -> dict[str, any] {
                 "options": [
                     {
                         "rank": 1,
-                        "reason": "Zone F, slot 1 from the exit.",
-                        "score": 95,
-                        "slot": {"accessible": True, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-01", "nn": 1, "state": "free", "terminal": "MKB", "type": "C", "zone": "F"},
+                        "reason": "Best match: front line suits your stay; bay 5 from the exit.",
+                        "score": 75,
+                        "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-05", "nn": 5, "state": "free", "terminal": "MKB", "type": "C", "zone": "F"},
                         "zone": "F"
                     },
                     {
                         "rank": 2,
-                        "reason": "Zone F, slot 2 from the exit.",
-                        "score": 90,
-                        "slot": {"accessible": True, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-02", "nn": 2, "state": "free", "terminal": "MKB", "type": "C", "zone": "F"},
+                        "reason": "Same zone (front line), bay 9 from the exit.",
+                        "score": 55,
+                        "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-09", "nn": 9, "state": "free", "terminal": "MKB", "type": "C", "zone": "F"},
                         "zone": "F"
                     },
                     {
                         "rank": 3,
-                        "reason": "Zone F, slot 5 from the exit.",
-                        "score": 75,
-                        "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-05", "nn": 5, "state": "free", "terminal": "MKB", "type": "C", "zone": "F"},
-                        "zone": "F"
+                        "reason": "Neighbouring zone (middle), bay 1 from the exit.",
+                        "score": -5,
+                        "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-M-01", "nn": 1, "state": "free", "terminal": "MKB", "type": "C", "zone": "M"},
+                        "zone": "M"
                     }
                 ],
                 "slot_type": "C",
@@ -1461,13 +1465,13 @@ def mock_recommend_slots -> dict[str, any] {
     );
 }
 
-def mock_release_slot -> dict[str, any] {
+def:pub mock_release_slot -> dict[str, any] {
     return _pick(
         "release_slot",
         {
             "data": {
-                "booking": {"arrival": "08:00", "id": "PB-0001", "qr": "", "return_by": "10:00", "slot_code": "MKB-C-F-03", "state": "released", "terminal": "MKB", "type": "C", "zone": "F"},
-                "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-03", "nn": 3, "state": "occupied", "terminal": "MKB", "type": "C", "zone": "F"}
+                "booking": {"arrival": "08:00", "id": "PB-0001", "qr": "eyJpZCI6IlBCLTAwMDEiLCJyZXR1cm5fYnkiOiIxMDowMCIsInNsb3QiOiJNS0ItQy1GLTA1IiwidCI6InBhcmtpbmciLCJ0ZXJtaW5hbCI6Ik1LQiJ9.051a075f3fd690cd995b5a43bd756aa143d3ee49e354b285866d4ddabaf62260", "return_by": "10:00", "slot_code": "MKB-C-F-05", "state": "released", "terminal": "MKB", "type": "C", "zone": "F"},
+                "slot": {"accessible": False, "charger_kw": 0, "charger_type": "", "code": "MKB-C-F-05", "nn": 5, "state": "free", "terminal": "MKB", "type": "C", "zone": "F"}
             },
             "error": None,
             "ok": True
@@ -1475,18 +1479,18 @@ def mock_release_slot -> dict[str, any] {
     );
 }
 
-def mock_report_incident -> dict[str, any] {
+def:pub mock_report_incident -> dict[str, any] {
     return _pick(
         "report_incident",
         {
             "data": {
                 "decisions": [],
                 "incident": {
-                    "at": "08:03:16",
+                    "at": "08:04:48",
                     "bus_id": "MB-101",
-                    "id": "IN-0001",
+                    "id": "IN-0004",
                     "kind": "accident",
-                    "road": {"a": "BOR", "b": "BAT", "level": 3},
+                    "road": {"a": "BAT", "b": "KOT", "level": 3},
                     "severity": "closed"
                 }
             },
@@ -1496,13 +1500,13 @@ def mock_report_incident -> dict[str, any] {
     );
 }
 
-def mock_reset_demo -> dict[str, any] {
+def:pub mock_reset_demo -> dict[str, any] {
     return _pick(
         "reset_demo",
         {
             "data": {
                 "counts": {"buses": 9, "junctions": 34, "roads": 53, "routes": 3, "slots": 850, "terminals": 4, "users": 2},
-                "seconds": 2.43
+                "seconds": 2.28
             },
             "error": None,
             "ok": True
@@ -1510,18 +1514,18 @@ def mock_reset_demo -> dict[str, any] {
     );
 }
 
-def mock_run_demo -> dict[str, any] {
+def:pub mock_run_demo -> dict[str, any] {
     return _pick(
         "run_demo",
         {
-            "data": {"caption": "Book a car slot at Makumbura for 2 hours: front-line recommendation and parking QR.", "finished": False, "last": {}, "playing": False, "step": 0, "total": 9},
+            "data": {"caption": "Press Play to start the judge story.", "finished": False, "last": {}, "playing": False, "step": 0, "total": 10},
             "error": None,
             "ok": True
         }
     );
 }
 
-def mock_set_traffic -> dict[str, any] {
+def:pub mock_set_traffic -> dict[str, any] {
     return _pick(
         "set_traffic",
         {

@@ -98,7 +98,12 @@ walker:protect book_slot {
             report fail("NOT_FOUND", f"No terminal {self.terminal}.");
             return;
         }
-        (code, pb) = book(world, caller_profile(world), term, self.slot_code, self.arrival, self.return_by);
+        prof = caller_profile(world);
+        if prof is None {
+            report fail("NO_PROFILE", "Call get_profile after logging in.");
+            return;
+        }
+        (code, pb) = book(world, prof, term, self.slot_code, self.arrival, self.return_by);
         if code == "NOT_FOUND" {
             report fail(code, f"No slot {self.slot_code} at {term.code}.");
         } elif code == "CONFLICT" {

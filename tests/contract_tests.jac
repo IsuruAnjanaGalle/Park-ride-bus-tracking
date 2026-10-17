@@ -61,6 +61,7 @@ test "every walker reports its contract shape" {
     expect_ok("get_trip", (root spawn get_trip()).reports, ["booking", "bus", "stops", "stops_remaining", "alert", "alert_message", "delay"]);
     expect_ok("admin_bus_list", (root spawn admin_bus_list()).reports, ["clock", "buses"]);
     expect_ok("admin_bus_account", (root spawn admin_bus_account(bus_id="MB-101")).reports, ["bus", "position", "path", "next_stop", "eta_min", "trips_today"]);
+    expect_ok("demo_control", (root spawn demo_control(action="jump", bus_id="MB-101", stop="BAT")).reports, ["clock", "message"]);
     nxt = expect_ok("admin_next_stop", (root spawn admin_next_stop(bus_id="MB-101")).reports, ["bus_id", "stop", "eta_min", "qr", "getting_off", "bookings_to_board", "walk_ins", "seats_left_after"]);
     expect_ok("process_scan", (root spawn process_scan(scan_id="scan-0001", qr=nxt["qr"])).reports, ["result", "message", "scan_id", "booking", "stop", "bus_id"]);
     expect_ok("admin_feed", (root spawn admin_feed()).reports, ["scans", "alerts", "decisions"]);
