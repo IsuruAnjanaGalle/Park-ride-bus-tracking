@@ -1,13 +1,11 @@
-"""Parking walkers (contracts.md 3.1-3.6). Status: stub - shaped responses from seed data."""
+"""Parking walkers (contracts.md 3.1-3.6). Status: real."""
 
-import from core.models.nodes { Slot, ParkingBooking }
 import from core.lib.envelope { ok, fail }
-import from core.lib.world { get_world, list_terminals, find_terminal, terminal_slots, get_clock }
-import from core.lib.clock { now_hms }
-import from core.lib.qr { sign_token }
+import from core.lib.world { get_world, list_terminals, find_terminal, terminal_slots }
 import from core.lib.shapes { terminal_dict, slot_dict, parking_booking_dict }
 import from core.lib.profiles { caller_profile, profile_error }
-import from core.lib.rules { VEHICLES, EV_CHOICES, zone_for_stay, stay_hours, valid_hhmm }
+import from core.lib.rules { VEHICLES, EV_CHOICES, stay_hours, valid_hhmm }
+import from core.lib.parking { recommend, book, park, release, find_parking, slot_by_code, booking_id_from_qr }
 
 walker:pub get_terminals {
     has reports: list[dict[str, any]] = [];
@@ -57,6 +55,7 @@ walker:pub recommend_slots {
             report fail("INVALID_INPUT", "arrival and return_by must be HH:MM.");
             return;
         }
+        report ok(recommend(term, self.vehicle, self.ev, self.accessible, stay_hours(self.arrival, self.return_by)));
         hours = stay_hours(self.arrival, self.return_by);
         zone = zone_for_stay(hours);
         kind = "E" if self.vehicle == "C" and self.ev == "needs_charging" else self.vehicle;
@@ -90,10 +89,24 @@ walker:protect book_slot {
             report err;
             return;
         }
+        if not valid_hhmm(self.arrival) or not valid_hhmm(self.return_by) {
+            report fail("INVALID_INPUT", "arrival and return_by must be HH:MM.");
+            return;
+        }
         term = find_terminal(world, self.terminal);
         if term is None {
             report fail("NOT_FOUND", f"No terminal {self.terminal}.");
             return;
+        }
+        (code, pb) = book(world, caller_profile(world), term, self.slot_code, self.arrival, self.return_by);
+        if code == "NOT_FOUND" {
+            report fail(code, f"No slot {self.slot_code} at {term.code}.");
+        } elif code == "CONFLICT" {
+            report fail(code, f"Slot {self.slot_code} was just taken. Pick another option.");
+        } elif code == "ALREADY_BOOKED" {
+            report fail(code, f"You already have parking booking {pb.id} ({pb.slot_code}).");
+        } else {
+            report ok({"booking": parking_booking_dict(pb, slot_by_code(world, pb.terminal, pb.slot_code))});
         }
         matches = [s for s in terminal_slots(term) if s.code == self.slot_code];
         if not matches {
@@ -123,6 +136,16 @@ walker:protect mark_parked {
             report err;
             return;
         }
+        pb = find_parking(world, self.booking_id);
+        if pb is None {
+            report fail("NOT_FOUND", f"No parking booking {self.booking_id}.");
+            return;
+        }
+        if park(world, pb) {
+            report fail("INVALID_INPUT", f"Booking {pb.id} is {pb.state}, not booked.");
+            return;
+        }
+        slot = slot_by_code(world, pb.terminal, pb.slot_code);
         term = find_terminal(world, "MKB");
         slot = [s for s in terminal_slots(term) if s.code == "MKB-C-F-03"][0] if term else None;
         pb = ParkingBooking(
@@ -145,6 +168,21 @@ walker:protect release_slot {
             report err;
             return;
         }
+        bid = self.booking_id or booking_id_from_qr(self.qr);
+        if not bid {
+            report fail("INVALID_INPUT", "Give booking_id or a valid parking qr.");
+            return;
+        }
+        pb = find_parking(world, bid);
+        if pb is None {
+            report fail("NOT_FOUND", f"No parking booking {bid}.");
+            return;
+        }
+        if release(world, pb) {
+            report fail("INVALID_INPUT", f"Booking {pb.id} is already {pb.state}.");
+            return;
+        }
+        slot = slot_by_code(world, pb.terminal, pb.slot_code);
         if not self.booking_id and not self.qr {
             report fail("INVALID_INPUT", "Give booking_id or qr.");
             return;
