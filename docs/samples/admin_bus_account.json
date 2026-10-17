@@ -1,0 +1,48 @@
+{
+  "data": {
+    "bus": {
+      "capacity": 40,
+      "color": "blue",
+      "conductor": "Kasun Fernando",
+      "driver": "Sunil Perera",
+      "id": "MB-101",
+      "on_board": 0,
+      "plate": "NB-4101",
+      "route": "R1",
+      "route_name": "Makumbura - Pettah",
+      "seats_left": 40
+    },
+    "eta_min": 10.1,
+    "next_stop": {
+      "code": "BAT",
+      "name": "Battaramulla"
+    },
+    "path": [
+      "BOR",
+      "BAT"
+    ],
+    "position": {
+      "heading": 109.2,
+      "lat": 6.9119,
+      "lng": 79.883575
+    },
+    "trips_today": [
+      {
+        "direction": "reverse",
+        "id": "T-MB-101-1",
+        "last_departed": 2,
+        "status": "running",
+        "stops": [
+          "PET",
+          "TWH",
+          "BOR",
+          "BAT",
+          "KOT",
+          "MKB"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "ok": true
+}

@@ -1,0 +1,152 @@
+/* "Night Metro" design tokens (jac-uiux-craftsman skill, section 2).
+   The one source of colors, type, spacing and radii. Never hard-code a hex in a component.
+   Night is the default (admin, driver, landing hero); Day follows prefers-color-scheme
+   and can be forced with data-theme="day" on any element. */
+
+:root {
+  /* Brand */
+  --accent: #ffc21a;          /* signal yellow: primary actions, terminals */
+  --accent-ink: #0f1b2d;      /* text on accent */
+  --neon: #22d3ee;            /* live, selected, focus */
+  --r1: #3b82f6;              /* route R1 blue */
+  --r2: #8b5cf6;              /* route R2 violet */
+  --r3: #14b8a6;              /* route R3 teal */
+
+  /* Status (always paired with an icon or text) */
+  --good: #22c55e;
+  --warn: #f59e0b;
+  --bad: #ef4444;
+  --info: var(--neon);
+
+  /* Traffic levels: 0 free, 1 slow, 2 jammed, 3 closed (closed is also dashed) */
+  --road-free: #94a3b8;
+  --road-slow: #f59e0b;
+  --road-jammed: #ef4444;
+  --road-closed: #1f2937;
+
+  /* Night surfaces (SOW admin theme) */
+  --bg: #0b1220;
+  --surface: #111a29;
+  --surface-2: #17233a;
+  --glass: rgba(17, 26, 41, 0.72);
+  --border: rgba(232, 238, 246, 0.14);
+  --text: #e8eef6;
+  --text-muted: #a9b6c8;
+
+  /* Type */
+  --font-display: "Chakra Petch", "Schibsted Grotesk", system-ui, sans-serif;
+  --font-body: "Schibsted Grotesk", "Noto Sans Sinhala", "Noto Sans Tamil", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.375rem;
+  --fs-2xl: 1.75rem;
+  --fs-3xl: 2.25rem;
+  --fs-4xl: 3rem;
+
+  /* Spacing (4 px grid) and radii */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --radius-sheet: 24px;
+  --tap: 44px;
+
+  /* Elevation = glass + border + glow */
+  --blur: 14px;
+  --glow: 0 0 0 1px var(--neon), 0 0 24px rgba(34, 211, 238, 0.35);
+
+  color-scheme: dark;
+}
+
+/* Day theme: passenger app outdoors (SOW passenger palette: navy text, yellow buttons) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="night"]) {
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --surface-2: #eef2f8;
+    --glass: rgba(255, 255, 255, 0.78);
+    --border: rgba(15, 27, 45, 0.14);
+    --text: #0f1b2d;
+    --text-muted: #4a5a72;
+    --road-closed: #0f1b2d;
+    color-scheme: light;
+  }
+}
+
+[data-theme="day"] {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef2f8;
+  --glass: rgba(255, 255, 255, 0.78);
+  --border: rgba(15, 27, 45, 0.14);
+  --text: #0f1b2d;
+  --text-muted: #4a5a72;
+  --road-closed: #0f1b2d;
+  color-scheme: light;
+}
+
+[data-theme="night"] {
+  --bg: #0b1220;
+  --surface: #111a29;
+  --surface-2: #17233a;
+  --glass: rgba(17, 26, 41, 0.72);
+  --border: rgba(232, 238, 246, 0.14);
+  --text: #e8eef6;
+  --text-muted: #a9b6c8;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+code, kbd, .mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.glow {
+  box-shadow: var(--glow);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}

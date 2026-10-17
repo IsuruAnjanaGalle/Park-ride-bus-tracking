@@ -1,0 +1,13 @@
+{
+  "data": {
+    "clock": {
+      "paused": false,
+      "sim_seconds": 183.8,
+      "speed": 30.0,
+      "time": "08:03:03"
+    },
+    "message": "Clock status."
+  },
+  "error": null,
+  "ok": true
+}

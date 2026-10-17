@@ -1,0 +1,19 @@
+{
+  "data": {
+    "decisions": [],
+    "incident": {
+      "at": "08:03:16",
+      "bus_id": "MB-101",
+      "id": "IN-0001",
+      "kind": "accident",
+      "road": {
+        "a": "BOR",
+        "b": "BAT",
+        "level": 3
+      },
+      "severity": "closed"
+    }
+  },
+  "error": null,
+  "ok": true
+}

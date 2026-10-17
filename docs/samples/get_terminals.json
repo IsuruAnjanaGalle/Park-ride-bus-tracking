@@ -1,0 +1,177 @@
+{
+  "data": {
+    "terminals": [
+      {
+        "chargers": [
+          {
+            "kw": 50,
+            "n": 2,
+            "type": "DC"
+          },
+          {
+            "kw": 22,
+            "n": 6,
+            "type": "AC"
+          }
+        ],
+        "code": "MKB",
+        "counts": {
+          "B": {
+            "booked": 0,
+            "free": 28,
+            "occupied": 12,
+            "total": 40
+          },
+          "C": {
+            "booked": 0,
+            "free": 43,
+            "occupied": 69,
+            "total": 112
+          },
+          "E": {
+            "booked": 0,
+            "free": 3,
+            "occupied": 5,
+            "total": 8
+          },
+          "M": {
+            "booked": 0,
+            "free": 54,
+            "occupied": 96,
+            "total": 150
+          }
+        },
+        "full_grid": true,
+        "junction": "MKB",
+        "lat": 6.838,
+        "lng": 79.979,
+        "name": "Makumbura"
+      },
+      {
+        "chargers": [
+          {
+            "kw": 22,
+            "n": 6,
+            "type": "AC"
+          }
+        ],
+        "code": "KDW",
+        "counts": {
+          "B": {
+            "booked": 0,
+            "free": 31,
+            "occupied": 9,
+            "total": 40
+          },
+          "C": {
+            "booked": 0,
+            "free": 36,
+            "occupied": 48,
+            "total": 84
+          },
+          "E": {
+            "booked": 0,
+            "free": 3,
+            "occupied": 3,
+            "total": 6
+          },
+          "M": {
+            "booked": 0,
+            "free": 50,
+            "occupied": 70,
+            "total": 120
+          }
+        },
+        "full_grid": false,
+        "junction": "KDW",
+        "lat": 7.001,
+        "lng": 79.952,
+        "name": "Kadawatha"
+      },
+      {
+        "chargers": [
+          {
+            "kw": 7,
+            "n": 4,
+            "type": "AC"
+          }
+        ],
+        "code": "KSB",
+        "counts": {
+          "B": {
+            "booked": 0,
+            "free": 24,
+            "occupied": 6,
+            "total": 30
+          },
+          "C": {
+            "booked": 0,
+            "free": 25,
+            "occupied": 31,
+            "total": 56
+          },
+          "E": {
+            "booked": 0,
+            "free": 2,
+            "occupied": 2,
+            "total": 4
+          },
+          "M": {
+            "booked": 0,
+            "free": 39,
+            "occupied": 41,
+            "total": 80
+          }
+        },
+        "full_grid": false,
+        "junction": "KSB",
+        "lat": 6.796,
+        "lng": 79.9405,
+        "name": "Kesbewa"
+      },
+      {
+        "chargers": [
+          {
+            "kw": 22,
+            "n": 4,
+            "type": "AC"
+          }
+        ],
+        "code": "PTH",
+        "counts": {
+          "B": {
+            "booked": 0,
+            "free": 9,
+            "occupied": 11,
+            "total": 20
+          },
+          "C": {
+            "booked": 0,
+            "free": 3,
+            "occupied": 33,
+            "total": 36
+          },
+          "E": {
+            "booked": 0,
+            "free": 0,
+            "occupied": 4,
+            "total": 4
+          },
+          "M": {
+            "booked": 0,
+            "free": 8,
+            "occupied": 52,
+            "total": 60
+          }
+        },
+        "full_grid": false,
+        "junction": "PET",
+        "lat": 6.9355,
+        "lng": 79.851,
+        "name": "Pettah"
+      }
+    ]
+  },
+  "error": null,
+  "ok": true
+}

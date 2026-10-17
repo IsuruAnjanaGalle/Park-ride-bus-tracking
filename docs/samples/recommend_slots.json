@@ -1,0 +1,64 @@
+{
+  "data": {
+    "fallback": null,
+    "options": [
+      {
+        "rank": 1,
+        "reason": "Zone F, slot 1 from the exit.",
+        "score": 95,
+        "slot": {
+          "accessible": true,
+          "charger_kw": 0,
+          "charger_type": "",
+          "code": "MKB-C-F-01",
+          "nn": 1,
+          "state": "free",
+          "terminal": "MKB",
+          "type": "C",
+          "zone": "F"
+        },
+        "zone": "F"
+      },
+      {
+        "rank": 2,
+        "reason": "Zone F, slot 2 from the exit.",
+        "score": 90,
+        "slot": {
+          "accessible": true,
+          "charger_kw": 0,
+          "charger_type": "",
+          "code": "MKB-C-F-02",
+          "nn": 2,
+          "state": "free",
+          "terminal": "MKB",
+          "type": "C",
+          "zone": "F"
+        },
+        "zone": "F"
+      },
+      {
+        "rank": 3,
+        "reason": "Zone F, slot 5 from the exit.",
+        "score": 75,
+        "slot": {
+          "accessible": false,
+          "charger_kw": 0,
+          "charger_type": "",
+          "code": "MKB-C-F-05",
+          "nn": 5,
+          "state": "free",
+          "terminal": "MKB",
+          "type": "C",
+          "zone": "F"
+        },
+        "zone": "F"
+      }
+    ],
+    "slot_type": "C",
+    "stay_hours": 2.0,
+    "terminal": "MKB",
+    "zone": "F"
+  },
+  "error": null,
+  "ok": true
+}

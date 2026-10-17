@@ -1,0 +1,720 @@
+{
+  "data": {
+    "bounds": {
+      "max_lat": 7.001,
+      "max_lng": 79.989,
+      "min_lat": 6.796,
+      "min_lng": 79.8495
+    },
+    "junctions": [
+      {
+        "code": "PET",
+        "kind": "terminal",
+        "lat": 6.9355,
+        "lng": 79.851,
+        "name": "Pettah"
+      },
+      {
+        "code": "KLP",
+        "kind": "junction",
+        "lat": 6.911,
+        "lng": 79.8495,
+        "name": "Kollupitiya"
+      },
+      {
+        "code": "TWH",
+        "kind": "stop",
+        "lat": 6.916,
+        "lng": 79.8625,
+        "name": "Town Hall"
+      },
+      {
+        "code": "MAR",
+        "kind": "junction",
+        "lat": 6.9285,
+        "lng": 79.866,
+        "name": "Maradana"
+      },
+      {
+        "code": "DEM",
+        "kind": "junction",
+        "lat": 6.9375,
+        "lng": 79.88,
+        "name": "Dematagoda"
+      },
+      {
+        "code": "BOR",
+        "kind": "stop",
+        "lat": 6.914,
+        "lng": 79.8775,
+        "name": "Borella"
+      },
+      {
+        "code": "KLW",
+        "kind": "junction",
+        "lat": 6.931,
+        "lng": 79.889,
+        "name": "Kolonnawa"
+      },
+      {
+        "code": "RAJ",
+        "kind": "junction",
+        "lat": 6.909,
+        "lng": 79.8935,
+        "name": "Rajagiriya"
+      },
+      {
+        "code": "NAR",
+        "kind": "stop",
+        "lat": 6.893,
+        "lng": 79.8775,
+        "name": "Narahenpita"
+      },
+      {
+        "code": "NAL",
+        "kind": "junction",
+        "lat": 6.892,
+        "lng": 79.889,
+        "name": "Nawala"
+      },
+      {
+        "code": "BAT",
+        "kind": "stop",
+        "lat": 6.9,
+        "lng": 79.918,
+        "name": "Battaramulla"
+      },
+      {
+        "code": "HAV",
+        "kind": "stop",
+        "lat": 6.8825,
+        "lng": 79.865,
+        "name": "Havelock"
+      },
+      {
+        "code": "KIR",
+        "kind": "junction",
+        "lat": 6.8785,
+        "lng": 79.877,
+        "name": "Kirulapone"
+      },
+      {
+        "code": "KOH",
+        "kind": "stop",
+        "lat": 6.868,
+        "lng": 79.8845,
+        "name": "Kohuwala"
+      },
+      {
+        "code": "NUG",
+        "kind": "junction",
+        "lat": 6.865,
+        "lng": 79.8995,
+        "name": "Nugegoda"
+      },
+      {
+        "code": "PEP",
+        "kind": "junction",
+        "lat": 6.854,
+        "lng": 79.8925,
+        "name": "Pepiliyana"
+      },
+      {
+        "code": "NAW",
+        "kind": "stop",
+        "lat": 6.8545,
+        "lng": 79.914,
+        "name": "Nawinna"
+      },
+      {
+        "code": "APK",
+        "kind": "stop",
+        "lat": 6.8475,
+        "lng": 79.9275,
+        "name": "Apeksha Hospital"
+      },
+      {
+        "code": "BRG",
+        "kind": "stop",
+        "lat": 6.84,
+        "lng": 79.901,
+        "name": "Boralesgamuwa"
+      },
+      {
+        "code": "WER",
+        "kind": "stop",
+        "lat": 6.816,
+        "lng": 79.903,
+        "name": "Werahera"
+      },
+      {
+        "code": "BOK",
+        "kind": "junction",
+        "lat": 6.818,
+        "lng": 79.918,
+        "name": "Bokundara"
+      },
+      {
+        "code": "PLD",
+        "kind": "stop",
+        "lat": 6.8015,
+        "lng": 79.9225,
+        "name": "Piliyandala"
+      },
+      {
+        "code": "KSB",
+        "kind": "terminal",
+        "lat": 6.796,
+        "lng": 79.9405,
+        "name": "Kesbewa"
+      },
+      {
+        "code": "THL",
+        "kind": "junction",
+        "lat": 6.87,
+        "lng": 79.935,
+        "name": "Thalawathugoda"
+      },
+      {
+        "code": "PAN",
+        "kind": "junction",
+        "lat": 6.847,
+        "lng": 79.948,
+        "name": "Pannipitiya"
+      },
+      {
+        "code": "KOT",
+        "kind": "stop",
+        "lat": 6.841,
+        "lng": 79.965,
+        "name": "Kottawa"
+      },
+      {
+        "code": "MKB",
+        "kind": "terminal",
+        "lat": 6.838,
+        "lng": 79.979,
+        "name": "Makumbura"
+      },
+      {
+        "code": "MAL",
+        "kind": "junction",
+        "lat": 6.905,
+        "lng": 79.958,
+        "name": "Malabe"
+      },
+      {
+        "code": "ATH",
+        "kind": "junction",
+        "lat": 6.8735,
+        "lng": 79.989,
+        "name": "Athurugiriya"
+      },
+      {
+        "code": "KDU",
+        "kind": "junction",
+        "lat": 6.935,
+        "lng": 79.984,
+        "name": "Kaduwela"
+      },
+      {
+        "code": "PEL",
+        "kind": "junction",
+        "lat": 6.963,
+        "lng": 79.88,
+        "name": "Peliyagoda"
+      },
+      {
+        "code": "KLN",
+        "kind": "stop",
+        "lat": 6.9735,
+        "lng": 79.916,
+        "name": "Kelaniya Campus"
+      },
+      {
+        "code": "KIB",
+        "kind": "junction",
+        "lat": 6.979,
+        "lng": 79.929,
+        "name": "Kiribathgoda"
+      },
+      {
+        "code": "KDW",
+        "kind": "terminal",
+        "lat": 7.001,
+        "lng": 79.952,
+        "name": "Kadawatha"
+      }
+    ],
+    "roads": [
+      {
+        "a": "PET",
+        "b": "KLP",
+        "cls": "A",
+        "km": 3.41,
+        "level": 0,
+        "minutes": 6.82
+      },
+      {
+        "a": "PET",
+        "b": "TWH",
+        "cls": "A",
+        "km": 3.14,
+        "level": 0,
+        "minutes": 6.28
+      },
+      {
+        "a": "PET",
+        "b": "MAR",
+        "cls": "A",
+        "km": 2.29,
+        "level": 0,
+        "minutes": 4.58
+      },
+      {
+        "a": "PET",
+        "b": "PEL",
+        "cls": "A",
+        "km": 5.53,
+        "level": 0,
+        "minutes": 11.06
+      },
+      {
+        "a": "KLP",
+        "b": "TWH",
+        "cls": "B",
+        "km": 1.92,
+        "level": 0,
+        "minutes": 5.24
+      },
+      {
+        "a": "KLP",
+        "b": "HAV",
+        "cls": "A",
+        "km": 4.5,
+        "level": 0,
+        "minutes": 9.0
+      },
+      {
+        "a": "TWH",
+        "b": "MAR",
+        "cls": "B",
+        "km": 1.8,
+        "level": 0,
+        "minutes": 4.91
+      },
+      {
+        "a": "TWH",
+        "b": "BOR",
+        "cls": "A",
+        "km": 2.09,
+        "level": 0,
+        "minutes": 4.18
+      },
+      {
+        "a": "TWH",
+        "b": "HAV",
+        "cls": "A",
+        "km": 4.67,
+        "level": 0,
+        "minutes": 9.34
+      },
+      {
+        "a": "MAR",
+        "b": "BOR",
+        "cls": "A",
+        "km": 2.57,
+        "level": 0,
+        "minutes": 5.14
+      },
+      {
+        "a": "MAR",
+        "b": "DEM",
+        "cls": "A",
+        "km": 2.3,
+        "level": 0,
+        "minutes": 4.6
+      },
+      {
+        "a": "DEM",
+        "b": "BOR",
+        "cls": "A",
+        "km": 3.28,
+        "level": 0,
+        "minutes": 6.56
+      },
+      {
+        "a": "DEM",
+        "b": "KLW",
+        "cls": "A",
+        "km": 1.54,
+        "level": 0,
+        "minutes": 3.08
+      },
+      {
+        "a": "DEM",
+        "b": "PEL",
+        "cls": "A",
+        "km": 3.54,
+        "level": 0,
+        "minutes": 7.08
+      },
+      {
+        "a": "BOR",
+        "b": "RAJ",
+        "cls": "A",
+        "km": 2.31,
+        "level": 0,
+        "minutes": 4.62
+      },
+      {
+        "a": "BOR",
+        "b": "NAR",
+        "cls": "A",
+        "km": 2.92,
+        "level": 0,
+        "minutes": 5.84
+      },
+      {
+        "a": "KLW",
+        "b": "RAJ",
+        "cls": "B",
+        "km": 3.12,
+        "level": 0,
+        "minutes": 8.51
+      },
+      {
+        "a": "RAJ",
+        "b": "BAT",
+        "cls": "A",
+        "km": 3.6,
+        "level": 0,
+        "minutes": 7.2
+      },
+      {
+        "a": "RAJ",
+        "b": "NAL",
+        "cls": "B",
+        "km": 2.44,
+        "level": 0,
+        "minutes": 6.65
+      },
+      {
+        "a": "NAR",
+        "b": "NAL",
+        "cls": "B",
+        "km": 1.59,
+        "level": 0,
+        "minutes": 4.34
+      },
+      {
+        "a": "NAR",
+        "b": "KIR",
+        "cls": "A",
+        "km": 2.02,
+        "level": 0,
+        "minutes": 4.04
+      },
+      {
+        "a": "NAL",
+        "b": "BAT",
+        "cls": "B",
+        "km": 4.15,
+        "level": 0,
+        "minutes": 11.32
+      },
+      {
+        "a": "NAL",
+        "b": "NUG",
+        "cls": "B",
+        "km": 4.02,
+        "level": 0,
+        "minutes": 10.96
+      },
+      {
+        "a": "BAT",
+        "b": "THL",
+        "cls": "A",
+        "km": 4.78,
+        "level": 0,
+        "minutes": 9.56
+      },
+      {
+        "a": "BAT",
+        "b": "MAL",
+        "cls": "A",
+        "km": 5.56,
+        "level": 0,
+        "minutes": 11.12
+      },
+      {
+        "a": "HAV",
+        "b": "KIR",
+        "cls": "A",
+        "km": 1.75,
+        "level": 0,
+        "minutes": 3.5
+      },
+      {
+        "a": "KIR",
+        "b": "KOH",
+        "cls": "A",
+        "km": 1.79,
+        "level": 0,
+        "minutes": 3.58
+      },
+      {
+        "a": "KOH",
+        "b": "NUG",
+        "cls": "B",
+        "km": 2.11,
+        "level": 0,
+        "minutes": 5.75
+      },
+      {
+        "a": "KOH",
+        "b": "PEP",
+        "cls": "B",
+        "km": 2.24,
+        "level": 0,
+        "minutes": 6.11
+      },
+      {
+        "a": "NUG",
+        "b": "NAW",
+        "cls": "A",
+        "km": 2.48,
+        "level": 0,
+        "minutes": 4.96
+      },
+      {
+        "a": "NUG",
+        "b": "PEP",
+        "cls": "B",
+        "km": 1.81,
+        "level": 0,
+        "minutes": 4.94
+      },
+      {
+        "a": "PEP",
+        "b": "BRG",
+        "cls": "A",
+        "km": 2.27,
+        "level": 0,
+        "minutes": 4.54
+      },
+      {
+        "a": "NAW",
+        "b": "APK",
+        "cls": "A",
+        "km": 2.1,
+        "level": 0,
+        "minutes": 4.2
+      },
+      {
+        "a": "APK",
+        "b": "PAN",
+        "cls": "A",
+        "km": 2.83,
+        "level": 0,
+        "minutes": 5.66
+      },
+      {
+        "a": "APK",
+        "b": "THL",
+        "cls": "B",
+        "km": 3.29,
+        "level": 0,
+        "minutes": 8.97
+      },
+      {
+        "a": "BRG",
+        "b": "WER",
+        "cls": "A",
+        "km": 3.35,
+        "level": 0,
+        "minutes": 6.7
+      },
+      {
+        "a": "BRG",
+        "b": "BOK",
+        "cls": "B",
+        "km": 3.85,
+        "level": 0,
+        "minutes": 10.5
+      },
+      {
+        "a": "WER",
+        "b": "PLD",
+        "cls": "A",
+        "km": 3.36,
+        "level": 0,
+        "minutes": 6.72
+      },
+      {
+        "a": "WER",
+        "b": "BOK",
+        "cls": "B",
+        "km": 2.09,
+        "level": 0,
+        "minutes": 5.7
+      },
+      {
+        "a": "BOK",
+        "b": "PLD",
+        "cls": "B",
+        "km": 2.38,
+        "level": 0,
+        "minutes": 6.49
+      },
+      {
+        "a": "BOK",
+        "b": "KSB",
+        "cls": "B",
+        "km": 4.36,
+        "level": 0,
+        "minutes": 11.89
+      },
+      {
+        "a": "PLD",
+        "b": "KSB",
+        "cls": "A",
+        "km": 2.6,
+        "level": 0,
+        "minutes": 5.2
+      },
+      {
+        "a": "THL",
+        "b": "PAN",
+        "cls": "A",
+        "km": 3.67,
+        "level": 0,
+        "minutes": 7.34
+      },
+      {
+        "a": "PAN",
+        "b": "KOT",
+        "cls": "A",
+        "km": 2.49,
+        "level": 0,
+        "minutes": 4.98
+      },
+      {
+        "a": "KOT",
+        "b": "ATH",
+        "cls": "A",
+        "km": 5.6,
+        "level": 0,
+        "minutes": 11.2
+      },
+      {
+        "a": "KOT",
+        "b": "MKB",
+        "cls": "A",
+        "km": 1.98,
+        "level": 0,
+        "minutes": 3.96
+      },
+      {
+        "a": "MKB",
+        "b": "ATH",
+        "cls": "B",
+        "km": 5.12,
+        "level": 0,
+        "minutes": 13.96
+      },
+      {
+        "a": "MAL",
+        "b": "ATH",
+        "cls": "A",
+        "km": 6.12,
+        "level": 0,
+        "minutes": 12.24
+      },
+      {
+        "a": "MAL",
+        "b": "KDU",
+        "cls": "A",
+        "km": 5.5,
+        "level": 0,
+        "minutes": 11.0
+      },
+      {
+        "a": "KDU",
+        "b": "KDW",
+        "cls": "E",
+        "km": 10.18,
+        "level": 0,
+        "minutes": 10.18
+      },
+      {
+        "a": "PEL",
+        "b": "KLN",
+        "cls": "A",
+        "km": 5.18,
+        "level": 0,
+        "minutes": 10.36
+      },
+      {
+        "a": "KLN",
+        "b": "KIB",
+        "cls": "A",
+        "km": 1.95,
+        "level": 0,
+        "minutes": 3.9
+      },
+      {
+        "a": "KIB",
+        "b": "KDW",
+        "cls": "A",
+        "km": 4.41,
+        "level": 0,
+        "minutes": 8.82
+      }
+    ],
+    "routes": [
+      {
+        "color": "blue",
+        "id": "R1",
+        "name": "Makumbura - Pettah",
+        "stops": [
+          "MKB",
+          "KOT",
+          "BAT",
+          "BOR",
+          "TWH",
+          "PET"
+        ]
+      },
+      {
+        "color": "violet",
+        "id": "R2",
+        "name": "Makumbura - Kadawatha",
+        "stops": [
+          "MKB",
+          "APK",
+          "NAW",
+          "NAR",
+          "KLN",
+          "KDW"
+        ]
+      },
+      {
+        "color": "teal",
+        "id": "R3",
+        "name": "Kesbewa - Pettah",
+        "stops": [
+          "KSB",
+          "PLD",
+          "WER",
+          "BRG",
+          "KOH",
+          "HAV",
+          "PET"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "ok": true
+}
