@@ -142,6 +142,7 @@ def:pub SlotGrid(
                                 strokeWidth={"2.5" if isSel else "1"}
                             />
 
+                            # Bay label
                             <text x={bx + 31} y={bay_y + 14} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
                                 {f"C-{zCode}-0{col+1}"}
                             </text>
