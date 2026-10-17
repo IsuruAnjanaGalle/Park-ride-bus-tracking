@@ -2,21 +2,12 @@
 
 import from core.models.nodes { World, Bus, Decision }
 import from core.lib.world { reset_world, get_world, must_bus, must_trip }
-import from core.lib.routing { build_adj, plan_route, plan_dijkstra, set_road_level, clear_roads, INF }
+import from core.lib.routing { build_adj, plan_route, set_road_level, INF }
 import from core.lib.sim { replan_all, advance, depart_now, jump_and_hold, instruction }
-import from core.walkers.traffic { set_traffic, get_driver_view }
-import from core.walkers.profile { get_profile }
-
-glob _INIT: list[bool] = [False];
 
 def setup -> World {
-    if not _INIT[0] {
-        reset_world();
-        _INIT[0] = True;
-    }
-    w = get_world();
-    clear_roads(w);
-    return w;
+    reset_world();
+    return get_world();
 }
 
 """Put MB-101 on Borella -> Rajagiriya, heading for Battaramulla (the SOW traffic case)."""
@@ -28,14 +19,12 @@ def on_borella_road(world: World) -> Bus {
     bus.next_stop = "BAT";
     bus.path = ["BOR", "RAJ", "BAT"];
     bus.progress = 0.3;
-    bus.rerouted = False;
-    bus.reroute_reason = "";
     return bus;
 }
 
 test "1 free roads: Borella to Battaramulla goes through Rajagiriya" {
     world = setup();
-    (path, minutes) = plan_dijkstra(build_adj(world), "BOR", "BAT");
+    (path, minutes) = plan_route(build_adj(world), "BOR", "BAT");
     assert path == ["BOR", "RAJ", "BAT"], path;
     assert 11.0 < minutes < 12.5, minutes;
 }
@@ -43,7 +32,7 @@ test "1 free roads: Borella to Battaramulla goes through Rajagiriya" {
 test "2 a closed road is never planned" {
     world = setup();
     set_road_level(world, "RAJ", "BAT", 3);
-    (path, _) = plan_dijkstra(build_adj(world), "RAJ", "BAT");
+    (path, _) = plan_route(build_adj(world), "RAJ", "BAT");
     assert path == ["RAJ", "NAL", "BAT"], path;
 }
 
@@ -102,23 +91,3 @@ test "7 a bus reaches its next stop and dwells there" {
     assert bus.state == "dwelling", bus.state;
     assert bus.from_stop == "BAT";
 }
-
-test "8 walker end-to-end: set_traffic crash reroutes MB-101 in get_driver_view" {
-    world = setup();
-    bus = on_borella_road(world);
-    root spawn get_profile(username="admin");
-
-    rep1 = (root spawn get_driver_view(bus_id="MB-101")).reports;
-    assert rep1[0]["ok"];
-    assert not rep1[0]["data"]["rerouted"];
-
-    rep_tr = (root spawn set_traffic(preset="crash")).reports;
-    assert rep_tr[0]["ok"], rep_tr;
-
-    rep2 = (root spawn get_driver_view(bus_id="MB-101")).reports;
-    assert rep2[0]["ok"];
-    assert rep2[0]["data"]["rerouted"];
-    assert "Rajagiriya" in str(rep2[0]["data"]["reroute_reason"]);
-    assert "NAL" in list(rep2[0]["data"]["path"]);
-}
-

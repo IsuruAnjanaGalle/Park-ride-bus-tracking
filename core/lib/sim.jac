@@ -1,24 +1,28 @@
 """Bus simulator on the DemoClock (SOW 9.6, SimulatorFeed).
 
 tick(world) advances every bus by the simulated time since the last tick: buses drive their
-planned roads at class speed x traffic factor, dwell 30 s at stops, finish the road they are on
-(no U-turns), switch routes only when the new one saves at least 1 min or 10 %, and wait at a
-junction when no road is open.
+planned roads at class speed x traffic factor, dwell 30 s at stops (depart_stop runs the 9.3 and
+9.5 rules), finish the road they are on (no U-turns), switch routes only when the new one saves
+at least 1 min or 10 %, and wait at a junction when no road is open.
 """
 
-import from threading { RLock }
+import time;
 import from core.models.nodes { World, Bus, Trip, Decision, Junction }
 import from core.lib.world { get_clock, list_buses, current_trip, get_junctions, junction_names }
 import from core.lib.clock { sim_seconds, now_hms }
+import from core.lib.locks { WORLD_LOCK }
 import from core.lib.geo { bearing, lerp }
-import from core.lib.routing { build_adj, plan_route, plan_dijkstra, path_cost, road_kmh, INF, round2 }
+import from core.lib.journey { depart_stop, arrive_stop, jump_to }
+import from core.lib.routing { build_adj, plan_route, path_cost, road_kmh, INF }
 import from core.lib.static { static_coords }
 
 glob DWELL_S: float = 30.0;
 glob MAX_TICK_S: float = 180.0;
+# Real seconds between world writes from reads; [last tick real time] (docs/decisions.md D-25).
+glob TICK_EVERY_S: float = 1.5;
+glob _LAST_TICK: list[float] = [0.0];
 glob MIN_SAVING_MIN: float = 1.0;
 glob MIN_SAVING_RATIO: float = 0.1;
-glob WORLD_LOCK: RLock = RLock();
 
 def log_decision(world: World, bus: Bus, decision: str, reason: str) -> dict[str, any] {
     at = now_hms(get_clock(world));
@@ -26,105 +30,36 @@ def log_decision(world: World, bus: Bus, decision: str, reason: str) -> dict[str
     return {"at": at, "bus_id": bus.id, "decision": decision, "reason": reason};
 }
 
-def jmap_of(world: World) -> any {
+def jmap_of(world: World) -> dict[str, list[float]] {
     return static_coords();
 }
 
 """Place the bus on the map from its current road and progress."""
-def place(jmap: any, bus: Bus) -> None {
-    jm = dict(jmap);
-    a = jm.get(bus.road_from);
-    b = jm.get(bus.road_to);
+def place(jmap: dict[str, list[float]], bus: Bus) -> None {
+    a = jmap.get(bus.road_from);
+    b = jmap.get(bus.road_to);
     if a is None {
         return;
     }
     if b is None or bus.road_to == bus.road_from {
-        bus.lat = float(a[0]);
-        bus.lng = float(a[1]);
+        bus.lat = a[0];
+        bus.lng = a[1];
         return;
     }
-    t = max(0.0, min(float(bus.progress), 1.0));
-    bus.lat = lerp(float(a[0]), float(b[0]), t);
-    bus.lng = lerp(float(a[1]), float(b[1]), t);
-    bus.heading = float(bearing(float(a[0]), float(a[1]), float(b[0]), float(b[1])));
-}
-
-# TODO: replace with advance_bus from Dev A (M2)
-def arrive_stop(world: World, bus: Bus, trip: Trip, code: str) {
-    coords: dict = dict(static_coords());
-    here_j = coords.get(code, [bus.lat, bus.lng]);
-    bus.lat = float(here_j[0]);
-    bus.lng = float(here_j[1]);
-    bus.from_stop = code;
-    bus.road_from = code;
-    bus.progress = 0.0;
-    bus.state = "dwelling";
-    i = trip.stop_codes.index(code) if code in trip.stop_codes else 0;
-    if i + 1 < len(trip.stop_codes) {
-        nxt = trip.stop_codes[i + 1];
-        bus.next_stop = nxt;
-        bus.road_to = nxt;
-        bus.path = [code, nxt];
-        nxt_j = coords.get(nxt, here_j);
-        bus.heading = float(bearing(float(here_j[0]), float(here_j[1]), float(nxt_j[0]), float(nxt_j[1])));
-    } else {
-        bus.next_stop = code;
-        bus.road_to = code;
-        bus.path = [code];
-    }
-}
-
-# TODO: replace with advance_bus from Dev A (M2)
-def depart_stop(world: World, bus: Bus) -> list[str] {
-    trip = current_trip(bus);
-    if trip and bus.from_stop in trip.stop_codes {
-        idx = trip.stop_codes.index(bus.from_stop);
-        trip.last_departed = idx;
-    }
-    bus.state = "moving";
-    return [];
-}
-
-# TODO: replace with advance_bus from Dev A (M2)
-def jump_to(world: World, bus: Bus, code: str) -> bool {
-    trip = current_trip(bus);
-    if trip is None or code not in trip.stop_codes {
-        return False;
-    }
-    coords: dict = dict(static_coords());
-    here_j = coords.get(code, [bus.lat, bus.lng]);
-    bus.lat = float(here_j[0]);
-    bus.lng = float(here_j[1]);
-    bus.from_stop = code;
-    bus.road_from = code;
-    idx = trip.stop_codes.index(code);
-    trip.last_departed = idx - 1;
-    bus.progress = 0.0;
-    bus.state = "dwelling";
-    if idx + 1 < len(trip.stop_codes) {
-        nxt = trip.stop_codes[idx + 1];
-        bus.next_stop = nxt;
-        bus.road_to = nxt;
-        bus.path = [code, nxt];
-        nxt_j = coords.get(nxt, here_j);
-        bus.heading = float(bearing(float(here_j[0]), float(here_j[1]), float(nxt_j[0]), float(nxt_j[1])));
-    } else {
-        bus.next_stop = code;
-        bus.road_to = code;
-        bus.path = [code];
-    }
-    return True;
+    t = max(0.0, min(bus.progress, 1.0));
+    bus.lat = round(lerp(a[0], b[0], t), 6);
+    bus.lng = round(lerp(a[1], b[1], t), 6);
+    bus.heading = bearing(a[0], a[1], b[0], b[1]);
 }
 
 """Plan the roads from `here` to the trip's next stop and start driving (or wait)."""
-def start_leg(world: World, adj: any, bus: Bus, trip: Trip, here: str) {
+def start_leg(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, trip: Trip, here: str) -> None {
     nxt_i = trip.last_departed + 1;
     if nxt_i >= len(trip.stop_codes) {
         return;
     }
     bus.next_stop = trip.stop_codes[nxt_i];
-    res = plan_dijkstra(adj, here, bus.next_stop);
-    path: list[str] = res[0];
+    (path, _) = plan_route(adj, here, bus.next_stop);
     bus.road_from = here;
     bus.progress = 0.0;
     if len(path) < 2 {
@@ -142,21 +77,19 @@ def start_leg(world: World, adj: any, bus: Bus, trip: Trip, here: str) {
     bus.state = "moving";
     bus.path = path;
     bus.road_to = path[1];
-    adj_d: dict = dict(adj);
-    free: dict = {};
-    for (a, outs) in adj_d.items() {
-        free[str(a)] = {str(b): [v[0], v[1], 0] for (b, v) in dict(outs).items()};
+    free: dict[str, dict[str, list[any]]] = {};
+    for (a, outs) in adj.items() {
+        free[a] = {b: [v[0], v[1], 0] for (b, v) in outs.items()};
     }
-    usual_res = plan_dijkstra(free, here, bus.next_stop);
-    usual: list[str] = usual_res[0];
+    (usual, usual_min) = plan_route(free, here, bus.next_stop);
     if usual and usual != path {
         names = junction_names(world);
-        blocked = [f"{usual[i]}|{usual[i + 1]}" for i in range(len(usual) - 1) if int(dict(adj_d.get(usual[i], {})).get(usual[i + 1], [0, "", 0])[2]) > 0];
+        blocked = [f"{usual[i]}|{usual[i + 1]}" for i in range(len(usual) - 1) if adj[usual[i]][usual[i + 1]][2] > 0];
         cause = _road_label(names, blocked[0]) if blocked else "Traffic";
-        lvl = int(dict(adj_d.get(blocked[0].split("|")[0], {})).get(blocked[0].split("|")[1], [0, "", 1])[2]) if blocked else 1;
+        level = adj[blocked[0].split("|")[0]][blocked[0].split("|")[1]][2] if blocked else 1;
         via = names.get(path[1], path[1]);
         bus.rerouted = True;
-        bus.reroute_reason = cause + (" closed" if lvl >= 3 else " slow") + f" · new route via {via}";
+        bus.reroute_reason = cause + (" closed" if level >= 3 else " slow") + f" · new route via {via}";
         log_decision(world, bus, "Rerouted", bus.reroute_reason);
     }
 }
@@ -179,39 +112,39 @@ def _uses(path: list[str], key: str) -> bool {
 """Re-plan from the far end of the current road (no U-turns). Switch only if it saves >= 1 min
 or 10 %. `changed` = road keys "A|B" whose level just changed. Returns a decision or None.
 """
-def replan(world: World, adj: any, bus: Bus, changed: list[str]) -> dict[str, any] | None {
+def replan(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, changed: list[str]) -> dict[str, any] | None {
     if bus.state != "moving" {
         return None;
     }
     names = junction_names(world);
     end = bus.road_to;
     rest = bus.path[bus.path.index(end):] if end in bus.path else [end];
-    touched = [k for k in changed if _uses(bus.path, k)];
-    old = path_cost(adj, rest) if (rest and rest[-1] == bus.next_stop) else INF;
-    fresh_res = plan_dijkstra(adj, end, bus.next_stop);
-    fresh: list[str] = fresh_res[0];
-    new_cost: float = float(fresh_res[1]);
+    touched = sorted(
+        [k for k in changed if _uses(bus.path, k)],
+        key=lambda (k: str) { -adj.get(k.split("|")[0], {}).get(k.split("|")[1], [0, "A", 0])[2]; }
+    );
+    old = path_cost(adj, rest) if rest[-1] == bus.next_stop else INF;
+    (fresh, new) = plan_route(adj, end, bus.next_stop);
     if not fresh {
         return log_decision(world, bus, "Waiting", f"No open road from {names.get(end, end)}; will wait there.") if touched else None;
     }
-    saving = old - new_cost;
+    saving = old - new;
     if fresh != rest and (old >= INF or saving >= MIN_SAVING_MIN or (old > 0 and saving / old >= MIN_SAVING_RATIO)) {
         bus.path = [bus.road_from] + fresh;
         cause = _road_label(names, touched[0]) if touched else "Traffic";
         bus.rerouted = True;
-        bus.reroute_reason = cause + (" closed" if old >= INF else " slow") + (" · only open road" if old >= INF else f" · saves {round2(saving)} min");
+        bus.reroute_reason = cause + (" closed" if old >= INF else " slow") + (" · only open road" if old >= INF else f" · saves {round(saving)} min");
         return log_decision(world, bus, "Rerouted", bus.reroute_reason);
     }
     if touched {
-        return log_decision(world, bus, "Kept route", f"{_road_label(names, touched[0])} slower, no faster road · {round2(new_cost)} min to {names.get(bus.next_stop, bus.next_stop)}.");
+        return log_decision(world, bus, "Kept route", f"{_road_label(names, touched[0])} slower, no faster road · {round(new, 1)} min to {names.get(bus.next_stop, bus.next_stop)}.");
     }
     return None;
 }
 
 """Advance one bus by dt simulated seconds (now = simulated seconds at the end of the tick)."""
-def advance(world: World, adj: any, bus: Bus, now: float, dt: float) -> None {
+def advance(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, now: float, dt: float) -> None {
     left = dt;
-    adj_d: dict = dict(adj);
     for _ in range(60) {
         trip = current_trip(bus);
         if trip is None or left <= 0 {
@@ -240,8 +173,7 @@ def advance(world: World, adj: any, bus: Bus, now: float, dt: float) -> None {
             }
             continue;
         }
-        from_outs: dict = dict(adj_d.get(bus.road_from, {}));
-        info = from_outs.get(bus.road_to);
+        info = adj.get(bus.road_from, {}).get(bus.road_to);
         if info is None {
             start_leg(world, adj, bus, trip, bus.road_from);
             if bus.state != "moving" {
@@ -250,10 +182,9 @@ def advance(world: World, adj: any, bus: Bus, now: float, dt: float) -> None {
             continue;
         }
         kmh = road_kmh(info[1], info[2]);
-        dist_km = float(info[0]);
-        need = dist_km * (1.0 - float(bus.progress)) / kmh * 3600.0;
+        need = info[0] * (1.0 - bus.progress) / kmh * 3600.0;
         if left < need {
-            bus.progress = float(bus.progress) + left * kmh / 3600.0 / dist_km;
+            bus.progress = bus.progress + left * kmh / 3600.0 / info[0];
             return;
         }
         left -= need;
@@ -266,10 +197,8 @@ def advance(world: World, adj: any, bus: Bus, now: float, dt: float) -> None {
             return;
         }
         rest = bus.path[bus.path.index(reached):] if reached in bus.path else [reached];
-        fresh_res = plan_dijkstra(adj, reached, bus.next_stop);
-        fresh: list[str] = fresh_res[0];
-        new_cost: float = float(fresh_res[1]);
-        old_cost = path_cost(adj, rest);
+        (fresh, new) = plan_route(adj, reached, bus.next_stop);
+        old = path_cost(adj, rest);
         if not fresh {
             bus.road_from = reached;
             bus.road_to = reached;
@@ -279,8 +208,7 @@ def advance(world: World, adj: any, bus: Bus, now: float, dt: float) -> None {
             log_decision(world, bus, "Waiting", f"No open road from {junction_names(world).get(reached, reached)}.");
             return;
         }
-        saving = old_cost - new_cost;
-        if old_cost >= INF or saving >= MIN_SAVING_MIN or (old_cost > 0 and saving / old_cost >= MIN_SAVING_RATIO) {
+        if old >= INF or (old - new) >= MIN_SAVING_MIN or (old > 0 and (old - new) / old >= MIN_SAVING_RATIO) {
             rest = fresh;
         }
         bus.path = rest;
@@ -290,9 +218,17 @@ def advance(world: World, adj: any, bus: Bus, now: float, dt: float) -> None {
     }
 }
 
-"""Advance the whole world to the DemoClock's current time. Safe to call on every read."""
-def tick(world: World) {
+"""Advance the whole world to the DemoClock's current time. Safe to call on every read.
+
+Only one request per TICK_EVERY_S real seconds writes; the others read the state as it is, so
+parallel polls never write the same nodes (each would fail with a 409 WRITE_CONFLICT).
+"""
+def tick(world: World) -> None {
     with WORLD_LOCK {
+        if time.time() - _LAST_TICK[0] < TICK_EVERY_S {
+            return;
+        }
+        _LAST_TICK[0] = time.time();
         clock = get_clock(world);
         now = sim_seconds(clock);
         dt = min(max(now - clock.last_tick, 0.0), MAX_TICK_S);
@@ -325,18 +261,16 @@ def replan_all(world: World, changed: list[str]) -> list[dict[str, any]] {
 }
 
 """Minutes from the bus to every upcoming stop of its trip (traffic-aware, 30 s dwell per stop)."""
-def stop_etas(world: World, adj: any, bus: Bus, trip: Trip) -> dict[str, float] {
+def stop_etas(world: World, adj: dict[str, dict[str, list[any]]], bus: Bus, trip: Trip) -> dict[str, float] {
     etas: dict[str, float] = {};
     t = 0.0;
     at = bus.from_stop;
-    adj_d: dict = dict(adj);
     if bus.state == "dwelling" {
         t = max(bus.dwell_until - sim_seconds(get_clock(world)), 0.0) / 60.0;
     } elif bus.state == "moving" {
-        from_outs: dict = dict(adj_d.get(bus.road_from, {}));
-        info = from_outs.get(bus.road_to);
+        info = adj.get(bus.road_from, {}).get(bus.road_to);
         if info {
-            t = float(info[0]) * (1.0 - float(bus.progress)) / road_kmh(info[1], info[2]) * 60.0;
+            t = info[0] * (1.0 - bus.progress) / road_kmh(info[1], info[2]) * 60.0;
         }
         at = bus.road_to;
     } else {
@@ -348,13 +282,12 @@ def stop_etas(world: World, adj: any, bus: Bus, trip: Trip) -> dict[str, float] 
             etas[code] = 0.0;
             continue;
         }
-        res = plan_dijkstra(adj, at, code);
-        m: float = float(res[1]);
+        (_, m) = plan_route(adj, at, code);
         if m >= INF {
             break;
         }
         t += m;
-        etas[code] = round2(t);
+        etas[code] = round(t, 1);
         t += DWELL_S / 60.0;
         at = code;
     }
@@ -364,17 +297,16 @@ def stop_etas(world: World, adj: any, bus: Bus, trip: Trip) -> dict[str, float] 
 """Driver turn instruction at the end of the current road."""
 def instruction(world: World, bus: Bus) -> dict[str, any] {
     names = junction_names(world);
-    jmap: dict = dict(jmap_of(world));
-    adj_d: dict = dict(build_adj(world));
+    jmap = jmap_of(world);
+    adj = build_adj(world);
     if bus.state == "dwelling" {
         return {"text": f"At {names.get(bus.from_stop, bus.from_stop)} - board and alight", "turn": "arrive", "toward": names.get(bus.from_stop, ""), "km": 0.0};
     }
     if bus.state == "waiting" {
         return {"text": f"Wait at {names.get(bus.road_from, bus.road_from)} - no open road", "turn": "straight", "toward": names.get(bus.road_from, ""), "km": 0.0};
     }
-    from_outs: dict = dict(adj_d.get(bus.road_from, {}));
-    info = from_outs.get(bus.road_to);
-    km = round2(float(str(info[0])) * (1.0 - float(bus.progress))) if info else 0.0;
+    info = adj.get(bus.road_from, {}).get(bus.road_to);
+    km = round(info[0] * (1.0 - bus.progress), 1) if info else 0.0;
     if bus.road_to == bus.next_stop {
         return {"text": f"Arrive at {names.get(bus.next_stop, bus.next_stop)} · {km} km", "turn": "arrive", "toward": names.get(bus.next_stop, ""), "km": km};
     }
@@ -383,8 +315,8 @@ def instruction(world: World, bus: Bus) -> dict[str, any] {
     a = jmap[bus.road_from];
     b = jmap[bus.road_to];
     c = jmap[nxt];
-    h1 = float(bearing(float(a[0]), float(a[1]), float(b[0]), float(b[1])));
-    h2 = float(bearing(float(b[0]), float(b[1]), float(c[0]), float(c[1])));
+    h1 = bearing(a[0], a[1], b[0], b[1]);
+    h2 = bearing(b[0], b[1], c[0], c[1]);
     delta = (h2 - h1 + 540.0) % 360.0 - 180.0;
     turn = "right" if delta > 30 else ("left" if delta < -30 else "straight");
     verb = "Continue" if turn == "straight" else f"Turn {turn}";
@@ -394,14 +326,13 @@ def instruction(world: World, bus: Bus) -> dict[str, any] {
 """Delay to a stop vs free-flowing roads: {minutes, reason} or None (under 1 min)."""
 def delay_to(world: World, bus: Bus, trip: Trip, code: str) -> dict[str, any] | None {
     adj = build_adj(world);
-    adj_d: dict = dict(adj);
-    free: dict = {};
-    for (a, outs) in adj_d.items() {
-        free[str(a)] = {str(b): [v[0], v[1], 0] for (b, v) in dict(outs).items()};
+    free: dict[str, dict[str, list[any]]] = {};
+    for (a, outs) in adj.items() {
+        free[a] = {b: [v[0], v[1], 0] for (b, v) in outs.items()};
     }
     now_eta = stop_etas(world, adj, bus, trip).get(code);
     base = stop_etas(world, free, bus, trip).get(code);
-    if now_eta is None or base is None or (now_eta - base) < 1.0 {
+    if now_eta is None or base is None or now_eta - base < 1.0 {
         return None;
     }
     return {"minutes": round(now_eta - base), "reason": bus.reroute_reason or "Traffic on the route"};
@@ -443,7 +374,7 @@ def depart_now(world: World, bus: Bus) -> list[str] {
 
 Signature is fixed: advance_bus(world, bus). Safe to call on every poll.
 """
-def advance_bus(world: World, bus: Bus) {
+def advance_bus(world: World, bus: Bus) -> None {
     with WORLD_LOCK {
         clock = get_clock(world);
         now = sim_seconds(clock);
