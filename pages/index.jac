@@ -119,7 +119,8 @@ def:pub PassengerHome -> JsxPage {
             recommendation = rData;
             opts = list(rData.get("options", []));
             if len(opts) > 0 {
-                firstSlot: dict[str, any] = dict(opts[0].get("slot", {}));
+                opt0: dict[str, any] = dict(opts[0]);
+                firstSlot: dict[str, any] = dict(opt0.get("slot", {}));
                 selectedSlotCode = str(firstSlot.get("code", "MKB-C-F-01"));
             }
         }
