@@ -2,13 +2,13 @@
   "data": {
     "decisions": [],
     "incident": {
-      "at": "08:03:16",
+      "at": "08:04:48",
       "bus_id": "MB-101",
-      "id": "IN-0001",
+      "id": "IN-0004",
       "kind": "accident",
       "road": {
-        "a": "BOR",
-        "b": "BAT",
+        "a": "BAT",
+        "b": "KOT",
         "level": 3
       },
       "severity": "closed"
