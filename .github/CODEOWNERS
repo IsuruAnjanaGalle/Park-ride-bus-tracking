@@ -1,4 +1,9 @@
-# ParkRide Code Owners
-*                   @IsuruAnjanaGalle
-/parkride/          @IsuruAnjanaGalle
-/.github/           @IsuruAnjanaGalle
+# Dev A owns core, contracts and tooling; replace the Dev B / Dev C handles when known.
+*                               @IsuruAnjanaGalle
+/core/                          @IsuruAnjanaGalle
+/tests/                         @IsuruAnjanaGalle
+/scripts/                       @IsuruAnjanaGalle
+/mock/                          @IsuruAnjanaGalle
+/docs/                          @IsuruAnjanaGalle
+/.github/                       @IsuruAnjanaGalle
+/components/shared/api.jac      @IsuruAnjanaGalle

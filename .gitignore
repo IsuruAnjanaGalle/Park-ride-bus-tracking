@@ -1,18 +1,14 @@
-# Jac compiler and build cache
+# Jac build output, venv, local data and compiled client
 .jac/
-jac.lock
+dist/
 
 # Python cache
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
 .pytest_cache/
 
-# Node / JS / TS
+# Node
 node_modules/
-dist/
-build/
 
 # OS and IDE files
 .DS_Store
@@ -20,3 +16,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
+
+# Local overrides
+jac.local.toml
+.env
