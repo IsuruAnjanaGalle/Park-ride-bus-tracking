@@ -40,8 +40,8 @@ watchdog = ">=3.0.0"
 port = 8000
 
 [check]
-# Dev C's pre-0.37 screens wait in legacy/ until ported (docs/decisions.md D-15).
-exclude = ["legacy/*", "pages/_ui_preview.jac"]
+# Dev B's preview page has a parse error until fixed (docs/decisions.md D-23).
+exclude = ["pages/_ui_preview.jac"]
 
 [test]
 directory = "tests"
