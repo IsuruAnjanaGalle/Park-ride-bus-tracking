@@ -3,12 +3,12 @@ Renders top 3 algorithmic slot recommendations with reasons and selection button
 """
 
 def:pub SlotRecommendation(
-    recommendation: dict,
+    recommendation: dict[str, any],
     selectedSlotCode: str,
     onSelectSlot: Callable[[str], None] = lambda (_code: str) {}
 ) -> JsxElement {
     rawOpts = recommendation.get("options", []);
-    options: list[dict] = [dict(o) for o in rawOpts] if rawOpts else [];
+    options: list[dict[str, any]] = [dict(o) for o in rawOpts] if rawOpts else [];
     fallbackMsg = recommendation.get("fallback");
     zone = str(recommendation.get("zone", "F"));
     stayHours = str(recommendation.get("stay_hours", "2"));
@@ -22,7 +22,6 @@ def:pub SlotRecommendation(
     ruleText = "<3h front" if zone == "F" else ("3-8h mid" if zone == "M" else ">8h rear");
 
     return <div className="flex flex-col gap-4">
-        # Header banner
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-2xl bg-gradient-to-r from-[#FFC21A]/15 to-transparent border border-[#FFC21A]/30">
             <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#FFC21A]">
@@ -37,7 +36,6 @@ def:pub SlotRecommendation(
             </span>
         </div>
 
-        # Fallback notification if applicable
         {if fallbackMsg {
             <div className="p-3 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-200 text-xs flex items-center gap-2">
                 <span>⚠️</span>
@@ -45,7 +43,6 @@ def:pub SlotRecommendation(
             </div>
         }}
 
-        # 3 Option Cards
         <div className="grid grid-cols-1 gap-3">
             {for opt in options {
                 slot = dict(opt.get("slot", {}));

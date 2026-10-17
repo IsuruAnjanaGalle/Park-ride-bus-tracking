@@ -39,12 +39,26 @@ watchdog = ">=3.0.0"
 [serve]
 port = 8000
 
+[check]
+# Dev C's pre-0.37 screens wait in legacy/ until ported (docs/decisions.md D-15).
+exclude = ["legacy/*", "pages/_ui_preview.jac"]
+
 [test]
 directory = "tests"
 
 [dev]
 # Tests share the persisted shared world, so run them one at a time.
 test_jobs = "0"
+
+[scale.admin]
+# The platform admin portal would take /admin and the "admin" username from the app.
+enabled = false
+username = "platform-admin"
+
+[placement.pins]
+# Pure client helpers: keep them in the browser bundle (never server endpoints).
+"mock.mocks" = "client"
+"components.shared.api" = "client"
 
 [client]
 

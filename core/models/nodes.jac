@@ -38,7 +38,8 @@ node Terminal(PublicNode) {
         lat: float = 0.0,
         lng: float = 0.0,
         full_grid: bool = False,
-        chargers: list[dict[str, any]] = [];
+        chargers: list[dict[str, any]] = [],
+        rev: int = 0;  # bumped on every slot state change (core/lib/slots.jac)
 }
 
 """One parking bay, code TERMINAL-TYPE-ZONE-NN (e.g. MKB-C-F-07).
@@ -208,3 +209,10 @@ node Decision(PublicNode) {
         at: str = "";
 }
 
+"""Where the one-click demo is in the judge story."""
+node DemoRun(PublicNode) {
+    has step: int = 0,
+        playing: bool = False,
+        last_at: float = 0.0,
+        last: dict[str, any] = {};
+}

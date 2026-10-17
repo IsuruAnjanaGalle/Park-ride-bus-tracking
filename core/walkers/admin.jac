@@ -1,6 +1,6 @@
 """Admin walkers (contracts.md 3.12-3.15). Admin login required. Status: stub."""
 
-import from core.models.nodes { Alert, Scan, Trip, StopVisit }
+import from core.models.nodes { Alert, Scan, Trip, StopVisit, Decision }
 import from core.lib.envelope { ok, fail }
 import from core.lib.world { get_world, get_clock, list_buses, find_bus, current_trip, junction_names }
 import from core.lib.clock { clock_dict, sim_seconds }
@@ -10,6 +10,8 @@ import from core.lib.shapes {
 }
 import from core.lib.profiles { admin_error }
 import from core.lib.rules { STOP_QR_TTL_S }
+import from core.lib.journey { open_visit, visit_token }
+import from core.lib.sim { tick }
 
 walker:protect admin_bus_list {
     has reports: list[dict[str, any]] = [];
@@ -21,6 +23,7 @@ walker:protect admin_bus_list {
             report err;
             return;
         }
+        tick(world);
         names = junction_names(world);
         coords = junction_coords(world);
         report ok({
@@ -41,6 +44,7 @@ walker:protect admin_bus_account {
             report err;
             return;
         }
+        tick(world);
         bus = find_bus(world, self.bus_id);
         if bus is None {
             report fail("NOT_FOUND", f"No bus {self.bus_id}.");
@@ -82,6 +86,7 @@ walker:protect admin_next_stop {
             report err;
             return;
         }
+        tick(world);
         bus = find_bus(world, self.bus_id);
         trip = current_trip(bus) if bus else None;
         if bus is None or trip is None {
@@ -90,7 +95,8 @@ walker:protect admin_next_stop {
         }
         names = junction_names(world);
         coords = junction_coords(world);
-        stop = bus.next_stop;
+        sv = open_visit(trip);
+        stop = sv.stop_code if sv else bus.next_stop;
         bookings = trip_bookings(trip);
         getting_off = [b for b in bookings if b.state == "OnBoard" and b.drop == stop];
         to_board = [b for b in bookings if b.state == "Pending" and b.pickup == stop];
@@ -98,12 +104,8 @@ walker:protect admin_next_stop {
         seats = segment_seats(bus, trip);
         idx = trip.stop_codes.index(stop) if stop in trip.stop_codes else -1;
         seats_after = seats[idx] if 0 <= idx < len(seats) else bus.capacity;
-        clock = get_clock(world);
-        visit_no = 1;
-        token = sign_token({
-            "t": "stop", "bus": bus.id, "stop": stop, "visit": visit_no,
-            "exp": int(sim_seconds(clock)) + STOP_QR_TTL_S
-        });
+        visit_no = sv.visit_no if sv else 0;
+        token = visit_token(world, sv) if sv else "";
         report ok({
             "bus_id": bus.id,
             "stop": stop_ref(stop, names),
@@ -133,18 +135,16 @@ walker:protect admin_feed {
         }
         names = junction_names(world);
         scans: list[dict[str, any]] = [];
-        for bus in list_buses(world) {
-            for trip in [bus -->[?:Trip]] {
-                for sv in [trip -->[?:StopVisit]] {
-                    for s in [sv -->[?:Scan]] {
-                        scans.append(scan_dict(s, names));
-                    }
-                }
-            }
+        for s in [world -->[?:Scan]] {
+            scans.append(scan_dict(s, names));
         }
         alerts = [alert_dict(a) for a in [world -->[?:Alert]]];
         scans = sorted(scans, key=lambda (x: dict[str, any]) { x["at"]; }, reverse=True)[:self.limit];
         alerts = sorted(alerts, key=lambda (x: dict[str, any]) { x["at"]; }, reverse=True)[:self.limit];
-        report ok({"scans": scans, "alerts": alerts, "decisions": []});
+        decisions = sorted(
+            [{"at": d.at, "bus_id": d.bus_id, "decision": d.decision, "reason": d.reason} for d in [world -->[?:Decision]]],
+            key=lambda (x: dict[str, any]) { x["at"]; }, reverse=True
+        )[:self.limit];
+        report ok({"scans": scans, "alerts": alerts, "decisions": decisions});
     }
 }

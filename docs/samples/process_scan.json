@@ -1,24 +1,9 @@
 {
   "data": {
-    "booking": {
-      "bus_id": "MB-101",
-      "created_at": "08:02:51",
-      "drop": {
-        "code": "MKB",
-        "name": "Makumbura"
-      },
-      "id": "BK-0001",
-      "pickup": {
-        "code": "BAT",
-        "name": "Battaramulla"
-      },
-      "route": "R1",
-      "state": "OnBoard",
-      "walk_in": false
-    },
+    "booking": null,
     "bus_id": "MB-101",
-    "message": "Confirmed, you are on board.",
-    "result": "boarded",
+    "message": "Your booking is for another bus.",
+    "result": "rejected",
     "scan_id": "scan-0001",
     "stop": {
       "code": "BAT",

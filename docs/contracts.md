@@ -31,6 +31,26 @@ Screens never call walkers directly: they call the function with the same name i
 | report_incident | public (driver) | real | 3 |
 | get_driver_view | public (driver) | real | 3 |
 | run_demo | admin | removed (D-C01) | - |
+| get_terminals | public | real | 1 |
+| get_slots | public | real | 1 |
+| recommend_slots | public | real | 1 |
+| book_slot | login | real | 1 |
+| mark_parked | login | real | 1 |
+| release_slot | login | real | 1 |
+| get_map | public | real | 2 |
+| get_buses | public | real | 2–3 |
+| book_seat | login | real | 2 |
+| get_trip | login | real | 2–3 |
+| process_scan | login | real | 2 |
+| admin_bus_list | admin | stub (Dev C) | 2 |
+| admin_bus_account | admin | stub (Dev C) | 2 |
+| admin_next_stop | admin | stub (Dev C); `qr`, `stop`, `visit_no` are real | 2 |
+| admin_feed | admin | stub (Dev C); scans, alerts, decisions are real | 2 |
+| demo_control | admin | real | 3 |
+| set_traffic | admin | real | 3 |
+| report_incident | public (driver) | real | 3 |
+| get_driver_view | public (driver) | real | 3 |
+| run_demo | admin | hidden (not used) — demo mode cancelled by the lead; code kept | – |
 | reset_demo | admin | real | 0 |
 
 Auth: **public** = `walker:pub`, no login. **login** = `walker:protect`; call `login()` in `api.jac` first (it also calls `get_profile`). **admin** = `walker:protect` plus the caller's profile role must be `admin`; otherwise `FORBIDDEN`.
@@ -180,7 +200,7 @@ The passenger scans the stop QR shown on the admin next-stop panel. Send a fresh
 - Errors: `NOT_FOUND`.
 
 ### 3.14 admin_next_stop — admin
-Poll every 2 s. Render `qr` large enough to scan from 1 m.
+Poll every 2 s. Render `qr` large enough to scan from 1 m. `qr` is empty (`""`) while the bus is between stops: show "Bus on the way" instead of a QR.
 - In: `bus_id: str`
 - Out: `{bus_id, stop: StopRef, eta_min, visit_no, getting_off, getting_off_names: [str], bookings_to_board, walk_ins, seats_left_after, qr, qr_expires_in_s}`
   - The QR encodes bus, stop, visit number and expiry, signed; it changes on every visit.
@@ -194,6 +214,11 @@ Poll every 2 s. Newest first.
 ### 3.16 demo_control — admin
 - In: `action: str = "status"`, `speed: float = 0`
   - `status`; `speed` (1, 5, 10 or 30); `pause`; `resume`.
+- In: `action: str = "status"`, `speed: float = 0`, `bus_id: str = ""`, `stop: str = ""`, `count: int = 1`, `drop: str = ""`
+  - `status`; `speed` (1, 5, 10 or 30); `pause`; `resume`.
+  - `jump` (`bus_id`, `stop`): the bus drives stop by stop to `stop` (skipped stops run their departure rules), arrives, and **waits there** so its stop QR can be scanned. Jumping to a route's final terminal turns the bus around there, ready for the trip back.
+  - `depart` (`bus_id`): the waiting bus leaves now — pending pickups are auto-cancelled and the alighting mismatch check runs.
+  - `spawn_passenger` (`bus_id`, `stop`, `count`, `drop`): test riders booked from `stop` to `drop` (already on board if the bus is at `stop`).
 - Out: `{clock: Clock, message}`
 - Errors: `INVALID_INPUT`.
 
@@ -217,6 +242,12 @@ Poll every 2 s.
 
 ### 3.20 run_demo — admin (removed (D-C01))
 Scripted demo mode is cancelled. Reset demo is kept via `reset_demo`.
+### 3.20 run_demo — admin — hidden (not used)
+Demo mode is cancelled for today. The walker still works but no screen may call it.
+
+- In: `action: str = "status"` (status, play, pause, next, restart)
+- Out: `{step, total, caption, playing, finished, last}` — `step` = steps done (0 before Play); `caption` describes the step just run; `last` = its result. While `playing`, poll `status` every 2 s: each poll runs the next step once 4 s have passed. `restart` resets the world to the seed (`last.reset_seconds`).
+- Errors: `INVALID_INPUT`.
 
 ### 3.21 reset_demo — admin
 Rebuilds the world from `docs/data/` (target under 5 s).

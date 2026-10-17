@@ -567,7 +567,270 @@
       );
     }
 
-    // --- Main UI Preview Page ---
+    
+    // =========================================================================
+    // MILESTONE 2: LIVE SVG CITY MAP & TRANSIT COMPONENTS
+    // =========================================================================
+
+    // Road segments from docs/data/roads.json
+    const MAP_ROADS = [
+      { id: "rd-01", from: "MKB", to: "KOT", congestion: "free", speed: 45, d: "M 680 720 L 610 650" },
+      { id: "rd-02", from: "KOT", to: "PAN", congestion: "free", speed: 50, d: "M 610 650 L 530 600" },
+      { id: "rd-03", from: "PAN", to: "MAH", congestion: "slow", speed: 22, d: "M 530 600 L 460 550" },
+      { id: "rd-04", from: "MAH", to: "DEL", congestion: "jam", speed: 8, d: "M 460 550 L 390 500" },
+      { id: "rd-05", from: "DEL", to: "NUG", congestion: "slow", speed: 20, d: "M 390 500 L 330 450" },
+      { id: "rd-06", from: "NUG", to: "KIR", congestion: "free", speed: 38, d: "M 330 450 L 270 390" },
+      { id: "rd-07", from: "KIR", to: "THI", congestion: "free", speed: 42, d: "M 270 390 L 220 330" },
+      { id: "rd-08", from: "THI", to: "BAM", congestion: "free", speed: 35, d: "M 220 330 L 160 270" },
+      { id: "rd-09", from: "BAM", to: "COL", congestion: "free", speed: 40, d: "M 160 270 L 120 200" },
+      { id: "rd-10", from: "COL", to: "GAL", congestion: "free", speed: 36, d: "M 120 200 L 100 130" },
+      { id: "rd-11", from: "GAL", to: "PET", congestion: "slow", speed: 18, d: "M 100 130 L 100 70" },
+      // R2 Kadawatha route
+      { id: "rd-20", from: "KDW", to: "PEL", congestion: "free", speed: 55, d: "M 600 70 L 490 60" },
+      { id: "rd-21", from: "PEL", to: "KRN", congestion: "free", speed: 48, d: "M 490 60 L 380 60" },
+      { id: "rd-22", from: "KRN", to: "KEL", congestion: "slow", speed: 24, d: "M 380 60 L 280 65" },
+      { id: "rd-23", from: "KEL", to: "PEL_J", congestion: "jam", speed: 10, d: "M 280 65 L 190 68" },
+      { id: "rd-24", from: "PEL_J", to: "PET", congestion: "slow", speed: 16, d: "M 190 68 L 100 70" },
+      // R3 Katunayake route
+      { id: "rd-30", from: "KAT", to: "JA_ELA", congestion: "free", speed: 70, d: "M 750 20 L 580 25" },
+      { id: "rd-31", from: "JA_ELA", to: "WAT", congestion: "free", speed: 65, d: "M 580 25 L 390 35" },
+      { id: "rd-32", from: "WAT", to: "PEL_J", congestion: "slow", speed: 25, d: "M 390 35 L 190 68" },
+      // Connectors
+      { id: "rd-40", from: "KSB", to: "BOR", congestion: "free", speed: 40, d: "M 520 780 L 460 700" },
+      { id: "rd-41", from: "BOR", to: "PAN", congestion: "free", speed: 38, d: "M 460 700 L 530 600" }
+    ];
+
+    const MAP_JUNCTIONS = [
+      { code: "PET", name: "Pettah Fort Terminal", x: 100, y: 70, type: "terminal", hub: true },
+      { code: "MKB", name: "Makumbura Multimodal Hub", x: 680, y: 720, type: "terminal", hub: true },
+      { code: "KDW", name: "Kadawatha Interchange", x: 600, y: 70, type: "terminal", hub: true },
+      { code: "KAT", name: "Katunayake Airport Hub", x: 750, y: 20, type: "terminal", hub: true },
+      { code: "KSB", name: "Kesbewa Terminal", x: 520, y: 780, type: "terminal", hub: true },
+      { code: "KOT", name: "Kottawa Junction", x: 610, y: 650, type: "stop" },
+      { code: "PAN", name: "Pannipitiya", x: 530, y: 600, type: "stop" },
+      { code: "MAH", name: "Maharagama", x: 460, y: 550, type: "stop" },
+      { code: "DEL", name: "Delkanda", x: 390, y: 500, type: "stop" },
+      { code: "NUG", name: "Nugegoda", x: 330, y: 450, type: "stop" },
+      { code: "KIR", name: "Kirulapone", x: 270, y: 390, type: "stop" },
+      { code: "THI", name: "Thimbirigasyaya", x: 220, y: 330, type: "stop" },
+      { code: "BAM", name: "Bambalapitiya", x: 160, y: 270, type: "stop" },
+      { code: "COL", name: "Kollupitiya", x: 120, y: 200, type: "stop" },
+      { code: "GAL", name: "Galle Face", x: 100, y: 130, type: "stop" },
+      { code: "PEL", name: "Peliyagoda", x: 490, y: 60, type: "stop" },
+      { code: "KRN", name: "Kiribathgoda", x: 380, y: 60, type: "stop" },
+      { code: "KEL", name: "Kelaniya", x: 280, y: 65, type: "stop" },
+      { code: "PEL_J", name: "Peliyagoda Junction", x: 190, y: 68, type: "stop" },
+      { code: "JA_ELA", name: "Ja-Ela Interchange", x: 580, y: 25, type: "stop" },
+      { code: "WAT", name: "Wattala Junction", x: 390, y: 35, type: "stop" },
+      { code: "BOR", name: "Boralesgamuwa", x: 460, y: 700, type: "stop" }
+    ];
+
+    function CityMapComponent({ buses, selectedBusId, selectedRoute, onSelectBus }) {
+      const getRoadColor = (c) => {
+        if (c === "jam") return "#EF4444";
+        if (c === "slow") return "#F59E0B";
+        if (c === "closed") return "#6B7280";
+        return "#10B981";
+      };
+
+      const getRouteColor = (r) => {
+        if (r === "R1") return "#3B82F6";
+        if (r === "R2") return "#A855F7";
+        if (r === "R3") return "#14B8A6";
+        return "#FFC21A";
+      };
+
+      const filteredBuses = selectedRoute === "ALL" 
+        ? buses 
+        : buses.filter(b => b.route === selectedRoute);
+
+      return (
+        <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 bg-[#070D18] shadow-2xl">
+          {/* Map Header Toolbar */}
+          <div className="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2 bg-[#0B1424]/90 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 text-xs shadow-lg">
+            <span className="font-bold text-white flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+              Live Network Map
+            </span>
+            <span className="text-gray-500">|</span>
+            <div className="flex items-center gap-2 text-[11px]">
+              <span className="flex items-center gap-1 text-emerald-400"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Free</span>
+              <span className="flex items-center gap-1 text-amber-400"><span className="w-2 h-2 rounded-full bg-amber-500" /> Slow</span>
+              <span className="flex items-center gap-1 text-rose-400"><span className="w-2 h-2 rounded-full bg-rose-500" /> Jam</span>
+            </div>
+          </div>
+
+          {/* SVG Map Canvas */}
+          <svg viewBox="0 0 820 840" className="w-full h-auto min-h-[380px] max-h-[560px] select-none">
+            <defs>
+              <radialGradient id="oceanGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#0B1A30" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#070D18" stopOpacity="0" />
+              </radialGradient>
+              <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
+            {/* Background Grid Pattern */}
+            <rect width="820" height="840" fill="#080F1D" />
+            <g stroke="#ffffff" strokeOpacity="0.03" strokeWidth="1">
+              {[...Array(17)].map((_, i) => (
+                <line key={`gx-${i}`} x1={i * 50} y1="0" x2={i * 50} y2="840" />
+              ))}
+              {[...Array(17)].map((_, i) => (
+                <line key={`gy-${i}`} x1="0" y1={i * 50} x2="820" y2={i * 50} />
+              ))}
+            </g>
+
+            {/* Roads */}
+            {MAP_ROADS.map(rd => {
+              const color = getRoadColor(rd.congestion);
+              const isJam = rd.congestion === "jam";
+              return (
+                <g key={rd.id}>
+                  {/* Underlay glow */}
+                  <path
+                    d={rd.d}
+                    fill="none"
+                    stroke={color}
+                    strokeWidth={isJam ? "8" : "6"}
+                    strokeOpacity="0.25"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Road centerline */}
+                  <path
+                    d={rd.d}
+                    fill="none"
+                    stroke={color}
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeDasharray={rd.congestion === "closed" ? "4 4" : "none"}
+                  />
+                </g>
+              );
+            })}
+
+            {/* Junctions & Stops */}
+            {MAP_JUNCTIONS.map(j => {
+              const isTerminal = j.type === "terminal";
+              return (
+                <g key={j.code} transform={`translate(${j.x}, ${j.y})`} className="cursor-pointer">
+                  {isTerminal ? (
+                    <>
+                      <circle r="12" fill="#0B1424" stroke="#FFC21A" strokeWidth="2.5" />
+                      <circle r="5" fill="#FFC21A" />
+                      <text
+                        x="16"
+                        y="4"
+                        fill="#FFFFFF"
+                        fontSize="11"
+                        fontWeight="bold"
+                        fontFamily="'Schibsted Grotesk', sans-serif"
+                      >
+                        {j.name}
+                      </text>
+                    </>
+                  ) : (
+                    <>
+                      <circle r="5" fill="#0B1424" stroke="#94A3B8" strokeWidth="1.5" />
+                      <circle r="2" fill="#E2E8F0" />
+                      <text
+                        x="8"
+                        y="3"
+                        fill="#94A3B8"
+                        fontSize="9"
+                        fontFamily="'Schibsted Grotesk', sans-serif"
+                      >
+                        {j.name}
+                      </text>
+                    </>
+                  )}
+                </g>
+              );
+            })}
+
+            {/* Live Moving Buses */}
+            {filteredBuses.map(b => {
+              const isSelected = b.id === selectedBusId;
+              const routeColor = getRouteColor(b.route);
+              return (
+                <g
+                  key={b.id}
+                  transform={`translate(${b.x}, ${b.y})`}
+                  className="cursor-pointer transition-transform duration-1000 ease-linear"
+                  onClick={() => onSelectBus(b.id)}
+                >
+                  {/* Pulse ring when selected */}
+                  {isSelected && (
+                    <circle r="22" fill="none" stroke="#FFC21A" strokeWidth="2" strokeDasharray="3 3">
+                      <animateTransform
+                        attributeName="transform"
+                        type="rotate"
+                        from="0"
+                        to="360"
+                        dur="6s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  )}
+
+                  {/* Directional Heading Bus Icon */}
+                  <g transform={`rotate(${b.heading || 0})`}>
+                    <rect
+                      x="-14"
+                      y="-9"
+                      width="28"
+                      height="18"
+                      rx="6"
+                      fill={routeColor}
+                      stroke={isSelected ? "#FFC21A" : "#FFFFFF"}
+                      strokeWidth={isSelected ? "2.5" : "1.5"}
+                      filter="url(#glowFilter)"
+                    />
+                    {/* Headlights / Windshield */}
+                    <rect x="7" y="-6" width="4" height="12" rx="2" fill="#FFFFFF" opacity="0.9" />
+                    {/* Bus Cab Windows */}
+                    <rect x="-8" y="-6" width="11" height="12" rx="2" fill="#0B1424" opacity="0.4" />
+                  </g>
+
+                  {/* Route & Plate Label Badge */}
+                  <g transform="translate(0, -18)">
+                    <rect
+                      x="-26"
+                      y="-11"
+                      width="52"
+                      height="15"
+                      rx="4"
+                      fill="#0B1424"
+                      stroke={routeColor}
+                      strokeWidth="1"
+                      opacity="0.95"
+                    />
+                    <text
+                      x="0"
+                      y="0"
+                      fill="#FFFFFF"
+                      fontSize="9"
+                      fontWeight="bold"
+                      textAnchor="middle"
+                      fontFamily="'IBM Plex Mono', monospace"
+                    >
+                      {b.route} · {b.seats_available}s
+                    </text>
+                  </g>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+      );
+    }
+
+// --- Main UI Preview Page ---
     function App() {
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -575,6 +838,46 @@
       const [selectedTerminal, setSelectedTerminal] = useState("stop_makumbura");
       const [selectedVehicle, setSelectedVehicle] = useState("car");
       const [activeViewport, setActiveViewport] = useState("responsive");
+      const [activeTab, setActiveTab] = useState("m2_bus");
+      const [selectedRoute, setSelectedRoute] = useState("ALL");
+      const [selectedBusId, setSelectedBusId] = useState("MB-101");
+      const [isBookingOpen, setIsBookingOpen] = useState(false);
+      const [bookingBus, setBookingBus] = useState(null);
+      const [pickupStop, setPickupStop] = useState("MKB");
+      const [dropStop, setDropStop] = useState("PET");
+      const [activeTrip, setActiveTrip] = useState(null);
+      const [isScannerOpen, setIsScannerOpen] = useState(false);
+      const [scanResultToast, setScanResultToast] = useState("");
+
+      // Live 9 Buses State initialized from docs/data/buses.json
+      const [buses, setBuses] = useState([
+        { id: "MB-101", plate: "NB-4101", route: "R1", route_name: "Makumbura Express", destination: "Pettah Fort", seats_available: 24, total_capacity: 40, x: 610, y: 650, heading: 310, next_stop: { code: "PAN", name: "Pannipitiya", eta_mins: 4 }, alert: false },
+        { id: "MB-102", plate: "NB-4102", route: "R1", route_name: "Makumbura Express", destination: "Makumbura MMC", seats_available: 11, total_capacity: 40, x: 330, y: 450, heading: 135, next_stop: { code: "DEL", name: "Delkanda", eta_mins: 6 }, alert: false },
+        { id: "MB-103", plate: "NB-4103", route: "R1", route_name: "Makumbura Express", destination: "Pettah Fort", seats_available: 4, total_capacity: 40, x: 220, y: 330, heading: 315, next_stop: { code: "BAM", name: "Bambalapitiya", eta_mins: 3 }, alert: true },
+        { id: "MB-104", plate: "NB-4104", route: "R1", route_name: "Makumbura Express", destination: "Makumbura MMC", seats_available: 0, total_capacity: 40, x: 120, y: 200, heading: 140, next_stop: { code: "THI", name: "Thimbirigasyaya", eta_mins: 5 }, alert: false },
+        { id: "KB-201", plate: "NC-8201", route: "R2", route_name: "Kadawatha Express", destination: "Pettah Fort", seats_available: 19, total_capacity: 40, x: 490, y: 60, heading: 270, next_stop: { code: "KRN", name: "Kiribathgoda", eta_mins: 5 }, alert: false },
+        { id: "KB-202", plate: "NC-8202", route: "R2", route_name: "Kadawatha Express", destination: "Kadawatha Interchange", seats_available: 32, total_capacity: 40, x: 280, y: 65, heading: 90, next_stop: { code: "KRN", name: "Kiribathgoda", eta_mins: 7 }, alert: false },
+        { id: "KB-203", plate: "NC-8203", route: "R2", route_name: "Kadawatha Express", destination: "Pettah Fort", seats_available: 7, total_capacity: 40, x: 190, y: 68, heading: 270, next_stop: { code: "PET", name: "Pettah Fort", eta_mins: 2 }, alert: false },
+        { id: "AB-301", plate: "ND-9301", route: "R3", route_name: "Airport Express", destination: "Pettah Fort", seats_available: 18, total_capacity: 35, x: 580, y: 25, heading: 260, next_stop: { code: "WAT", name: "Wattala", eta_mins: 9 }, alert: false },
+        { id: "AB-302", plate: "ND-9302", route: "R3", route_name: "Airport Express", destination: "Katunayake Airport", seats_available: 28, total_capacity: 35, x: 390, y: 35, heading: 75, next_stop: { code: "JA_ELA", name: "Ja-Ela", eta_mins: 8 }, alert: false }
+      ]);
+
+      // 2-second real-time GPS simulation polling
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setBuses(prev => prev.map(bus => {
+            // Slight jitter/movement along trajectory
+            const dx = (Math.random() - 0.5) * 4;
+            const dy = (Math.random() - 0.5) * 4;
+            return {
+              ...bus,
+              x: Math.max(50, Math.min(780, bus.x + dx)),
+              y: Math.max(20, Math.min(800, bus.y + dy)),
+            };
+          }));
+        }, 2000);
+        return () => clearInterval(timer);
+      }, []);
 
       const terminalOptions = [
         { key: "stop_makumbura", label: "Makumbura (MMC)", badge: "42 free" },
@@ -662,6 +965,22 @@
                 </div>
               </div>
 
+              {/* Milestone & Feature Tab Switcher */}
+              <div className="flex items-center gap-1 bg-[#0F1B2D] p-1 rounded-xl border border-white/10">
+                <button
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === "m2_bus" ? "bg-[#FFC21A] text-[#0F1B2D] shadow-md shadow-[#FFC21A]/20" : "text-gray-400 hover:text-white"}`}
+                  onClick={() => setActiveTab("m2_bus")}
+                >
+                  🚌 Live Bus Map (M2)
+                </button>
+                <button
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === "uikit" ? "bg-[#FFC21A] text-[#0F1B2D] shadow-md shadow-[#FFC21A]/20" : "text-gray-400 hover:text-white"}`}
+                  onClick={() => setActiveTab("uikit")}
+                >
+                  🎨 UI Kit & Components (17)
+                </button>
+              </div>
+
               {/* Viewport Width Switcher */}
               <div className="flex items-center gap-1.5 bg-[#0F1B2D] p-1 rounded-xl border border-white/10">
                 <button
@@ -689,7 +1008,384 @@
           {/* Main Showcase */}
           <main className="flex-1 py-8 px-4 sm:px-6">
             <div className={viewportClass}>
-              <div className="space-y-10">
+              {activeTab === "m2_bus" ? (
+                /* --- MILESTONE 2: LIVE BUS TRACKING & CITYMAP --- */
+                <div className="space-y-8">
+                  {/* Hero Intro */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <Chip label="Milestone 2 Live" variant="success" pulse={true} />
+                        <span className="text-xs font-mono text-gray-400">2.0s GPS Polling</span>
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1 tracking-tight">
+                        Colombo Expressway Bus Fleet
+                      </h2>
+                      <p className="text-xs text-gray-400 max-w-xl mt-1">
+                        Live real-time telemetry from 9 express transit buses across R1, R2, and R3 corridors with automated congestion mapping.
+                      </p>
+                    </div>
+
+                    {/* Active Trip Shortcut Badge */}
+                    {activeTrip && (
+                      <div className="p-3 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-between gap-4">
+                        <div>
+                          <span className="text-[10px] uppercase font-bold text-blue-400 block">Active Passenger Trip</span>
+                          <span className="text-sm font-black text-white">{activeTrip.bus.plate} · {activeTrip.bus.destination}</span>
+                        </div>
+                        <Button label="View Trip" size="sm" variant="primary" onClick={() => {
+                          const el = document.getElementById("activeTripSection");
+                          if (el) el.scrollIntoView({ behavior: "smooth" });
+                        }} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Active Trip Banner if passenger has active booking */}
+                  {activeTrip && (
+                    <section id="activeTripSection" className="p-5 rounded-2xl bg-[#0B1526] border-2 border-[#2563EB]/50 shadow-2xl space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <span className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                            🚌
+                          </span>
+                          <div>
+                            <span className="text-xs font-mono text-blue-400 block">EN ROUTE · {activeTrip.bus.route}</span>
+                            <h4 className="text-base font-bold text-white">{activeTrip.bus.plate} to {activeTrip.bus.destination}</h4>
+                          </div>
+                        </div>
+                        <Chip label="2 Stops Left" variant="warning" pulse={true} />
+                      </div>
+
+                      {/* 2-Stop Arrival Alert Banner */}
+                      <div className="p-3.5 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center gap-3">
+                        <span className="text-xl">🔔</span>
+                        <div className="text-xs">
+                          <span className="font-bold text-amber-300 block">Prepare to Alight</span>
+                          <span className="text-amber-200/80">Your stop ({activeTrip.dropName}) is only 2 stops away. Gather your belongings.</span>
+                        </div>
+                      </div>
+
+                      {/* Traffic Delay Notice */}
+                      <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-between text-xs">
+                        <span className="text-rose-300 flex items-center gap-1.5">
+                          <span>⚠️</span>
+                          <span><strong>Traffic Delay:</strong> +5 mins near Kottawa Junction (Jam)</span>
+                        </span>
+                        <span className="font-mono text-gray-400">Auto-rerouted</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                          <span className="text-gray-400 block text-[10px] uppercase">Boarded At</span>
+                          <span className="font-bold text-white">{activeTrip.pickupName}</span>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                          <span className="text-gray-400 block text-[10px] uppercase">Destination</span>
+                          <span className="font-bold text-white">{activeTrip.dropName}</span>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                          <span className="text-gray-400 block text-[10px] uppercase">Pass Code</span>
+                          <span className="font-mono font-bold text-[#FFC21A]">{activeTrip.passCode}</span>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                          <span className="text-gray-400 block text-[10px] uppercase">Fare Paid</span>
+                          <span className="font-bold text-emerald-400">LKR 180.00</span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 pt-2">
+                        <Button
+                          label="Open Boarding / Alighting QR Scanner"
+                          variant="primary"
+                          fullWidth={true}
+                          onClick={() => setIsScannerOpen(true)}
+                        />
+                        <Button
+                          label="Finish Trip"
+                          variant="ghost"
+                          onClick={() => {
+                            setActiveTrip(null);
+                            setScanResultToast("Trip successfully completed!");
+                          }}
+                        />
+                      </div>
+                    </section>
+                  )}
+
+                  {/* Route Filter Segmented Selector */}
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-1.5 bg-[#0F1B2D] p-1.5 rounded-xl border border-white/10">
+                      {[
+                        { key: "ALL", label: "All Routes (9)" },
+                        { key: "R1", label: "R1 Makumbura (4)", color: "text-blue-400" },
+                        { key: "R2", label: "R2 Kadawatha (3)", color: "text-purple-400" },
+                        { key: "R3", label: "R3 Katunayake (2)", color: "text-teal-400" }
+                      ].map(r => (
+                        <button
+                          key={r.key}
+                          onClick={() => setSelectedRoute(r.key)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${selectedRoute === r.key ? "bg-[#FFC21A] text-[#0F1B2D] shadow" : "text-gray-300 hover:text-white"}`}
+                        >
+                          {r.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      Live Feed Connected
+                    </span>
+                  </div>
+
+                  {/* SVG Map Section */}
+                  <CityMapComponent
+                    buses={buses}
+                    selectedBusId={selectedBusId}
+                    selectedRoute={selectedRoute}
+                    onSelectBus={(id) => {
+                      setSelectedBusId(id);
+                      const b = buses.find(x => x.id === id);
+                      if (b) {
+                        setBookingBus(b);
+                        setIsBookingOpen(true);
+                      }
+                    }}
+                  />
+
+                  {/* Bus Cards Grid */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-base font-bold text-white">Live Buses En Route</h3>
+                      <span className="text-xs text-gray-400">Click any card to reserve your seat</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {buses
+                        .filter(b => selectedRoute === "ALL" || b.route === selectedRoute)
+                        .map(b => {
+                          const isFull = b.seats_available === 0;
+                          const isLow = b.seats_available > 0 && b.seats_available <= 10;
+                          const routeBadgeBg = b.route === "R1" ? "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                            : b.route === "R2" ? "bg-purple-500/20 text-purple-300 border-purple-500/30"
+                            : "bg-teal-500/20 text-teal-300 border-teal-500/30";
+
+                          return (
+                            <div
+                              key={b.id}
+                              onClick={() => {
+                                setSelectedBusId(b.id);
+                                setBookingBus(b);
+                                setIsBookingOpen(true);
+                              }}
+                              className={`p-4 rounded-2xl border-2 transition-all cursor-pointer relative overflow-hidden bg-[#0F1B2D]/90 hover:border-white/30 ${selectedBusId === b.id ? "border-[#FFC21A] shadow-xl shadow-[#FFC21A]/10" : "border-white/10"}`}
+                            >
+                              <div className="flex items-center justify-between mb-3">
+                                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${routeBadgeBg}`}>
+                                  {b.route}
+                                </span>
+                                <span className="font-mono text-xs font-bold text-white bg-white/10 px-2 py-0.5 rounded">
+                                  {b.plate}
+                                </span>
+                              </div>
+
+                              <h4 className="text-sm font-bold text-white mb-1">
+                                Towards {b.destination}
+                              </h4>
+                              <p className="text-xs text-gray-400 mb-3">
+                                Next: <span className="text-white font-medium">{b.next_stop.name}</span> in <span className="text-[#FFC21A] font-bold">{b.next_stop.eta_mins} mins</span>
+                              </p>
+
+                              <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                                <span className={`px-2 py-1 rounded-lg text-xs font-bold ${isFull ? "bg-rose-500/20 text-rose-300" : isLow ? "bg-amber-500/20 text-amber-300" : "bg-emerald-500/20 text-emerald-300"}`}>
+                                  {isFull ? "FULL (0 Seats)" : `${b.seats_available} seats left`}
+                                </span>
+
+                                <span className="text-xs font-bold text-[#FFC21A] hover:underline flex items-center gap-1">
+                                  Book Seat →
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+
+                  {/* Seat Booking Modal */}
+                  {isBookingOpen && bookingBus && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+                      <div className="w-full max-w-md bg-[#0D1524] border border-white/20 rounded-2xl p-6 space-y-5 shadow-2xl">
+                        <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                          <div>
+                            <span className="text-[10px] font-mono text-gray-400 uppercase">Reserve Passenger Seat</span>
+                            <h3 className="text-base font-bold text-white">{bookingBus.route} · {bookingBus.plate}</h3>
+                          </div>
+                          <button
+                            onClick={() => setIsBookingOpen(false)}
+                            className="w-8 h-8 rounded-full bg-white/10 text-white font-bold flex items-center justify-center hover:bg-white/20"
+                          >
+                            ✕
+                          </button>
+                        </div>
+
+                        {/* Stop Selection */}
+                        <div className="space-y-3">
+                          <div>
+                            <label className="text-xs font-bold text-gray-300 uppercase block mb-1">Pickup Stop</label>
+                            <select
+                              value={pickupStop}
+                              onChange={(e) => setPickupStop(e.target.value)}
+                              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white text-xs font-semibold focus:outline-none focus:border-[#FFC21A]"
+                            >
+                              <option value="MKB">Makumbura Multimodal Terminal (MMC)</option>
+                              <option value="KOT">Kottawa Junction</option>
+                              <option value="PAN">Pannipitiya</option>
+                              <option value="MAH">Maharagama</option>
+                              <option value="NUG">Nugegoda</option>
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="text-xs font-bold text-gray-300 uppercase block mb-1">Drop Stop</label>
+                            <select
+                              value={dropStop}
+                              onChange={(e) => setDropStop(e.target.value)}
+                              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white text-xs font-semibold focus:outline-none focus:border-[#FFC21A]"
+                            >
+                              <option value="PET">Pettah Fort Terminal</option>
+                              <option value="GAL">Galle Face</option>
+                              <option value="COL">Kollupitiya</option>
+                              <option value="BAM">Bambalapitiya</option>
+                              <option value="THI">Thimbirigasyaya</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        {/* Segment Availability Check */}
+                        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs">
+                          <span className="text-emerald-300">✓ Segment confirmed: {bookingBus.seats_available} seats open</span>
+                          <span className="font-bold text-white">LKR 180</span>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex gap-2 pt-2">
+                          <Button label="Cancel" variant="ghost" onClick={() => setIsBookingOpen(false)} />
+                          <Button
+                            label="Confirm Seat Reservation"
+                            variant="primary"
+                            fullWidth={true}
+                            onClick={() => {
+                              setActiveTrip({
+                                bus: bookingBus,
+                                pickupCode: pickupStop,
+                                pickupName: pickupStop === "MKB" ? "Makumbura (MMC)" : pickupStop,
+                                dropCode: dropStop,
+                                dropName: dropStop === "PET" ? "Pettah Fort" : dropStop,
+                                passCode: "BUS-TKT-" + Math.floor(1000 + Math.random() * 9000),
+                                bookedAt: new Date().toLocaleTimeString()
+                              });
+                              setIsBookingOpen(false);
+                              setScanResultToast("Seat reserved on " + bookingBus.plate + "! Live trip started.");
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* QR Scanner Simulation Modal */}
+                  {isScannerOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+                      <div className="w-full max-w-md bg-[#0D1524] border border-white/20 rounded-2xl p-6 space-y-4 shadow-2xl">
+                        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                          <h3 className="text-base font-bold text-white flex items-center gap-2">
+                            <span>📷</span>
+                            <span>Bus Door QR Scanner</span>
+                          </h3>
+                          <button
+                            onClick={() => setIsScannerOpen(false)}
+                            className="w-8 h-8 rounded-full bg-white/10 text-white font-bold flex items-center justify-center hover:bg-white/20"
+                          >
+                            ✕
+                          </button>
+                        </div>
+
+                        {/* Simulated Viewfinder */}
+                        <div className="relative aspect-video rounded-xl bg-black border-2 border-dashed border-[#FFC21A]/50 flex flex-col items-center justify-center overflow-hidden">
+                          <div className="w-40 h-40 border-2 border-[#FFC21A] rounded-xl relative flex items-center justify-center">
+                            <span className="w-full h-0.5 bg-[#FFC21A] absolute animate-bounce" />
+                            <span className="text-4xl opacity-50">📱</span>
+                          </div>
+                          <span className="absolute bottom-2 text-[10px] text-gray-400 font-mono">Align QR inside target</span>
+                        </div>
+
+                        {/* Test Preset Scanner Buttons */}
+                        <div className="space-y-2 pt-2">
+                          <span className="text-xs font-bold text-gray-300 block">Simulate Passenger Door Scan:</span>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <button
+                              onClick={() => {
+                                setScanResultToast("✅ Boarded successfully at Makumbura (MMC)!");
+                                setIsScannerOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold hover:bg-emerald-500/30 text-left cursor-pointer"
+                            >
+                              <span>1. Board Bus (MMC)</span>
+                              <span className="text-[10px] block opacity-80">Sets status: boarded</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setScanResultToast("🏁 Alighted at Pettah Fort. Trip completed!");
+                                setActiveTrip(null);
+                                setIsScannerOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold hover:bg-blue-500/30 text-left cursor-pointer"
+                            >
+                              <span>2. Alight Bus (Fort)</span>
+                              <span className="text-[10px] block opacity-80">Finishes trip pass</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setScanResultToast("⚠️ Scan Duplicate: Token already redeemed!");
+                              }}
+                              className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold hover:bg-amber-500/30 text-left cursor-pointer"
+                            >
+                              <span>3. Duplicate Scan</span>
+                              <span className="text-[10px] block opacity-80">Handles duplicate</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setScanResultToast("ℹ️ Walk-in Scan: Drop stop confirmed!");
+                                setIsScannerOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-bold hover:bg-purple-500/30 text-left cursor-pointer"
+                            >
+                              <span>4. Walk-in Scan</span>
+                              <span className="text-[10px] block opacity-80">Needs drop stop</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Toast Notification */}
+                  {scanResultToast && (
+                    <div className="fixed bottom-5 right-5 z-50 p-4 rounded-xl bg-[#0F1B2D] border border-[#FFC21A]/50 text-white shadow-2xl flex items-center gap-3 animate-fade-in">
+                      <span className="text-xl">✨</span>
+                      <span className="text-xs font-bold">{scanResultToast}</span>
+                      <button
+                        onClick={() => setScanResultToast("")}
+                        className="ml-2 text-xs text-gray-400 hover:text-white"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* --- ORIGINAL 17 UI KIT COMPONENT SHOWCASE --- */
+                <div className="space-y-10">
 
                 {/* Section 1: Hero & 3D Tilt Landing Cards */}
                 <section className="space-y-4">
@@ -903,6 +1599,7 @@
                 </section>
 
               </div>
+            )}
             </div>
           </main>
 

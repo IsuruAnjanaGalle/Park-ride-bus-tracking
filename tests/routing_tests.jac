@@ -17,6 +17,12 @@ def setup -> World {
     w = get_world();
     clear_roads(w);
     return w;
+import from core.lib.routing { build_adj, plan_route, set_road_level, INF }
+import from core.lib.sim { replan_all, advance, depart_now, jump_and_hold, instruction }
+
+def setup -> World {
+    reset_world();
+    return get_world();
 }
 
 """Put MB-101 on Borella -> Rajagiriya, heading for Battaramulla (the SOW traffic case)."""
@@ -36,6 +42,7 @@ def on_borella_road(world: World) -> Bus {
 test "1 free roads: Borella to Battaramulla goes through Rajagiriya" {
     world = setup();
     (path, minutes) = plan_dijkstra(build_adj(world), "BOR", "BAT");
+    (path, minutes) = plan_route(build_adj(world), "BOR", "BAT");
     assert path == ["BOR", "RAJ", "BAT"], path;
     assert 11.0 < minutes < 12.5, minutes;
 }
@@ -44,6 +51,7 @@ test "2 a closed road is never planned" {
     world = setup();
     set_road_level(world, "RAJ", "BAT", 3);
     (path, _) = plan_dijkstra(build_adj(world), "RAJ", "BAT");
+    (path, _) = plan_route(build_adj(world), "RAJ", "BAT");
     assert path == ["RAJ", "NAL", "BAT"], path;
 }
 

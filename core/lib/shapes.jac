@@ -5,7 +5,11 @@ import from core.models.nodes {
 }
 import from core.models.edges { Road }
 import from core.lib.geo { haversine_km }
-import from core.lib.world { get_junctions, terminal_slots, current_trip, find_route }
+import from core.lib.world { get_junctions, current_trip, find_route }
+import from core.lib.slots { slot_views }
+import from core.lib.sim { stop_etas }
+import from core.lib.static { static_coords, road_key }
+import from core.lib.routing { build_adj }
 
 glob SPEED_KMH: dict[str, float] = {"A": 30.0, "B": 22.0, "E": 60.0};
 glob LEVEL_FACTOR: list[float] = [1.0, 0.55, 0.25, 0.0];
@@ -42,7 +46,7 @@ def slot_counts(term: Terminal) -> dict[str, any] {
     for k in ["B", "M", "C", "E"] {
         counts[k] = {"total": 0, "free": 0, "booked": 0, "occupied": 0};
     }
-    for s in terminal_slots(term) {
+    for s in slot_views(term) {
         c = counts[s.kind];
         c["total"] = c["total"] + 1;
         c[s.state] = c[s.state] + 1;
@@ -166,7 +170,7 @@ def eta_to(bus: Bus, trip: Trip, code: str, coords: dict[str, list[float]]) -> f
 
 """Junction code -> [lat, lng]."""
 def junction_coords(world: World) -> dict[str, list[float]] {
-    return {j.code: [j.lat, j.lng] for j in get_junctions(world)};
+    return static_coords();
 }
 
 """BusSummary (contracts.md 2.6)."""
@@ -179,13 +183,14 @@ def bus_dict(world: World, bus: Bus, names: dict[str, str], coords: dict[str, li
     if trip {
         on_board = len([b for b in trip_bookings(trip) if b.state == "OnBoard"]);
         seats = segment_seats(bus, trip);
+        etas = stop_etas(world, build_adj(world), bus, trip);
         for (i, code) in enumerate(trip.stop_codes) {
             passed = i <= trip.last_departed;
             stops.append({
                 "code": code,
                 "name": names.get(code, code),
                 "passed": passed,
-                "eta_min": None if passed else eta_to(bus, trip, code, coords)
+                "eta_min": None if passed else etas.get(code)
             });
         }
     }
@@ -207,7 +212,7 @@ def bus_dict(world: World, bus: Bus, names: dict[str, str], coords: dict[str, li
         "state": bus.state,
         "from_stop": stop_ref(bus.from_stop, names),
         "next_stop": stop_ref(bus.next_stop, names),
-        "eta_min": eta_to(bus, trip, bus.next_stop, coords) if trip else None,
+        "eta_min": ([s["eta_min"] for s in stops if s["code"] == bus.next_stop and not s["passed"]] + [None])[0],
         "on_board": on_board,
         "capacity": bus.capacity,
         "seats_left": seats[seg_now] if seats else bus.capacity - on_board,
@@ -219,28 +224,16 @@ def bus_dict(world: World, bus: Bus, names: dict[str, str], coords: dict[str, li
     };
 }
 
-"""Undirected roads for the map: one entry per road, the worse of its two directions."""
+"""Undirected roads for the map: one entry per two-way road with its current level."""
 def map_roads(world: World) -> list[dict[str, any]] {
-    seen: dict[str, dict[str, any]] = {};
-    for j in get_junctions(world) {
-        for e in [edge j ->:Road:->] {
-            key = "|".join(sorted([e.a, e.b]));
-            if key in seen {
-                if e.level > seen[key]["level"] {
-                    seen[key]["level"] = e.level;
-                    seen[key]["minutes"] = road_minutes(e.km, e.cls, e.level);
-                }
-            } else {
-                seen[key] = {
-                    "a": e.a,
-                    "b": e.b,
-                    "km": e.km,
-                    "cls": e.cls,
-                    "level": e.level,
-                    "minutes": road_minutes(e.km, e.cls, e.level)
-                };
+    adj = build_adj(world);
+    out: list[dict[str, any]] = [];
+    for (a, outs) in adj.items() {
+        for (b, info) in outs.items() {
+            if a < b {
+                out.append({"a": a, "b": b, "km": info[0], "cls": info[1], "level": info[2], "minutes": road_minutes(info[0], info[1], info[2])});
             }
         }
     }
-    return list(seen.values());
+    return out;
 }
