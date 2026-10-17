@@ -1,5 +1,3 @@
 /* App-wide CSS entry, imported once from main.jac. No * reset (Tailwind Preflight handles it). */
 @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;600;700&display=swap");
 @import "tailwindcss";
-@import "./tokens.css";
-@import "./motion.css";

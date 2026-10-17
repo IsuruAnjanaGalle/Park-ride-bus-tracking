@@ -38,7 +38,8 @@ node Terminal(PublicNode) {
         lat: float = 0.0,
         lng: float = 0.0,
         full_grid: bool = False,
-        chargers: list[dict[str, any]] = [];
+        chargers: list[dict[str, any]] = [],
+        rev: int = 0;  # bumped on every slot state change (core/lib/slots.jac)
 }
 
 """One parking bay, code TERMINAL-TYPE-ZONE-NN (e.g. MKB-C-F-07).

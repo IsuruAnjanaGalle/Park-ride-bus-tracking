@@ -4,7 +4,8 @@ All state changes run under WORLD_LOCK so two passengers cannot take the same sl
 """
 
 import from core.models.nodes { World, Terminal, Slot, ParkingBooking, Passenger }
-import from core.lib.world { terminal_slots, find_terminal, new_id, get_clock }
+import from core.lib.world { find_terminal, new_id, get_clock }
+import from core.lib.slots { SlotView, slot_views, slot_node, set_slot_state }
 import from core.lib.clock { now_hms }
 import from core.lib.qr { sign_token, verify_token }
 import from core.lib.locks { WORLD_LOCK }
@@ -23,7 +24,7 @@ def neighbour_zone(zone: str, hours: float) -> str {
     return "R" if hours > 5.5 else "F";
 }
 
-def _reason(slot: Slot, zone: str, rank: int) -> str {
+def _reason(slot: SlotView, zone: str, rank: int) -> str {
     where = ZONE_NAMES.get(slot.zone, slot.zone);
     if slot.kind == "E" {
         return f"EV charger {slot.charger_kw} kW {slot.charger_type}, {where}, bay {slot.nn} from the exit.";
@@ -40,7 +41,7 @@ def _reason(slot: Slot, zone: str, rank: int) -> str {
     return f"Neighbouring zone ({where}), bay {slot.nn} from the exit.";
 }
 
-def _option(slot: Slot, zone: str, rank: int) -> dict[str, any] {
+def _option(slot: SlotView, zone: str, rank: int) -> dict[str, any] {
     zone_match = 1 if slot.zone == zone else 0;
     return {
         "rank": rank,
@@ -60,14 +61,14 @@ def recommend(term: Terminal, vehicle: str, ev: str, accessible: bool, hours: fl
     zone = zone_for_stay(hours);
     kind = "E" if vehicle == "C" and ev == "needs_charging" else vehicle;
     fallback: str | None = None;
-    slots = terminal_slots(term);
-    free = sorted([s for s in slots if s.kind == kind and s.state == "free"], key=lambda (s: Slot) { s.nn; });
+    slots = slot_views(term);
+    free = sorted([s for s in slots if s.kind == kind and s.state == "free"], key=lambda (s: SlotView) { s.nn; });
     if kind == "E" and not free {
         kind = "C";
         fallback = "All EV charging slots are taken; these are normal car slots.";
-        free = sorted([s for s in slots if s.kind == "C" and s.state == "free"], key=lambda (s: Slot) { s.nn; });
+        free = sorted([s for s in slots if s.kind == "C" and s.state == "free"], key=lambda (s: SlotView) { s.nn; });
     }
-    picks: list[Slot] = [];
+    picks: list[SlotView] = [];
     if kind == "E" {
         picks = free[:3];
     } else {
@@ -109,18 +110,16 @@ def slot_by_code(world: World, terminal: str, code: str) -> Slot | None {
     if term is None {
         return None;
     }
-    found = [s for s in terminal_slots(term) if s.code == code];
-    return found[0] if found else None;
+    return slot_node(term, code);
 }
 
 """Book a free slot. Returns (error_code, booking); error_code is "" on success."""
 def book(world: World, prof: Passenger, term: Terminal, code: str, arrival: str, return_by: str) -> tuple[str, any] {
     with WORLD_LOCK {
-        found = [s for s in terminal_slots(term) if s.code == code];
-        if not found {
+        slot = slot_node(term, code);
+        if slot is None {
             return ("NOT_FOUND", None);
         }
-        slot = found[0];
         active = [
             pb for pb in [world -->[?:ParkingBooking]]
             if pb.username == prof.username and pb.state in ["booked", "parked"]
@@ -139,7 +138,7 @@ def book(world: World, prof: Passenger, term: Terminal, code: str, arrival: str,
             "t": "parking", "id": pb.id, "slot": slot.code, "terminal": term.code, "return_by": return_by
         });
         world ++> pb;
-        slot.state = "booked";
+        set_slot_state(term, slot, "booked");
         return ("", pb);
     }
 }
@@ -150,10 +149,11 @@ def park(world: World, pb: ParkingBooking) -> str {
         if pb.state != "booked" {
             return "INVALID_INPUT";
         }
-        slot = slot_by_code(world, pb.terminal, pb.slot_code);
+        term = find_terminal(world, pb.terminal);
+        slot = slot_node(term, pb.slot_code) if term else None;
         pb.state = "parked";
-        if slot {
-            slot.state = "occupied";
+        if term and slot {
+            set_slot_state(term, slot, "occupied");
         }
         return "";
     }
@@ -165,10 +165,11 @@ def release(world: World, pb: ParkingBooking) -> str {
         if pb.state not in ["booked", "parked"] {
             return "INVALID_INPUT";
         }
-        slot = slot_by_code(world, pb.terminal, pb.slot_code);
+        term = find_terminal(world, pb.terminal);
+        slot = slot_node(term, pb.slot_code) if term else None;
         pb.state = "released";
-        if slot {
-            slot.state = "free";
+        if term and slot {
+            set_slot_state(term, slot, "free");
         }
         return "";
     }

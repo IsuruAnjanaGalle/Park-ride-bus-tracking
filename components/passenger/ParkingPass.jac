@@ -24,7 +24,6 @@ def:pub ParkingPass(
     isBooked = state == "booked";
 
     return <div className="flex flex-col items-center gap-6 max-w-md mx-auto w-full animate-fade-in">
-        # Status Alert Card
         <div className="w-full p-4 rounded-2xl bg-[#0F1B2D] border border-white/15 backdrop-blur-xl text-center shadow-xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3 border border-white/10 bg-white/5">
                 {if isParked {
@@ -56,7 +55,6 @@ def:pub ParkingPass(
             </div>
         </div>
 
-        # Cryptographic QR Pass
         <QRPanel
             qrToken={qrToken}
             slotCode={slotCode}
@@ -65,7 +63,6 @@ def:pub ParkingPass(
             verified={True}
         />
 
-        # Primary Action Buttons
         <div className="w-full flex flex-col gap-3">
             {if isBooked {
                 <button

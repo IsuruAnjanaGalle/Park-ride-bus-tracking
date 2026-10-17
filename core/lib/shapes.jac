@@ -5,7 +5,8 @@ import from core.models.nodes {
 }
 import from core.models.edges { Road }
 import from core.lib.geo { haversine_km }
-import from core.lib.world { get_junctions, terminal_slots, current_trip, find_route }
+import from core.lib.world { get_junctions, current_trip, find_route }
+import from core.lib.slots { slot_views }
 import from core.lib.sim { stop_etas }
 import from core.lib.static { static_coords, road_key }
 import from core.lib.routing { build_adj }
@@ -45,7 +46,7 @@ def slot_counts(term: Terminal) -> dict[str, any] {
     for k in ["B", "M", "C", "E"] {
         counts[k] = {"total": 0, "free": 0, "booked": 0, "occupied": 0};
     }
-    for s in terminal_slots(term) {
+    for s in slot_views(term) {
         c = counts[s.kind];
         c["total"] = c["total"] + 1;
         c[s.state] = c[s.state] + 1;

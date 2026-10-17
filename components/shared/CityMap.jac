@@ -10,8 +10,6 @@ import from "react" { useState, useEffect }
 def:pub CityMap(
     mapData: dict[str, any],
     buses: list[any] = None,
-    mapData: dict[str, any],
-    buses: list[dict[str, any]] = [],
     selectedBusId: str = "",
     highlightBusId: str = "",
     onBusClick: any = None,
