@@ -42,7 +42,6 @@ port = 8000
 [check]
 # Dev C's pre-0.37 screens wait in legacy/ until ported (docs/decisions.md D-15).
 exclude = ["legacy/*", "pages/_ui_preview.jac"]
-exclude = ["legacy/*"]
 
 [test]
 directory = "tests"
