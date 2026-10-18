@@ -12,10 +12,27 @@ import from core.walkers.admin { admin_bus_list, admin_bus_account, admin_next_s
 import from core.walkers.traffic { set_traffic, report_incident, get_driver_view }
 import from core.walkers.demo { demo_control, reset_demo }
 
-import "./styles/main.css";
-import "./styles/tokens.css";
-import "./styles/motion.css";
+cl {
+    import from "@jac/runtime" { Router, Routes, Route }
+    import from pages.index { PassengerHome }
+    import from pages.admin.index { AdminPage }
+    import from driver.DriverApp { DriverApp }
+    import from pages.dev.core { CoreConsolePage }
+    import from pages.login { LoginPage }
 
-def:pub app(children: any) -> JsxElement {
-    return <>{children}</>;
+    import "./styles/main.css";
+    import "./styles/tokens.css";
+    import "./styles/motion.css";
+
+    def:pub app -> JsxElement {
+        return <Router>
+            <Routes>
+                <Route path="/" element={<PassengerHome />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/driver/:busId" element={<DriverApp />} />
+                <Route path="/dev/core" element={<CoreConsolePage />} />
+                <Route path="/login" element={<LoginPage />} />
+            </Routes>
+        </Router>;
+    }
 }

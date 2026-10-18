@@ -84,9 +84,9 @@ def book_seat_rule(world: World, prof: Passenger, bus: Bus, pickup: str, drop: s
 }
 
 """Signed QR for a visit: bus, stop, visit number and expiry in simulated seconds."""
-def visit_token(world: World, sv: StopVisit) -> str {
+def visit_token(world: World, visit_node: StopVisit) -> str {
     return sign_token({
-        "t": "stop", "bus": sv.bus_id, "stop": sv.stop_code, "visit": sv.visit_no,
+        "t": "stop", "bus": visit_node.bus_id, "stop": visit_node.stop_code, "visit": visit_node.visit_no,
         "exp": int(sim_seconds(get_clock(world))) + STOP_QR_TTL_S
     });
 }

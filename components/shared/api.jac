@@ -7,7 +7,7 @@ Dev A flips a walker to False when contracts.md marks it `real`. Owner: Dev A.
 
 # Walkers are called by name: importing them would compile each into a class named like
 # the function below and clash (see docs/decisions.md D-24).
-import from "@jac/runtime" { jacLogin, jacSignup, jacLogout, jacIsLoggedIn, jacSpawn, SignupResult }
+cl import from "@jac/runtime" { jacLogin, jacSignup, jacLogout, jacIsLoggedIn, jacSpawn, SignupResult }
 import from mock.mocks {
     mock_get_profile, mock_get_terminals, mock_get_slots, mock_recommend_slots, mock_book_slot,
     mock_mark_parked, mock_release_slot, mock_get_map, mock_get_buses, mock_book_seat,

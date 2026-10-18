@@ -3,5 +3,5 @@
 import from ...dev.CoreConsole { CoreConsole }
 
 def:pub CoreConsolePage -> JsxPage {
-    <CoreConsole />
+    return <CoreConsole />;
 }

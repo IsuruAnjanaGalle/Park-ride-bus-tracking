@@ -8,8 +8,8 @@ Includes:
   2-stop arrival alert banner, and stop QR camera/demo scanner with dedupe.
 """
 
-import from "react" { useEffect }
-import from "@jac/runtime" { Link, useNavigate }
+cl import from "react" { useEffect }
+cl import from "@jac/runtime" { Link, useNavigate }
 import from components.shared.ui.Button { Button }
 import from components.shared.ui.Toast { Toast }
 import from components.shared.api {

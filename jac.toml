@@ -20,6 +20,9 @@ motion = "14.3.0"
 three = "0.186.1"
 "@react-three/fiber" = "9.8.2"
 "@react-three/drei" = "10.7.9"
+"react-hook-form" = "7.90.0"
+"@hookform/resolvers" = "5.9.2"
+zod = "4.6.7"
 
 [dependencies.npm.dev]
 vite = "6.4.1"
@@ -38,6 +41,7 @@ watchdog = ">=3.0.0"
 
 [serve]
 port = 8000
+base_route_app = "app"
 
 [check]
 # Dev B's preview page has a parse error until fixed (docs/decisions.md D-23).

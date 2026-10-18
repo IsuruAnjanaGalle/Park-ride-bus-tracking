@@ -3,7 +3,7 @@
 ?next=/admin returns there after logging in.
 """
 
-import from "@jac/runtime" { useNavigate, useLocation }
+cl import from "@jac/runtime" { useNavigate, useLocation }
 import from ..components.shared.api { login }
 
 def:pub LoginPage -> JsxPage {
@@ -30,7 +30,7 @@ def:pub LoginPage -> JsxPage {
         nav(target);
     }
 
-    <main className="mx-auto max-w-sm p-4 flex flex-col gap-4">
+    return <main className="mx-auto max-w-sm p-4 flex flex-col gap-4">
         <h1 className="text-2xl font-bold">Log in</h1>
         <form onSubmit={do_login} className="flex flex-col gap-3">
             <label className="flex flex-col gap-1">
@@ -58,5 +58,5 @@ def:pub LoginPage -> JsxPage {
             <p role="status" aria-live="polite">{message}</p>
         </form>
         <p className="text-sm opacity-80">Demo logins: passenger / demo-passenger, admin / demo-admin.</p>
-    </main>
+    </main>;
 }
