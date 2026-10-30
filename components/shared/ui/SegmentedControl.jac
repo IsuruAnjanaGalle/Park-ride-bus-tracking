@@ -9,6 +9,11 @@ def:pub SegmentedControl(
     padCls = "p-1 gap-1" if size == "sm" else "p-1.5 gap-1.5";
     containerCls = f"inline-flex w-full items-center bg-[#0B1220]/80 border border-white/10 rounded-2xl backdrop-blur-md {padCls}";
 
+    # Loop handlers get their key as a parameter (one shared loop variable otherwise, D-30).
+    def change_handler(key: str) -> any {
+        return lambda { onChange(key); };
+    }
+
     buttons: list[JsxElement] = [];
     for opt in options {
         k: str = str(opt.get("key", ""));
@@ -24,10 +29,11 @@ def:pub SegmentedControl(
 
         btn = <button
             key={k}
+            type="button"
             role="tab"
             aria-selected={isSelected}
             className={btnCls}
-            onClick={lambda { onChange(k); }}
+            onClick={change_handler(k)}
         >
             {<span className="mr-1.5">{ic}</span> if ic else None}
             <span>{lbl}</span>

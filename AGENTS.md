@@ -28,3 +28,4 @@
 - `visit`, `node`, `edge`, `walker`, `entry`, `exit` are keywords — not variable names.
 - In a filter, `[?:Slot, code == code]` compares the field with itself; name the parameter differently.
 - Client polling: `useEffect` from `"react"` with `setInterval` and a cleanup lambda (see reference 6).
+- A handler made inside a loop must not read the loop's locals (one shared `let` per component, so every button gets the last item): pass the value to a small `def` that returns the lambda (D-30).

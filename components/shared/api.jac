@@ -70,8 +70,8 @@ def _first(result: any) -> dict[str, any] {
 }
 
 """Spawn a walker by name; first report as the envelope. A write conflict (409 WRITE_CONFLICT, or
-a 500 carrying Postgres serialization failure 40001) means another request saved the same nodes
-first and nothing of this one was saved, so it is retried up to 3 times."""
+a 500 carrying Postgres serialization failure 40001 or lock timeout 55P03) means another request
+held the same nodes and nothing of this one was saved, so it is retried up to 3 times."""
 async def _call(name: str, fields: dict[str, any]) -> dict[str, any] {
     tries = 0;
     while True {
@@ -80,7 +80,7 @@ async def _call(name: str, fields: dict[str, any]) -> dict[str, any] {
         } except Exception as e {
             tries += 1;
             text = String(e);
-            if tries < 3 and ("WRITE_CONFLICT" in text or "409" in text or "40001" in text or "serialize" in text) {
+            if tries < 3 and ("WRITE_CONFLICT" in text or "409" in text or "40001" in text or "serialize" in text or "55P03" in text or "lock timeout" in text) {
                 continue;
             }
             return _thrown(e);
@@ -108,13 +108,14 @@ login and changes whenever the password does.
 async def:pub login(username: str, password: str) -> dict[str, any] {
     ok: bool = False;
     signup: SignupResult | None = None;
-    result: any = None;
+    name: str = "";
     try {
         check = await _call("verify_login", {"username": username, "password": password});
         if not check["ok"] {
             return check;
         }
         account: str = check["data"]["account"];
+        name = check["data"]["username"];  # canonical name: "Admin " typed on a phone is admin
         ok = await jacLogin(account, password);
         if not ok {
             signup = await jacSignup(account, password);
@@ -123,20 +124,20 @@ async def:pub login(username: str, password: str) -> dict[str, any] {
             }
         }
         if not ok {
-            return _err("BAD_LOGIN", "This account needs a new password: run scripts/add_user.jac.");
+            return _err("BAD_LOGIN", "This account needs a new password: run python scripts/add_user.py.");
         }
-        result = await jacSpawn("get_profile", "", {"username": username, "password": password});
-        env = _first(result);
-        if env["ok"] {
-            localStorage.setItem("parkride_user", env["data"]["username"]);
-            localStorage.setItem("parkride_role", env["data"]["role"]);
-        } else {
-            logout();
-        }
-        return env;
     } except Exception as e {
         return _thrown(e);
     }
+    # _call retries a write conflict with the bus polls; any failure leaves no half-open session.
+    env = await _call("get_profile", {"username": name, "password": password});
+    if env["ok"] {
+        localStorage.setItem("parkride_user", env["data"]["username"]);
+        localStorage.setItem("parkride_role", env["data"]["role"]);
+    } else {
+        logout();
+    }
+    return env;
 }
 
 def:pub logout -> None {

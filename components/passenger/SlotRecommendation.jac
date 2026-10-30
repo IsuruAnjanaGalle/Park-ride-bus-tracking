@@ -21,6 +21,11 @@ def:pub SlotRecommendation(
 
     ruleText = "<3h front" if zone == "F" else ("3-8h mid" if zone == "M" else ">8h rear");
 
+    # Loop handlers get their slot code as a parameter (one shared loop variable otherwise, D-30).
+    def select_handler(code: str) -> any {
+        return lambda (_e: MouseEvent) { onSelectSlot(code); };
+    }
+
     return <div className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-2xl bg-gradient-to-r from-[#FFC21A]/15 to-transparent border border-[#FFC21A]/30">
             <div>
@@ -65,7 +70,7 @@ def:pub SlotRecommendation(
 
                 <div
                     key={code}
-                    onClick={lambda (_e: MouseEvent) { onSelectSlot(code); }}
+                    onClick={select_handler(code)}
                     className={f"relative cursor-pointer rounded-2xl border-2 p-4 transition-all duration-200 {borderCls}"}
                 >
                     <div className="flex items-start justify-between gap-3">

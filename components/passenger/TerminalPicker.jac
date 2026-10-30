@@ -10,6 +10,12 @@ def:pub TerminalPicker(
 ) -> JsxElement {
     vehicleKey = "E" if selectedVehicle == "E" else ("B" if selectedVehicle == "B" else ("M" if selectedVehicle == "M" else "C"));
 
+    # A handler made inside a loop must not read the loop's locals: Jac 0.37 compiles them to one
+    # variable per component, so every card would select the last terminal (docs/decisions.md D-30).
+    def select_handler(code: str) -> any {
+        return lambda (_e: MouseEvent) { onSelect(code); };
+    }
+
     return <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-300">
@@ -37,10 +43,12 @@ def:pub TerminalPicker(
                 cardBorder = "border-[#FFC21A] bg-[#FFC21A]/10 shadow-lg shadow-[#FFC21A]/10" if isSel
                     else "border-white/10 bg-white/[0.03] hover:border-white/30 hover:bg-white/[0.06]";
 
-                <div
+                <button
                     key={tCode}
-                    onClick={lambda (_e: MouseEvent) { onSelect(tCode); }}
-                    className={f"relative cursor-pointer rounded-2xl border-2 p-4 transition-all duration-200 {cardBorder}"}
+                    type="button"
+                    aria-pressed={isSel}
+                    onClick={select_handler(tCode)}
+                    className={f"relative w-full text-left cursor-pointer rounded-2xl border-2 p-4 transition-all duration-200 {cardBorder}"}
                 >
                     <div className="flex items-start justify-between">
                         <div>
@@ -82,7 +90,7 @@ def:pub TerminalPicker(
                             <span>{chargerCount} EV Fast Charger Banks</span>
                         </div>
                     }}
-                </div>
+                </button>
             }}
         </div>
     </div>;

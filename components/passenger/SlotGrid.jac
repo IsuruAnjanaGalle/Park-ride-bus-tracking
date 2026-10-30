@@ -6,17 +6,42 @@ def:pub SlotGrid(
     slots: list[dict[str, any]],
     selectedSlotCode: str,
     recommendedSlotCode: str = "",
+    terminalName: str = "",
     onSelectSlot: Callable[[str], None] = lambda (_code: str) {}
 ) -> JsxElement {
     has activeZone: str = "ALL";
     has activeState: str = "ALL";
     has viewMode: str = "2d";
 
+    # Loop handlers get their slot code as a parameter: Jac 0.37 compiles loop locals to one
+    # variable per component, so a handler reading them would pick the last bay (D-30).
+    def select_handler(code: str, free: bool) -> any {
+        return lambda (_e: MouseEvent) { if free { onSelectSlot(code); } };
+    }
+
+    """Short bay name without the terminal, e.g. C-F-07."""
+    def bay_label(s: dict[str, any]) -> str {
+        nn = int(s.get("nn", 0));
+        return str(s.get("type", "")) + "-" + str(s.get("zone", "")) + "-" + ("0" if nn < 10 else "") + str(nn);
+    }
+
+    # 3D yard: the first 8 real bays of each zone (front, middle, rear rows).
+    yard: list[dict[str, any]] = [];
+    yardRow = 0;
+    for z in ["F", "M", "R"] {
+        yardCol = 0;
+        for s in [s for s in slots if str(s.get("zone", "")) == z][:8] {
+            yard.append({"slot": s, "col": yardCol, "row": yardRow});
+            yardCol = yardCol + 1;
+        }
+        yardRow = yardRow + 1;
+    }
+
     return <div className="flex flex-col gap-4 rounded-3xl bg-[#0F1B2D]/90 border border-white/10 p-5 backdrop-blur-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
             <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                    <span>Makumbura Terminal Parking Bays</span>
+                    <span>{(terminalName + " " if terminalName else "") + "Parking Bays"}</span>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FFC21A]/20 text-[#FFC21A]">
                         Live Grid
                     </span>
@@ -119,32 +144,39 @@ def:pub SlotGrid(
                         TERMINAL ENTRANCE GATE
                     </text>
 
-                    {for i in range(24) {
-                        col = i % 8;
-                        row = i // 8;
-                        bx = 36 + col * 72;
-                        bay_y = 25 + row * 84;
-                        zCode = "F" if row == 0 else ("M" if row == 1 else "R");
-                        sCode = f"MKB-C-{zCode}-0{col+1}";
+                    {for bay in yard {
+                        ySlot: dict[str, any] = dict(bay["slot"]);
+                        sCode = str(ySlot.get("code", ""));
+                        yState = str(ySlot.get("state", "free"));
+                        bx = 36 + int(bay["col"]) * 72;
+                        bay_y = 25 + int(bay["row"]) * 84;
                         isSel = (sCode == selectedSlotCode);
-                        isOcc = (i % 3 == 1);
+                        yFree = yState == "free";
+                        isOcc = yState == "occupied";
 
-                        # Bay outline & interactive click
-                        <g key={sCode} onClick={lambda (_e: MouseEvent) { if not isOcc { onSelectSlot(sCode); } }} className="cursor-pointer">
+                        # Bay outline & interactive click (free bays only)
+                        <g
+                            key={sCode}
+                            role="button"
+                            aria-label={f"Bay {sCode}, {yState}"}
+                            aria-disabled={not yFree}
+                            onClick={select_handler(sCode, yFree)}
+                            className={"cursor-pointer" if yFree else "cursor-not-allowed"}
+                        >
                             <rect
                                 x={bx}
                                 y={bay_y}
                                 width="62"
                                 height="68"
                                 rx="6"
-                                fill={"#FFC21A33" if isSel else ("#EF444422" if isOcc else "#10B98115")}
-                                stroke={"#FFC21A" if isSel else ("#EF4444" if isOcc else "#10B981")}
+                                fill={"#FFC21A33" if isSel else ("#10B98115" if yFree else ("#EF444422" if isOcc else "#F59E0B22"))}
+                                stroke={"#FFC21A" if isSel else ("#10B981" if yFree else ("#EF4444" if isOcc else "#F59E0B"))}
                                 strokeWidth={"2.5" if isSel else "1"}
                             />
 
                             # Bay label
                             <text x={bx + 31} y={bay_y + 14} fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                                {f"C-{zCode}-0{col+1}"}
+                                {bay_label(ySlot)}
                             </text>
 
                             {if isOcc {
@@ -196,14 +228,18 @@ def:pub SlotGrid(
                                 else ("border-amber-500/30 bg-amber-500/5 text-amber-400/60 cursor-not-allowed" if state == "booked"
                                 else "border-white/5 bg-white/[0.02] text-gray-500 cursor-not-allowed opacity-60")));
 
-                            <div
+                            <button
                                 key={code}
-                                onClick={lambda (_e: MouseEvent) { if isFree { onSelectSlot(code); } }}
-                                className={f"relative flex flex-col justify-between p-2.5 rounded-xl border text-xs transition-all {bgBorder}"}
+                                type="button"
+                                disabled={not isFree}
+                                aria-pressed={isSelected}
+                                aria-label={f"Bay {code}, {state}"}
+                                onClick={select_handler(code, isFree)}
+                                className={f"relative min-h-[44px] text-left flex flex-col justify-between p-2.5 rounded-xl border text-xs transition-all {bgBorder}"}
                             >
                                 <div className="flex items-center justify-between">
                                     <span className="font-extrabold tracking-tight text-[11px] truncate">
-                                        {code.replace("MKB-", "")}
+                                        {bay_label(s)}
                                     </span>
                                     {if isRecommended {
                                         <span className="text-[10px]">⭐</span>
@@ -220,7 +256,7 @@ def:pub SlotGrid(
                                         {state}
                                     </span>
                                 </div>
-                            </div>;
+                            </button>;
                         }
                     }}
                 </div>

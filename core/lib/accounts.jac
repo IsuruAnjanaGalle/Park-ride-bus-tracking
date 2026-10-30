@@ -54,7 +54,13 @@ def check_password(password: str, stored: str) -> bool {
     return hmac.compare_digest(again, stored);
 }
 
-"""Every account in users.csv by username (cached until the file changes)."""
+"""Usernames match without regard to case or surrounding spaces ("Admin " is admin): phones
+capitalise the first letter of a text box."""
+def username_key(username: str) -> str {
+    return username.strip().lower();
+}
+
+"""Every account in users.csv by username_key (cached until the file changes)."""
 def load_accounts -> dict[str, Account] {
     path = users_path();
     mtime = os.path.getmtime(path) if os.path.exists(path) else 0.0;
@@ -69,7 +75,7 @@ def load_accounts -> dict[str, Account] {
                 role = str(row.get("role") or "").strip();
                 stored = str(row.get("password_hash") or "").strip();
                 if name and role in ROLES and stored {
-                    accounts[name] = Account(username=name, role=role, password_hash=stored);
+                    accounts[username_key(name)] = Account(username=name, role=role, password_hash=stored);
                 }
             }
         }
@@ -80,8 +86,9 @@ def load_accounts -> dict[str, Account] {
     return accounts;
 }
 
+"""The account for a typed username (any case, spaces trimmed); its .username is the canonical name."""
 def find_account(username: str) -> Account | None {
-    return load_accounts().get(username);
+    return load_accounts().get(username_key(username));
 }
 
 """The account when username and password match users.csv, else None."""

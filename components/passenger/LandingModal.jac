@@ -2,25 +2,20 @@
 Allows the commuter to choose between 'Park & Ride' and 'Get into Bus'.
 """
 
-import from components.shared.ui.Button { Button }
-import from components.shared.ui.GlassCard { GlassCard }
-import from components.shared.api { current_user, login }
+import from components.shared.api { current_user }
 
 def:pub LandingModal(
     isOpen: bool,
     onSelectParkAndRide: Callable[[], None],
     onSelectGetIntoBus: Callable[[], None],
-    onClose: Callable[[], None] = lambda {}
+    onClose: Callable[[], None] = lambda {},
+    onLogin: Callable[[], None] = lambda {}
 ) -> JsxElement {
     if not isOpen {
         return <></>;
     }
 
     user = current_user();
-
-    def handle_demo_login {
-        login("passenger", "demo-passenger");
-    }
 
     return <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
         <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-[#0F1B2D] border border-white/15 p-6 sm:p-8 shadow-2xl text-white">
@@ -44,10 +39,11 @@ def:pub LandingModal(
                         </span>
                     } else {
                         <button
-                            onClick={handle_demo_login}
-                            className="text-xs text-[#FFC21A] hover:underline"
+                            type="button"
+                            onClick={lambda (_e: MouseEvent) { onLogin(); }}
+                            className="min-h-11 px-3 rounded-xl text-xs font-bold text-[#FFC21A] border border-[#FFC21A]/40 hover:bg-[#FFC21A]/10"
                         >
-                            Quick Login (Demo)
+                            Log in
                         </button>
                     }}
                 </div>
@@ -58,9 +54,10 @@ def:pub LandingModal(
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div
-                        onClick={onSelectParkAndRide}
-                        className="group relative cursor-pointer rounded-2xl border-2 border-white/10 hover:border-[#FFC21A] bg-white/[0.03] hover:bg-[#FFC21A]/[0.08] p-5 transition-all duration-200 flex flex-col justify-between gap-4"
+                    <button
+                        type="button"
+                        onClick={lambda (_e: MouseEvent) { onSelectParkAndRide(); }}
+                        className="group relative cursor-pointer text-left rounded-2xl border-2 border-white/10 hover:border-[#FFC21A] bg-white/[0.03] hover:bg-[#FFC21A]/[0.08] p-5 transition-all duration-200 flex flex-col justify-between gap-4"
                     >
                         <div className="w-12 h-12 rounded-xl bg-[#FFC21A]/20 border border-[#FFC21A]/40 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                             🅿️
@@ -76,11 +73,12 @@ def:pub LandingModal(
                         <div className="inline-flex items-center text-xs font-semibold text-[#FFC21A] group-hover:translate-x-1 transition-transform">
                             Reserve slot &rarr;
                         </div>
-                    </div>
+                    </button>
 
-                    <div
-                        onClick={onSelectGetIntoBus}
-                        className="group relative cursor-pointer rounded-2xl border-2 border-white/10 hover:border-[#22D3EE] bg-white/[0.03] hover:bg-[#22D3EE]/[0.08] p-5 transition-all duration-200 flex flex-col justify-between gap-4"
+                    <button
+                        type="button"
+                        onClick={lambda (_e: MouseEvent) { onSelectGetIntoBus(); }}
+                        className="group relative cursor-pointer text-left rounded-2xl border-2 border-white/10 hover:border-[#22D3EE] bg-white/[0.03] hover:bg-[#22D3EE]/[0.08] p-5 transition-all duration-200 flex flex-col justify-between gap-4"
                     >
                         <div className="w-12 h-12 rounded-xl bg-[#22D3EE]/20 border border-[#22D3EE]/40 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                             🚌
@@ -96,12 +94,12 @@ def:pub LandingModal(
                         <div className="inline-flex items-center text-xs font-semibold text-[#22D3EE] group-hover:translate-x-1 transition-transform">
                             View live bus &rarr;
                         </div>
-                    </div>
+                    </button>
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] text-gray-500 pt-2 border-t border-white/10">
                     <span>Makumbura · Kadawatha · Kesbewa · Pettah</span>
-                    <button onClick={onClose} className="hover:text-gray-300">Close</button>
+                    <button type="button" onClick={lambda (_e: MouseEvent) { onClose(); }} className="min-h-11 px-3 text-gray-400 hover:text-gray-200">Close</button>
                 </div>
             </div>
         </div>

@@ -41,7 +41,8 @@ def claim_profile(world: World, name: str) -> Passenger | None {
     return fresh;
 }
 
-"""Bind the caller to `name` even if another login holds it (the password was checked)."""
+"""Bind the caller to `name` even if another login holds it (the password was checked).
+Writes only what changes, so a repeat login does not compete with the bus polls for locks."""
 def bind_profile(world: World, name: str) -> Passenger {
     rid = caller_root_id();
     for other in [world -->[?:Passenger, root_id == rid]] {
@@ -52,7 +53,9 @@ def bind_profile(world: World, name: str) -> Passenger {
     named = [world -->[?:Passenger, username == name]];
     if named {
         prof = named[0];
-        prof.root_id = rid;
+        if prof.root_id != rid {
+            prof.root_id = rid;
+        }
         return prof;
     }
     fresh = Passenger(username=name, role="passenger", root_id=rid);
@@ -74,9 +77,9 @@ def login_profile(world: World, name: str, password: str) -> tuple[str, any] {
         if not check_password(password, acct.password_hash) {
             return ("BAD_LOGIN", None);
         }
-        prof = bind_profile(world, name);
+        prof = bind_profile(world, acct.username);
     } else {
-        prof = claim_profile(world, name);
+        prof = claim_profile(world, acct.username);
     }
     if prof is None {
         return ("FORBIDDEN", None);

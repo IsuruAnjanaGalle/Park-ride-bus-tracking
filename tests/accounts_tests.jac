@@ -46,6 +46,9 @@ test "users.csv holds the demo accounts as hashes only" {
     assert check_login("passenger", "demo-passenger") is not None;
     assert check_login("admin", "demo-passenger") is None;
     assert check_login("nobody", "demo-admin") is None;
+    typed = check_login(" Admin ", "demo-admin");
+    assert typed is not None and typed.username == "admin", "usernames ignore case and spaces";
+    assert check_login("admin", "Demo-Admin") is None, "passwords stay case-sensitive";
 }
 
 """Write a users.csv the way scripts/add_user.py does, stamped `age` seconds in the future."""
@@ -114,8 +117,9 @@ test "get_profile binds a login only with the users.csv password" {
     assert code_of(ghost) == "BAD_LOGIN";
     assert caller_profile(world) is None;
 
-    admin = first((root spawn get_profile(username="admin", password="demo-admin")).reports);
+    admin = first((root spawn get_profile(username="Admin ", password="demo-admin")).reports);
     assert admin["ok"] and admin["data"]["role"] == "admin";
+    assert admin["data"]["username"] == "admin", "a typed 'Admin ' binds the admin profile";
     again = first((root spawn get_profile(username="admin")).reports);
     assert again["ok"], "a bound login needs no password";
     assert first((root spawn admin_feed(limit=5)).reports)["ok"];

@@ -24,7 +24,7 @@ import from components.shared.api {
     book_seat,
     get_trip,
     process_scan,
-    login,
+    logout,
     current_user
 }
 import from components.passenger.LandingModal { LandingModal }
@@ -74,14 +74,26 @@ def:pub PassengerHome -> JsxPage {
     has loading: bool = False;
     has toastMsg: str = "";
 
-    async def init_data {
-        loading = True;
-        # Auto-login demo passenger
-        u = current_user();
-        if not u {
-            _ = await login("passenger", "demo-passenger");
-        }
+    nav = useNavigate();
 
+    """True when nobody is logged in, after sending them to /login: browsing is open, booking
+    and scanning need an account (SOW P-07)."""
+    def needs_login -> bool {
+        if current_user() is None {
+            nav("/login?next=/");
+            return True;
+        }
+        return False;
+    }
+
+    def do_logout(_e: MouseEvent) {
+        logout();
+        nav("/login");
+    }
+
+    # Page data loads in the background: `loading` is only for the user's own actions, so no
+    # button is disabled while the page opens (a click then would be silently lost).
+    async def init_data {
         # 1. Fetch parking terminals
         tRes = await get_terminals();
         if tRes.get("ok", False) {
@@ -101,8 +113,6 @@ def:pub PassengerHome -> JsxPage {
 
         # 4. Fetch initial live buses
         await refresh_buses();
-
-        loading = False;
     }
 
     async def load_recommendations {
@@ -187,6 +197,9 @@ def:pub PassengerHome -> JsxPage {
     }
 
     async def handle_book_slot {
+        if needs_login() {
+            return;
+        }
         loading = True;
         bRes = await book_slot(
             terminal=selectedTerminal,
@@ -236,6 +249,9 @@ def:pub PassengerHome -> JsxPage {
     }
 
     async def handle_confirm_seat_booking(busId: str, pickupCode: str, dropCode: str) {
+        if needs_login() {
+            return;
+        }
         loading = True;
         showBookingModal = False;
         sRes = await book_seat(bus_id=busId, pickup=pickupCode, drop=dropCode);
@@ -277,18 +293,24 @@ def:pub PassengerHome -> JsxPage {
     filteredBuses = [b for b in buses if selectedRoute == "ALL" or str(b.get("route", "")) == selectedRoute];
     selBusId = str(selectedBus.get("id", ""));
 
+    # The selected terminal's name, and its bus stop (Pettah terminal PTH is stop PET)
+    selTerm = [t for t in terminals if str(t.get("code", "")) == selectedTerminal];
+    selTermName = str(selTerm[0].get("name", "")) if selTerm else "";
+    pickupStop = str(selTerm[0].get("junction", selectedTerminal)) if selTerm else selectedTerminal;
+
     return <div className="min-h-screen bg-[#0B1220] text-white flex flex-col font-sans selection:bg-[#FFC21A] selection:text-[#0F1B2D]">
         <LandingModal
             isOpen={showLandingModal}
             onSelectParkAndRide={handle_select_park_and_ride}
             onSelectGetIntoBus={handle_select_get_into_bus}
             onClose={lambda { showLandingModal = False; }}
+            onLogin={lambda { nav("/login?next=/"); }}
         />
 
         <SeatBookingModal
             bus={selectedBus}
             isOpen={showBookingModal}
-            initialPickup={selectedTerminal}
+            initialPickup={pickupStop}
             onClose={lambda { showBookingModal = False; }}
             onConfirmBooking={handle_confirm_seat_booking}
         />
@@ -327,10 +349,29 @@ def:pub PassengerHome -> JsxPage {
                 >
                     Switch Mode
                 </button>
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-xs">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span className="text-gray-300 font-mono">{userName}</span>
-                </div>
+                {if user {
+                    <div className="flex items-center gap-2">
+                        <span className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-xs">
+                            <span aria-hidden="true" className="w-2 h-2 rounded-full bg-emerald-400" />
+                            <span className="text-gray-300 font-mono">{userName}</span>
+                        </span>
+                        <button
+                            type="button"
+                            onClick={do_logout}
+                            className="min-h-11 px-3 rounded-xl text-xs font-bold border border-white/15 text-gray-200 hover:bg-white/10"
+                        >
+                            Log out
+                        </button>
+                    </div>;
+                } else {
+                    <button
+                        type="button"
+                        onClick={lambda (_e: MouseEvent) { nav("/login?next=/"); }}
+                        className="min-h-11 px-4 rounded-xl text-xs font-bold bg-[#FFC21A] text-[#0F1B2D] hover:bg-[#e5ad16]"
+                    >
+                        Log in
+                    </button>;
+                }}
             </div>
         </header>
 
@@ -405,6 +446,7 @@ def:pub PassengerHome -> JsxPage {
                                 slots={[s for s in terminalSlots if str(s.get("type", "")) == ("E" if selectedVehicle == "C" and evChoice == "needs_charging" else selectedVehicle)]}
                                 selectedSlotCode={selectedSlotCode}
                                 recommendedSlotCode={str(dict(recommendation.get("options", [{}])[0].get("slot", {})).get("code", ""))}
+                                terminalName={selTermName}
                                 onSelectSlot={lambda (code: str) { selectedSlotCode = code; }}
                             />
 
@@ -524,7 +566,7 @@ def:pub PassengerHome -> JsxPage {
 
                                 <button
                                     type="button"
-                                    onClick={lambda (_e: MouseEvent) { showScannerModal = True; }}
+                                    onClick={lambda (_e: MouseEvent) { if not needs_login() { showScannerModal = True; } }}
                                     className="w-full py-3 px-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 font-bold text-xs text-gray-300 flex items-center justify-center gap-2 transition-colors"
                                 >
                                     <span>📷</span>
